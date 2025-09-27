@@ -1,0 +1,25 @@
+{
+    "name": "My Sport Event",
+    "generators": [
+        {
+            "name": "java-server-base",
+            "targetFolder": "../server/src/main/java",
+            "rootPackageName": "at.mspe.server",
+            "nativeTypeSubstitues": {
+                "ZoneId": "java.time.ZoneId",
+                "DayOfWeek": "java.time.DayOfWeek",
+                "Month": "java.time.Month"
+            }
+        },
+        {
+            "name": "java-server-jakarta-ws",
+            "targetFolder": "../server/src/main/java",
+            "rootPackageName": "at.mspe.server",
+            "nativeTypeSubstitues": {
+                "ZoneId": "java.time.ZoneId",
+                "DayOfWeek": "java.time.DayOfWeek",
+                "Month": "java.time.Month"
+            }
+        }
+    ]
+}

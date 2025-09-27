@@ -1,0 +1,1108 @@
+{
+  "@type": "RSDModel",
+  "elements": [
+    {
+      "@type": "MixinType",
+      "name": "CohortBase",
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "name",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
+        }
+      ],
+      "doc": ""
+    },
+    {
+      "@type": "MixinType",
+      "name": "BirthyearCohortBase",
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "min",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "int",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "max",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": true,
+          "variant": "builtin",
+          "type": "int",
+          "doc": ""
+        }
+      ],
+      "doc": ""
+    },
+    {
+      "@type": "RecordType",
+      "name": "GenericCohortNew",
+      "patchable": false,
+      "mixins": [
+        "CohortBase"
+      ],
+      "properties": [],
+      "doc": ""
+    },
+    {
+      "@type": "RecordType",
+      "name": "BirthyearCohortNew",
+      "patchable": false,
+      "mixins": [
+        "CohortBase",
+        "BirthyearCohortBase"
+      ],
+      "properties": [],
+      "doc": ""
+    },
+    {
+      "@type": "UnionType",
+      "name": "CohortNew",
+      "patchable": false,
+      "types": [
+        "GenericCohortNew",
+        "BirthyearCohortNew"
+      ],
+      "descriminator": "@type",
+      "doc": "",
+      "descriminatorAliases": {
+        "GenericCohortNew": "generic",
+        "BirthyearCohortNew": "birthyear"
+      }
+    },
+    {
+      "@type": "RecordType",
+      "name": "GenericCohort",
+      "patchable": true,
+      "mixins": [
+        "CohortBase"
+      ],
+      "properties": [
+        {
+          "@type": "KeyProperty",
+          "name": "key",
+          "type": "string",
+          "doc": ""
+        }
+      ],
+      "doc": ""
+    },
+    {
+      "@type": "RecordType",
+      "name": "BirthyearCohort",
+      "patchable": true,
+      "mixins": [
+        "CohortBase",
+        "BirthyearCohortBase"
+      ],
+      "properties": [
+        {
+          "@type": "KeyProperty",
+          "name": "key",
+          "type": "string",
+          "doc": ""
+        }
+      ],
+      "doc": ""
+    },
+    {
+      "@type": "UnionType",
+      "name": "Cohort",
+      "patchable": false,
+      "types": [
+        "GenericCohort",
+        "BirthyearCohort"
+      ],
+      "descriminator": "@type",
+      "doc": "",
+      "descriminatorAliases": {
+        "GenericCohort": "generic",
+        "BirthyearCohort": "birthyear"
+      }
+    },
+    {
+      "@type": "MixinType",
+      "name": "SportEventBase",
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "name",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "date",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "zoned-date-time",
+          "doc": ""
+        }
+      ],
+      "doc": ""
+    },
+    {
+      "@type": "RecordType",
+      "name": "SportEventNew",
+      "patchable": false,
+      "mixins": [
+        "SportEventBase"
+      ],
+      "properties": [],
+      "doc": ""
+    },
+    {
+      "@type": "RecordType",
+      "name": "SportEvent",
+      "patchable": false,
+      "mixins": [
+        "SportEventBase"
+      ],
+      "properties": [
+        {
+          "@type": "KeyProperty",
+          "name": "key",
+          "type": "string",
+          "doc": ""
+        }
+      ],
+      "doc": ""
+    },
+    {
+      "@type": "MixinType",
+      "name": "ParticipantBase",
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "firstname",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "lastname",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "team",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "birthday",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "local-date",
+          "doc": ""
+        }
+      ],
+      "doc": ""
+    },
+    {
+      "@type": "RecordType",
+      "name": "ParticipantNew",
+      "patchable": false,
+      "mixins": [
+        "ParticipantBase"
+      ],
+      "properties": [],
+      "doc": ""
+    },
+    {
+      "@type": "RecordType",
+      "name": "Participant",
+      "patchable": true,
+      "mixins": [
+        "ParticipantBase"
+      ],
+      "properties": [
+        {
+          "@type": "KeyProperty",
+          "name": "key",
+          "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "teamMates",
+          "array": true,
+          "readonly": true,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
+        }
+      ],
+      "doc": ""
+    }
+  ],
+  "services": [
+    {
+      "@type": "Service",
+      "name": "SportEvent",
+      "doc": "",
+      "operations": [
+        {
+          "@type": "Operation",
+          "name": "get",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "record",
+            "type": "SportEvent",
+            "doc": ""
+          },
+          "errors": [],
+          "operationErrors": [],
+          "meta": {
+            "rest": {
+              "method": "GET",
+              "path": "${key}",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "list",
+          "doc": "",
+          "parameters": [],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": true,
+            "variant": "record",
+            "type": "SportEvent",
+            "doc": ""
+          },
+          "errors": [],
+          "operationErrors": [],
+          "meta": {
+            "rest": {
+              "method": "GET",
+              "path": "",
+              "results": []
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "create",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "participant",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "record",
+              "type": "SportEventNew",
+              "doc": ""
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "builtin",
+            "type": "string",
+            "doc": ""
+          },
+          "errors": [],
+          "operationErrors": [],
+          "meta": {
+            "rest": {
+              "method": "POST",
+              "path": "",
+              "results": [
+                {
+                  "statusCode": 201
+                },
+                {
+                  "statusCode": 422,
+                  "error": "InvalidData"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "update",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "participant",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": true,
+              "variant": "record",
+              "type": "Participant",
+              "doc": ""
+            }
+          ],
+          "errors": [],
+          "operationErrors": [],
+          "meta": {
+            "rest": {
+              "method": "PATCH",
+              "path": "${key}",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                },
+                {
+                  "statusCode": 422,
+                  "error": "InvalidData"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "delete",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
+            }
+          ],
+          "errors": [],
+          "operationErrors": [],
+          "meta": {
+            "rest": {
+              "method": "DELETE",
+              "path": "${key}",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                },
+                {
+                  "statusCode": 422,
+                  "error": "InvalidData"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "meta": {
+        "rest": {
+          "path": "/api/sportevent"
+        }
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "EventCohort",
+      "doc": "",
+      "operations": [
+        {
+          "@type": "Operation",
+          "name": "get",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "eventKey",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "eventKey",
+                  "source": "path"
+                }
+              }
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "union",
+            "type": "Cohort",
+            "doc": ""
+          },
+          "errors": [],
+          "operationErrors": [],
+          "meta": {
+            "rest": {
+              "method": "GET",
+              "path": "${key}",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "list",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "eventKey",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "eventKey",
+                  "source": "path"
+                }
+              }
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": true,
+            "variant": "union",
+            "type": "Cohort",
+            "doc": ""
+          },
+          "errors": [],
+          "operationErrors": [],
+          "meta": {
+            "rest": {
+              "method": "GET",
+              "path": "",
+              "results": []
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "create",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "eventKey",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "eventKey",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "cohort",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "union",
+              "type": "CohortNew",
+              "doc": ""
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "builtin",
+            "type": "string",
+            "doc": ""
+          },
+          "errors": [],
+          "operationErrors": [],
+          "meta": {
+            "rest": {
+              "method": "POST",
+              "path": "",
+              "results": [
+                {
+                  "statusCode": 201
+                },
+                {
+                  "statusCode": 422,
+                  "error": "InvalidData"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "update",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "eventKey",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "eventKey",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "cohort",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": true,
+              "variant": "union",
+              "type": "Cohort",
+              "doc": ""
+            }
+          ],
+          "errors": [],
+          "operationErrors": [],
+          "meta": {
+            "rest": {
+              "method": "PATCH",
+              "path": "${key}",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                },
+                {
+                  "statusCode": 422,
+                  "error": "InvalidData"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "delete",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "eventKey",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "eventKey",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
+            }
+          ],
+          "errors": [],
+          "operationErrors": [],
+          "meta": {
+            "rest": {
+              "method": "DELETE",
+              "path": "${key}",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                },
+                {
+                  "statusCode": 422,
+                  "error": "InvalidData"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "meta": {
+        "rest": {
+          "path": "/api/sportevent/${eventKey}/cohorts"
+        }
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "EventParticipant",
+      "doc": "",
+      "operations": [
+        {
+          "@type": "Operation",
+          "name": "get",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "eventKey",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "eventKey",
+                  "source": "path"
+                }
+              }
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "record",
+            "type": "Participant",
+            "doc": ""
+          },
+          "errors": [],
+          "operationErrors": [],
+          "meta": {
+            "rest": {
+              "method": "GET",
+              "path": "${key}",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "list",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "eventKey",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "eventKey",
+                  "source": "path"
+                }
+              }
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": true,
+            "variant": "record",
+            "type": "Participant",
+            "doc": ""
+          },
+          "errors": [],
+          "operationErrors": [],
+          "meta": {
+            "rest": {
+              "method": "GET",
+              "path": "",
+              "results": []
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "create",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "eventKey",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "eventKey",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "participant",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "record",
+              "type": "ParticipantNew",
+              "doc": ""
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "builtin",
+            "type": "string",
+            "doc": ""
+          },
+          "errors": [],
+          "operationErrors": [],
+          "meta": {
+            "rest": {
+              "method": "POST",
+              "path": "",
+              "results": [
+                {
+                  "statusCode": 201
+                },
+                {
+                  "statusCode": 422,
+                  "error": "InvalidData"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "update",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "eventKey",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "eventKey",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "participant",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": true,
+              "variant": "record",
+              "type": "Participant",
+              "doc": ""
+            }
+          ],
+          "errors": [],
+          "operationErrors": [],
+          "meta": {
+            "rest": {
+              "method": "PATCH",
+              "path": "${key}",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                },
+                {
+                  "statusCode": 422,
+                  "error": "InvalidData"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "delete",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "eventKey",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "eventKey",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
+            }
+          ],
+          "errors": [],
+          "operationErrors": [],
+          "meta": {
+            "rest": {
+              "method": "DELETE",
+              "path": "${key}",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                },
+                {
+                  "statusCode": 422,
+                  "error": "InvalidData"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "meta": {
+        "rest": {
+          "path": "/api/sportevent/${eventKey}/participants"
+        }
+      }
+    }
+  ],
+  "errors": [
+    {
+      "@type": "Error",
+      "name": "NotFound"
+    },
+    {
+      "@type": "Error",
+      "name": "InvalidData"
+    }
+  ]
+}

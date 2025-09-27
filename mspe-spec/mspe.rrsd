@@ -1,0 +1,65 @@
+resource SportEvent at '/api/sportevent' {
+    POST create at '' => {
+        201
+        422: InvalidData
+    }
+    GET get at '${key}' => {
+        200
+        404: NotFound
+    }
+    GET list at ''
+    DELETE delete at '${key}' => {
+        200
+        404: NotFound
+        422: InvalidData
+    }
+    PATCH update at '${key}' => {
+        200
+        404: NotFound
+        422: InvalidData
+    }
+}
+
+resource EventCohort at '/api/sportevent/${eventKey}/cohorts' {
+    POST create at ''  => {
+        201
+        422: InvalidData
+    }
+    GET get at '${key}' => {
+        200
+        404: NotFound
+    }
+    GET list at ''
+    DELETE delete at '${key}' => {
+        200
+        404: NotFound
+        422: InvalidData
+    }
+    PATCH update at '${key}' => {
+        200
+        404: NotFound
+        422: InvalidData
+    }
+}
+
+resource EventParticipant at '/api/sportevent/${eventKey}/participants' {
+    POST create at ''  => {
+        201
+        422: InvalidData
+    }
+    GET get at '${key}' => {
+        200
+        404: NotFound
+    }
+    GET list at ''
+    DELETE delete at '${key}' => {
+        200
+        404: NotFound
+        422: InvalidData
+    }
+    PATCH update at '${key}' => {
+        200
+        404: NotFound
+        422: InvalidData
+    }
+}

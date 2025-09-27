@@ -1,0 +1,94 @@
+mixin CohortBase {
+    name: string
+}
+
+mixin BirthyearCohortBase {
+    min: int
+    max: int?
+}
+
+record GenericCohortNew {
+    include CohortBase
+}
+
+record BirthyearCohortNew {
+    include CohortBase
+    include BirthyearCohortBase
+}
+
+union CohortNew = GenericCohortNew("generic") | BirthyearCohortNew("birthyear");
+
+patchable record GenericCohort {
+    @id key: string
+
+    include CohortBase
+}
+
+patchable record BirthyearCohort {
+    @id key: string
+    include CohortBase
+    include BirthyearCohortBase
+}
+
+union Cohort = GenericCohort("generic") | BirthyearCohort("birthyear");
+
+mixin SportEventBase {
+    name: string
+    date: zoned-date-time
+}
+
+record SportEventNew {
+    include SportEventBase
+}
+
+record SportEvent {
+    @id key: string
+
+    include SportEventBase
+}
+
+mixin ParticipantBase {
+    firstname: string
+    lastname: string
+    team: string
+    birthday: local-date
+}
+
+record ParticipantNew {
+    include ParticipantBase
+}
+
+patchable record Participant {
+    @id key: string
+    
+    include ParticipantBase
+
+    @readonly teamMates: string[]
+}
+
+error NotFound;
+error InvalidData;
+
+service SportEvent {
+    operation get(key: string): SportEvent;
+    operation list(): SportEvent[];
+    operation create(participant: SportEventNew): string;
+    operation update(key: string, @patch participant: Participant);
+    operation delete(key: string);
+}
+
+service EventCohort {
+    operation get(eventKey: string): Cohort;
+    operation list(eventKey: string): Cohort[];
+    operation create(eventKey: string, cohort: CohortNew): string;
+    operation update(eventKey: string, key: string, @patch cohort: Cohort);
+    operation delete(eventKey: string, key: string);
+}
+
+service EventParticipant {
+    operation get(eventKey: string): Participant;
+    operation list(eventKey: string): Participant[];
+    operation create(eventKey: string, participant: ParticipantNew): string;
+    operation update(eventKey: string, key: string, @patch participant: Participant);
+    operation delete(eventKey: string, key: string);
+}
