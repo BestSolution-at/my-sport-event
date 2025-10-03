@@ -1,4 +1,4 @@
-package at.mspe.server.jpa;
+package at.mspe.server.service.jpa;
 
 import org.hibernate.Session;
 

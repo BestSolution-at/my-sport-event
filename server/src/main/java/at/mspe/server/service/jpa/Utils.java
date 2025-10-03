@@ -1,4 +1,4 @@
-package at.mspe.server.jpa;
+package at.mspe.server.service.jpa;
 
 import java.util.UUID;
 import java.util.function.Function;

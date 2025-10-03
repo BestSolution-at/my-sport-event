@@ -1,9 +1,9 @@
-package at.mspe.server.jpa.eventcohort;
+package at.mspe.server.service.jpa.eventcohort;
 
-import at.mspe.server.jpa.BaseHandler;
-import at.mspe.server.jpa.model.cohort.BirthyearCohortEntity;
-import at.mspe.server.jpa.model.cohort.GenericCohortEntity;
-import at.mspe.server.jpa.sportevent.SportEventHelper;
+import at.mspe.server.service.jpa.BaseHandler;
+import at.mspe.server.service.jpa.model.cohort.BirthyearCohortEntity;
+import at.mspe.server.service.jpa.model.cohort.GenericCohortEntity;
+import at.mspe.server.service.jpa.sportevent.SportEventHelper;
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.impl.EventCohortServiceImpl;
 import at.mspe.server.service.model.BirthyearCohort;

@@ -11,15 +11,16 @@
         coh_key uuid not null unique,
         name varchar(255),
         coh_version bigint,
-        coh_max integer,
+        coh_max integer not null,
         coh_min integer not null,
-        coh_fk_sportevent bigint,
+        coh_fk_sportevent bigint not null,
         primary key (coh_id)
     );
 
     create table Participant (
         par_id bigint not null,
         par_birthday date,
+        par_competionnumber varchar(255),
         par_email varchar(255),
         par_firstname varchar(255) not null,
         par_key uuid not null,
@@ -33,6 +34,7 @@
 
     create table SportEvent (
         see_id bigint not null,
+        see_date timestamp(6) with time zone not null,
         see_key uuid not null,
         see_name varchar(255) not null,
         see_version bigint,

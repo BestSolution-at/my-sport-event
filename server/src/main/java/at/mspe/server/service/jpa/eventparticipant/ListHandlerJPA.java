@@ -1,8 +1,8 @@
-package at.mspe.server.jpa.eventparticipant;
+package at.mspe.server.service.jpa.eventparticipant;
 
 import java.util.List;
 
-import at.mspe.server.jpa.BaseReadonlyHandler;
+import at.mspe.server.service.jpa.BaseReadonlyHandler;
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.impl.EventParticipantServiceImpl;
 import at.mspe.server.service.model.Participant.Data;

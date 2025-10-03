@@ -1,9 +1,9 @@
-package at.mspe.server.jpa.sportevent;
+package at.mspe.server.service.jpa.sportevent;
 
 import java.util.Objects;
 
-import at.mspe.server.jpa.BaseHandler;
-import at.mspe.server.jpa.model.SportEventEntity;
+import at.mspe.server.service.jpa.BaseHandler;
+import at.mspe.server.service.jpa.model.SportEventEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;

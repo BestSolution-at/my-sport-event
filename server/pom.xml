@@ -147,7 +147,7 @@
                         <param>PostgreSQL@17</param>
                     </dialects>
                     <packages>
-                        <param>at.mspe.server.jpa.model</param>
+                        <param>at.mspe.server.service.jpa.model</param>
                     </packages>
                     <outputDirectory>${project.basedir}/src/database/sql-generated</outputDirectory>
                 </configuration>

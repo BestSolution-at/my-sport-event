@@ -1,6 +1,6 @@
-package at.mspe.server.jpa.eventcohort;
+package at.mspe.server.service.jpa.eventcohort;
 
-import at.mspe.server.jpa.BaseReadonlyHandler;
+import at.mspe.server.service.jpa.BaseReadonlyHandler;
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.impl.EventCohortServiceImpl;
 import at.mspe.server.service.model.Cohort;

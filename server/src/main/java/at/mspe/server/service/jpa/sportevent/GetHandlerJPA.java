@@ -1,6 +1,6 @@
-package at.mspe.server.jpa.sportevent;
+package at.mspe.server.service.jpa.sportevent;
 
-import at.mspe.server.jpa.BaseReadonlyHandler;
+import at.mspe.server.service.jpa.BaseReadonlyHandler;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;

@@ -1,4 +1,4 @@
-package at.mspe.server.jpa.model;
+package at.mspe.server.service.jpa.model;
 
 import java.time.LocalDate;
 import java.util.UUID;

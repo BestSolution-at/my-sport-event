@@ -1,10 +1,10 @@
-package at.mspe.server.jpa.model.cohort;
+package at.mspe.server.service.jpa.model.cohort;
 
 import java.util.UUID;
 import java.util.function.Function;
 
-import at.mspe.server.jpa.model.CohortEntity;
-import at.mspe.server.jpa.model.SportEventEntity;
+import at.mspe.server.service.jpa.model.CohortEntity;
+import at.mspe.server.service.jpa.model.SportEventEntity;
 import at.mspe.server.service.InvalidDataException;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;

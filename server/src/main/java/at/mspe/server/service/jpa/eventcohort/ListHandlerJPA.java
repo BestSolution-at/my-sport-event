@@ -1,11 +1,11 @@
-package at.mspe.server.jpa.eventcohort;
+package at.mspe.server.service.jpa.eventcohort;
 
 import java.util.List;
 
-import at.mspe.server.jpa.BaseReadonlyHandler;
-import at.mspe.server.jpa.Utils;
-import at.mspe.server.jpa.model.CohortEntity;
-import at.mspe.server.jpa.sportevent.SportEventHelper;
+import at.mspe.server.service.jpa.BaseReadonlyHandler;
+import at.mspe.server.service.jpa.Utils;
+import at.mspe.server.service.jpa.model.CohortEntity;
+import at.mspe.server.service.jpa.sportevent.SportEventHelper;
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.impl.EventCohortServiceImpl;
 import at.mspe.server.service.model.Cohort;

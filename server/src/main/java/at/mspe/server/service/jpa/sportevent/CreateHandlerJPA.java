@@ -1,4 +1,4 @@
-package at.mspe.server.jpa.sportevent;
+package at.mspe.server.service.jpa.sportevent;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -7,8 +7,8 @@ import jakarta.transaction.Transactional;
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.impl.SportEventServiceImpl;
 import at.mspe.server.service.model.SportEventNew;
-import at.mspe.server.jpa.BaseHandler;
-import at.mspe.server.jpa.model.SportEventEntity;
+import at.mspe.server.service.jpa.BaseHandler;
+import at.mspe.server.service.jpa.model.SportEventEntity;
 
 @ApplicationScoped
 public class CreateHandlerJPA extends BaseHandler implements SportEventServiceImpl.CreateHandler {

@@ -1,9 +1,9 @@
-package at.mspe.server.jpa.sportevent;
+package at.mspe.server.service.jpa.sportevent;
 
 import java.util.function.Function;
 
-import at.mspe.server.jpa.Utils;
-import at.mspe.server.jpa.model.SportEventEntity;
+import at.mspe.server.service.jpa.Utils;
+import at.mspe.server.service.jpa.model.SportEventEntity;
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.NotFoundException;
 import at.mspe.server.service.model.SportEvent;
