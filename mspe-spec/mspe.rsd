@@ -4,7 +4,7 @@ mixin CohortBase {
 
 mixin BirthyearCohortBase {
     min: int
-    max: int?
+    max: int
 }
 
 record GenericCohortNew {
@@ -20,12 +20,15 @@ union CohortNew = GenericCohortNew("generic") | BirthyearCohortNew("birthyear");
 
 patchable record GenericCohort {
     @id key: string
+    @rev version: long
 
     include CohortBase
 }
 
 patchable record BirthyearCohort {
     @id key: string
+    @rev version: long
+
     include CohortBase
     include BirthyearCohortBase
 }
@@ -41,8 +44,9 @@ record SportEventNew {
     include SportEventBase
 }
 
-record SportEvent {
+patchable record SportEvent {
     @id key: string
+    @rev version: long
 
     include SportEventBase
 }
@@ -60,35 +64,89 @@ record ParticipantNew {
 
 patchable record Participant {
     @id key: string
-    
+    @rev version: long
+
     include ParticipantBase
 
     @readonly teamMates: string[]
 }
 
+record UpdateResult {
+    key: string
+    version: long
+}
+
 error NotFound;
 error InvalidData;
+error StaleData;
 
 service SportEvent {
-    operation get(key: string): SportEvent;
+    operation get(key: string): SportEvent 
+        throws NotFound;
+    
     operation list(): SportEvent[];
-    operation create(participant: SportEventNew): string;
-    operation update(key: string, @patch participant: Participant);
-    operation delete(key: string);
+    
+    operation create(event: SportEventNew): string 
+        throws InvalidData;
+
+    operation update(key: string, @patch event: SportEvent): UpdateResult 
+        throws 
+            NotFound 
+            InvalidData 
+            StaleData;
+    
+    operation delete(key: string, version?: long) 
+        throws 
+            NotFound 
+            StaleData;
 }
 
 service EventCohort {
-    operation get(eventKey: string): Cohort;
-    operation list(eventKey: string): Cohort[];
-    operation create(eventKey: string, cohort: CohortNew): string;
-    operation update(eventKey: string, key: string, @patch cohort: Cohort);
-    operation delete(eventKey: string, key: string);
+    operation get(eventKey: string, key: string): Cohort 
+        throws NotFound;
+
+    operation list(eventKey: string): Cohort[] 
+        throws NotFound;
+
+    operation create(eventKey: string, cohort: CohortNew): string
+        throws 
+            NotFound 
+            InvalidData;
+
+    operation update(eventKey: string, key: string, @patch cohort: Cohort): UpdateResult
+        throws 
+            NotFound 
+            InvalidData 
+            StaleData;
+
+    operation delete(eventKey: string, key: string, version?: long)
+        throws 
+            NotFound 
+            StaleData;
 }
 
 service EventParticipant {
-    operation get(eventKey: string): Participant;
-    operation list(eventKey: string): Participant[];
-    operation create(eventKey: string, participant: ParticipantNew): string;
-    operation update(eventKey: string, key: string, @patch participant: Participant);
-    operation delete(eventKey: string, key: string);
+    operation get(eventKey: string): Participant
+        throws
+            NotFound;
+    
+    operation list(eventKey: string): Participant[]
+        throws
+            NotFound;
+
+    operation create(eventKey: string, participant: ParticipantNew): string
+        throws
+            NotFound
+            InvalidData;
+
+    operation update(eventKey: string, key: string, @patch participant: Participant): UpdateResult
+        throws
+            NotFound
+            InvalidData
+            StaleData;
+
+    operation delete(eventKey: string, key: string, version?: long)
+        throws
+            NotFound
+            StaleData;
 }

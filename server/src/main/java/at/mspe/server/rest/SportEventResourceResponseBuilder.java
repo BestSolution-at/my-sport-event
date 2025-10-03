@@ -8,9 +8,9 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 
 import at.mspe.server.rest.model._JsonUtils;
-import at.mspe.server.service.model.Participant;
 import at.mspe.server.service.model.SportEvent;
 import at.mspe.server.service.model.SportEventNew;
+import at.mspe.server.service.model.UpdateResult;
 
 @Singleton
 public class SportEventResourceResponseBuilder {
@@ -22,15 +22,15 @@ public class SportEventResourceResponseBuilder {
 		return Response.status(200).entity(_JsonUtils.toJsonString($result, false));
 	}
 
-	public ResponseBuilder create(String $result, SportEventNew.Data participant) {
+	public ResponseBuilder create(String $result, SportEventNew.Data event) {
 		return Response.status(201).entity(_JsonUtils.encodeAsJsonString($result));
 	}
 
-	public ResponseBuilder update(String key, Participant.Patch participant) {
-		return Response.status(200);
+	public ResponseBuilder update(UpdateResult.Data $result, String key, SportEvent.Patch event) {
+		return Response.status(200).entity(_JsonUtils.toJsonString($result, false));
 	}
 
-	public ResponseBuilder delete(String key) {
+	public ResponseBuilder delete(String key, Long version) {
 		return Response.status(200);
 	}
 

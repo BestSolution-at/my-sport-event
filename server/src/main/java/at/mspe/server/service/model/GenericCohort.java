@@ -10,12 +10,16 @@ public interface GenericCohort {
 	public interface Data extends _Base.BaseData, GenericCohort, CohortBaseMixin, Cohort.Data {
 		public String key();
 
+		public long version();
+
 		public String name();
 
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<GenericCohort.Data>, Cohort.DataBuilder {
 		public DataBuilder key(String key);
+
+		public DataBuilder version(long version);
 
 		public DataBuilder name(String name);
 
@@ -24,12 +28,16 @@ public interface GenericCohort {
 	public interface Patch extends _Base.BaseData, GenericCohort, Cohort.Patch {
 		public String key();
 
+		public long version();
+
 		public Optional<String> name();
 
 	}
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<GenericCohort.Patch>, Cohort.PatchBuilder {
 		public PatchBuilder key(String key);
+
+		public PatchBuilder version(long version);
 
 		public PatchBuilder name(String name);
 

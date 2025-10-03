@@ -8,7 +8,6 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
-import at.mspe.server.service.model._Base;
 import at.mspe.server.service.model.BirthyearCohort;
 
 public class BirthyearCohortPatchImpl extends _BaseDataImpl implements BirthyearCohort.Patch {
@@ -20,6 +19,10 @@ public class BirthyearCohortPatchImpl extends _BaseDataImpl implements Birthyear
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	public long version() {
+		return _JsonUtils.mapLong(data, "version");
+	}
+
 	public Optional<String> name() {
 		return _JsonUtils.mapOptString(data, "name");
 	}
@@ -28,8 +31,8 @@ public class BirthyearCohortPatchImpl extends _BaseDataImpl implements Birthyear
 		return _JsonUtils.mapOptInt(data, "min");
 	}
 
-	public _Base.Nillable<Integer> max() {
-		return _JsonUtils.mapNilInt(data, "max");
+	public OptionalInt max() {
+		return _JsonUtils.mapOptInt(data, "max");
 	}
 
 	public static class PatchBuilderImpl implements BirthyearCohort.PatchBuilder {
@@ -41,6 +44,11 @@ public class BirthyearCohortPatchImpl extends _BaseDataImpl implements Birthyear
 
 		public BirthyearCohort.PatchBuilder key(String key) {
 			$builder.add("key", key);
+			return this;
+		}
+
+		public BirthyearCohort.PatchBuilder version(long version) {
+			$builder.add("version", version);
 			return this;
 		}
 
@@ -57,11 +65,7 @@ public class BirthyearCohortPatchImpl extends _BaseDataImpl implements Birthyear
 		}
 
 		@Override
-		public BirthyearCohort.PatchBuilder max(Integer max) {
-			if (max == null) {
-				$builder.addNull("max");
-				return this;
-			}
+		public BirthyearCohort.PatchBuilder max(int max) {
 			$builder.add("max", max);
 			return this;
 		}

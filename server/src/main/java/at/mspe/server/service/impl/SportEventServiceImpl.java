@@ -3,15 +3,18 @@ package at.mspe.server.service.impl;
 
 import java.util.List;
 
-import jakarta.inject.Singleton;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import at.mspe.server.service.BuilderFactory;
-import at.mspe.server.service.model.Participant;
+import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.model.SportEvent;
 import at.mspe.server.service.model.SportEventNew;
+import at.mspe.server.service.model.UpdateResult;
+import at.mspe.server.service.NotFoundException;
 import at.mspe.server.service.SportEventService;
+import at.mspe.server.service.StaleDataException;
 
-@Singleton
+@ApplicationScoped
 public class SportEventServiceImpl implements SportEventService {
 	private final GetHandler getHandler;
 	private final ListHandler listHandler;
@@ -28,7 +31,8 @@ public class SportEventServiceImpl implements SportEventService {
 	}
 
 	@Override
-	public SportEvent.Data get(BuilderFactory _factory, String key) {
+	public SportEvent.Data get(BuilderFactory _factory, String key)
+			throws NotFoundException {
 		return getHandler.get(_factory, key);
 	}
 
@@ -38,22 +42,29 @@ public class SportEventServiceImpl implements SportEventService {
 	}
 
 	@Override
-	public String create(BuilderFactory _factory, SportEventNew.Data participant) {
-		return createHandler.create(_factory, participant);
+	public String create(BuilderFactory _factory, SportEventNew.Data event)
+			throws InvalidDataException {
+		return createHandler.create(_factory, event);
 	}
 
 	@Override
-	public void update(BuilderFactory _factory, String key, Participant.Patch participant) {
-		updateHandler.update(_factory, key, participant);
+	public UpdateResult.Data update(BuilderFactory _factory, String key, SportEvent.Patch event)
+			throws NotFoundException,
+			InvalidDataException,
+			StaleDataException {
+		return updateHandler.update(_factory, key, event);
 	}
 
 	@Override
-	public void delete(BuilderFactory _factory, String key) {
-		deleteHandler.delete(_factory, key);
+	public void delete(BuilderFactory _factory, String key, Long version)
+			throws NotFoundException,
+			StaleDataException {
+		deleteHandler.delete(_factory, key, version);
 	}
 
 	public interface GetHandler {
-		public SportEvent.Data get(BuilderFactory _factory, String key);
+		public SportEvent.Data get(BuilderFactory _factory, String key)
+				throws NotFoundException;
 	}
 
 	public interface ListHandler {
@@ -61,15 +72,21 @@ public class SportEventServiceImpl implements SportEventService {
 	}
 
 	public interface CreateHandler {
-		public String create(BuilderFactory _factory, SportEventNew.Data participant);
+		public String create(BuilderFactory _factory, SportEventNew.Data event)
+				throws InvalidDataException;
 	}
 
 	public interface UpdateHandler {
-		public void update(BuilderFactory _factory, String key, Participant.Patch participant);
+		public UpdateResult.Data update(BuilderFactory _factory, String key, SportEvent.Patch event)
+				throws NotFoundException,
+				InvalidDataException,
+				StaleDataException;
 	}
 
 	public interface DeleteHandler {
-		public void delete(BuilderFactory _factory, String key);
+		public void delete(BuilderFactory _factory, String key, Long version)
+				throws NotFoundException,
+				StaleDataException;
 	}
 
 }

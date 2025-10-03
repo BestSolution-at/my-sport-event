@@ -7,8 +7,12 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.EventCohortService;
+import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.model.Cohort;
 import at.mspe.server.service.model.CohortNew;
+import at.mspe.server.service.model.UpdateResult;
+import at.mspe.server.service.NotFoundException;
+import at.mspe.server.service.StaleDataException;
 
 @ApplicationScoped
 public class EventCohortServiceImpl implements EventCohortService {
@@ -18,8 +22,7 @@ public class EventCohortServiceImpl implements EventCohortService {
 	private final UpdateHandler updateHandler;
 	private final DeleteHandler deleteHandler;
 
-	public EventCohortServiceImpl(GetHandler getHandler, ListHandler listHandler, CreateHandler createHandler,
-			UpdateHandler updateHandler, DeleteHandler deleteHandler) {
+	public EventCohortServiceImpl(GetHandler getHandler, ListHandler listHandler, CreateHandler createHandler, UpdateHandler updateHandler, DeleteHandler deleteHandler) {
 		this.getHandler = getHandler;
 		this.listHandler = listHandler;
 		this.createHandler = createHandler;
@@ -28,48 +31,66 @@ public class EventCohortServiceImpl implements EventCohortService {
 	}
 
 	@Override
-	public Cohort.Data get(BuilderFactory _factory, String eventKey) {
-		return getHandler.get(_factory, eventKey);
+	public Cohort.Data get(BuilderFactory _factory, String eventKey, String key)
+			throws NotFoundException {
+		return getHandler.get(_factory, eventKey, key);
 	}
 
 	@Override
-	public List<Cohort.Data> list(BuilderFactory _factory, String eventKey) {
+	public List<Cohort.Data> list(BuilderFactory _factory, String eventKey)
+			throws NotFoundException {
 		return listHandler.list(_factory, eventKey);
 	}
 
 	@Override
-	public String create(BuilderFactory _factory, String eventKey, CohortNew.Data cohort) {
+	public String create(BuilderFactory _factory, String eventKey, CohortNew.Data cohort)
+			throws NotFoundException,
+			InvalidDataException {
 		return createHandler.create(_factory, eventKey, cohort);
 	}
 
 	@Override
-	public void update(BuilderFactory _factory, String eventKey, String key, Cohort.Patch cohort) {
-		updateHandler.update(_factory, eventKey, key, cohort);
+	public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Cohort.Patch cohort)
+			throws NotFoundException,
+			InvalidDataException,
+			StaleDataException {
+		return updateHandler.update(_factory, eventKey, key, cohort);
 	}
 
 	@Override
-	public void delete(BuilderFactory _factory, String eventKey, String key) {
-		deleteHandler.delete(_factory, eventKey, key);
+	public void delete(BuilderFactory _factory, String eventKey, String key, Long version)
+			throws NotFoundException,
+			StaleDataException {
+		deleteHandler.delete(_factory, eventKey, key, version);
 	}
 
 	public interface GetHandler {
-		public Cohort.Data get(BuilderFactory _factory, String eventKey);
+		public Cohort.Data get(BuilderFactory _factory, String eventKey, String key)
+				throws NotFoundException;
 	}
 
 	public interface ListHandler {
-		public List<Cohort.Data> list(BuilderFactory _factory, String eventKey);
+		public List<Cohort.Data> list(BuilderFactory _factory, String eventKey)
+				throws NotFoundException;
 	}
 
 	public interface CreateHandler {
-		public String create(BuilderFactory _factory, String eventKey, CohortNew.Data cohort);
+		public String create(BuilderFactory _factory, String eventKey, CohortNew.Data cohort)
+				throws NotFoundException,
+				InvalidDataException;
 	}
 
 	public interface UpdateHandler {
-		public void update(BuilderFactory _factory, String eventKey, String key, Cohort.Patch cohort);
+		public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Cohort.Patch cohort)
+				throws NotFoundException,
+				InvalidDataException,
+				StaleDataException;
 	}
 
 	public interface DeleteHandler {
-		public void delete(BuilderFactory _factory, String eventKey, String key);
+		public void delete(BuilderFactory _factory, String eventKey, String key, Long version)
+				throws NotFoundException,
+				StaleDataException;
 	}
 
 }

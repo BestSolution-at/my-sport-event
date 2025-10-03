@@ -18,6 +18,10 @@ public class SportEventDataImpl extends _BaseDataImpl implements SportEvent.Data
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	public long version() {
+		return _JsonUtils.mapLong(data, "version");
+	}
+
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
@@ -31,7 +35,7 @@ public class SportEventDataImpl extends _BaseDataImpl implements SportEvent.Data
 	}
 
 	public String toString() {
-		return "%s[%s=%s]".formatted(getClass().getSimpleName(), "key", key());
+		return "%s[%s=%s@%s=%s]".formatted(getClass().getSimpleName(), "key", key(), "version", version());
 	}
 
 	public static class DataBuilderImpl implements SportEvent.DataBuilder {
@@ -39,6 +43,11 @@ public class SportEventDataImpl extends _BaseDataImpl implements SportEvent.Data
 
 		public SportEvent.DataBuilder key(String key) {
 			$builder.add("key", key);
+			return this;
+		}
+
+		public SportEvent.DataBuilder version(long version) {
+			$builder.add("version", version);
 			return this;
 		}
 

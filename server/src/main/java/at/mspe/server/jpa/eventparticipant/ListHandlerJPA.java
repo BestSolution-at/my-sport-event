@@ -7,11 +7,12 @@ import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.impl.EventParticipantServiceImpl;
 import at.mspe.server.service.model.Participant.Data;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 
 @ApplicationScoped
 public class ListHandlerJPA extends BaseReadonlyHandler implements EventParticipantServiceImpl.ListHandler {
-
+    @Inject
     public ListHandlerJPA(EntityManager em) {
         super(em);
     }

@@ -19,6 +19,10 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	public long version() {
+		return _JsonUtils.mapLong(data, "version");
+	}
+
 	public Optional<String> firstname() {
 		return _JsonUtils.mapOptString(data, "firstname");
 	}
@@ -40,6 +44,11 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 
 		public Participant.PatchBuilder key(String key) {
 			$builder.add("key", key);
+			return this;
+		}
+
+		public Participant.PatchBuilder version(long version) {
+			$builder.add("version", version);
 			return this;
 		}
 

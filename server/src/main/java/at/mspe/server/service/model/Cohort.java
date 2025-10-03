@@ -11,6 +11,8 @@ public interface Cohort {
 	public interface Data extends _Base.BaseData, Cohort {
 		public String key();
 
+		public long version();
+
 		public String name();
 
 	}
@@ -20,6 +22,8 @@ public interface Cohort {
 
 	public interface Patch extends _Base.BaseData, Cohort {
 		public String key();
+
+		public long version();
 
 		public Optional<String> name();
 

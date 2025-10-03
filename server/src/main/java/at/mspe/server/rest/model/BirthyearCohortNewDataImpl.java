@@ -21,7 +21,7 @@ public class BirthyearCohortNewDataImpl extends _BaseDataImpl implements Birthye
 	}
 
 	public int max() {
-		return _JsonUtils.mapInt(data, "max", 0);
+		return _JsonUtils.mapInt(data, "max");
 	}
 
 	public static BirthyearCohortNew.Data of(JsonObject obj) {

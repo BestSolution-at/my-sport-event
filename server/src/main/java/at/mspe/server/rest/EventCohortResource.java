@@ -7,6 +7,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -18,6 +19,7 @@ import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.model.Cohort;
 import at.mspe.server.service.model.CohortNew;
 import at.mspe.server.service.NotFoundException;
+import at.mspe.server.service.StaleDataException;
 
 @ApplicationScoped
 @Path("/api/sportevent/{eventKey}/cohorts")
@@ -36,11 +38,14 @@ public class EventCohortResource {
 
 	@GET
 	@Path("{key}")
-	public Response get(@PathParam("eventKey") String _eventKey) {
+	public Response get(
+			@PathParam("eventKey") String _eventKey,
+			@PathParam("key") String _key) {
 		var eventKey = _eventKey;
+		var key = _key;
 		try {
-			var result = service.get(builderFactory, eventKey);
-			return responseBuilder.get(result, eventKey).build();
+			var result = service.get(builderFactory, eventKey, key);
+			return responseBuilder.get(result, eventKey, key).build();
 		} catch (NotFoundException e) {
 			return _RestUtils.toResponse(404, e);
 		}
@@ -49,8 +54,12 @@ public class EventCohortResource {
 	@GET
 	public Response list(@PathParam("eventKey") String _eventKey) {
 		var eventKey = _eventKey;
-		var result = service.list(builderFactory, eventKey);
-		return responseBuilder.list(result, eventKey).build();
+		try {
+			var result = service.list(builderFactory, eventKey);
+			return responseBuilder.list(result, eventKey).build();
+		} catch (NotFoundException e) {
+			return _RestUtils.toResponse(404, e);
+		}
 	}
 
 	@POST
@@ -62,6 +71,8 @@ public class EventCohortResource {
 		try {
 			var result = service.create(builderFactory, eventKey, cohort);
 			return responseBuilder.create(result, eventKey, cohort).build();
+		} catch (NotFoundException e) {
+			return _RestUtils.toResponse(404, e);
 		} catch (InvalidDataException e) {
 			return _RestUtils.toResponse(422, e);
 		}
@@ -77,12 +88,14 @@ public class EventCohortResource {
 		var key = _key;
 		var cohort = builderFactory.of(Cohort.Patch.class, _cohort);
 		try {
-			service.update(builderFactory, eventKey, key, cohort);
-			return responseBuilder.update(eventKey, key, cohort).build();
+			var result = service.update(builderFactory, eventKey, key, cohort);
+			return responseBuilder.update(result, eventKey, key, cohort).build();
 		} catch (NotFoundException e) {
 			return _RestUtils.toResponse(404, e);
 		} catch (InvalidDataException e) {
 			return _RestUtils.toResponse(422, e);
+		} catch (StaleDataException e) {
+			return _RestUtils.toResponse(412, e);
 		}
 	}
 
@@ -90,16 +103,18 @@ public class EventCohortResource {
 	@Path("{key}")
 	public Response delete(
 			@PathParam("eventKey") String _eventKey,
-			@PathParam("key") String _key) {
+			@PathParam("key") String _key,
+			@HeaderParam("version") Long _version) {
 		var eventKey = _eventKey;
 		var key = _key;
+		var version = _version;
 		try {
-			service.delete(builderFactory, eventKey, key);
-			return responseBuilder.delete(eventKey, key).build();
+			service.delete(builderFactory, eventKey, key, version);
+			return responseBuilder.delete(eventKey, key, version).build();
 		} catch (NotFoundException e) {
 			return _RestUtils.toResponse(404, e);
-		} catch (InvalidDataException e) {
-			return _RestUtils.toResponse(422, e);
+		} catch (StaleDataException e) {
+			return _RestUtils.toResponse(412, e);
 		}
 	}
 

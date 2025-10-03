@@ -12,6 +12,8 @@ public interface BirthyearCohort {
 	public interface Data extends _Base.BaseData, BirthyearCohort, CohortBaseMixin, BirthyearCohortBaseMixin, Cohort.Data {
 		public String key();
 
+		public long version();
+
 		public String name();
 
 		public int min();
@@ -22,6 +24,8 @@ public interface BirthyearCohort {
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<BirthyearCohort.Data>, Cohort.DataBuilder {
 		public DataBuilder key(String key);
+
+		public DataBuilder version(long version);
 
 		public DataBuilder name(String name);
 
@@ -34,22 +38,26 @@ public interface BirthyearCohort {
 	public interface Patch extends _Base.BaseData, BirthyearCohort, Cohort.Patch {
 		public String key();
 
+		public long version();
+
 		public Optional<String> name();
 
 		public OptionalInt min();
 
-		public _Base.Nillable<Integer> max();
+		public OptionalInt max();
 
 	}
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<BirthyearCohort.Patch>, Cohort.PatchBuilder {
 		public PatchBuilder key(String key);
 
+		public PatchBuilder version(long version);
+
 		public PatchBuilder name(String name);
 
 		public PatchBuilder min(int min);
 
-		public PatchBuilder max(Integer max);
+		public PatchBuilder max(int max);
 
 	}
 }

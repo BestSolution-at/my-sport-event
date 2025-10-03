@@ -3,14 +3,18 @@ package at.mspe.server.service.impl;
 
 import java.util.List;
 
-import jakarta.inject.Singleton;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.EventParticipantService;
+import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.model.Participant;
 import at.mspe.server.service.model.ParticipantNew;
+import at.mspe.server.service.model.UpdateResult;
+import at.mspe.server.service.NotFoundException;
+import at.mspe.server.service.StaleDataException;
 
-@Singleton
+@ApplicationScoped
 public class EventParticipantServiceImpl implements EventParticipantService {
 	private final GetHandler getHandler;
 	private final ListHandler listHandler;
@@ -27,48 +31,66 @@ public class EventParticipantServiceImpl implements EventParticipantService {
 	}
 
 	@Override
-	public Participant.Data get(BuilderFactory _factory, String eventKey) {
+	public Participant.Data get(BuilderFactory _factory, String eventKey)
+			throws NotFoundException {
 		return getHandler.get(_factory, eventKey);
 	}
 
 	@Override
-	public List<Participant.Data> list(BuilderFactory _factory, String eventKey) {
+	public List<Participant.Data> list(BuilderFactory _factory, String eventKey)
+			throws NotFoundException {
 		return listHandler.list(_factory, eventKey);
 	}
 
 	@Override
-	public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant) {
+	public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant)
+			throws NotFoundException,
+			InvalidDataException {
 		return createHandler.create(_factory, eventKey, participant);
 	}
 
 	@Override
-	public void update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant) {
-		updateHandler.update(_factory, eventKey, key, participant);
+	public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant)
+			throws NotFoundException,
+			InvalidDataException,
+			StaleDataException {
+		return updateHandler.update(_factory, eventKey, key, participant);
 	}
 
 	@Override
-	public void delete(BuilderFactory _factory, String eventKey, String key) {
-		deleteHandler.delete(_factory, eventKey, key);
+	public void delete(BuilderFactory _factory, String eventKey, String key, Long version)
+			throws NotFoundException,
+			StaleDataException {
+		deleteHandler.delete(_factory, eventKey, key, version);
 	}
 
 	public interface GetHandler {
-		public Participant.Data get(BuilderFactory _factory, String eventKey);
+		public Participant.Data get(BuilderFactory _factory, String eventKey)
+				throws NotFoundException;
 	}
 
 	public interface ListHandler {
-		public List<Participant.Data> list(BuilderFactory _factory, String eventKey);
+		public List<Participant.Data> list(BuilderFactory _factory, String eventKey)
+				throws NotFoundException;
 	}
 
 	public interface CreateHandler {
-		public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant);
+		public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant)
+				throws NotFoundException,
+				InvalidDataException;
 	}
 
 	public interface UpdateHandler {
-		public void update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant);
+		public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant)
+				throws NotFoundException,
+				InvalidDataException,
+				StaleDataException;
 	}
 
 	public interface DeleteHandler {
-		public void delete(BuilderFactory _factory, String eventKey, String key);
+		public void delete(BuilderFactory _factory, String eventKey, String key, Long version)
+				throws NotFoundException,
+				StaleDataException;
 	}
 
 }

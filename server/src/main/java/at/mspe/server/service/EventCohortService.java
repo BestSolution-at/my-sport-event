@@ -5,16 +5,26 @@ import java.util.List;
 
 import at.mspe.server.service.model.Cohort;
 import at.mspe.server.service.model.CohortNew;
+import at.mspe.server.service.model.UpdateResult;
 
 public interface EventCohortService {
-	public Cohort.Data get(BuilderFactory _factory, String eventKey);
+	public Cohort.Data get(BuilderFactory _factory, String eventKey, String key)
+			throws NotFoundException;
 
-	public List<Cohort.Data> list(BuilderFactory _factory, String eventKey);
+	public List<Cohort.Data> list(BuilderFactory _factory, String eventKey)
+			throws NotFoundException;
 
-	public String create(BuilderFactory _factory, String eventKey, CohortNew.Data cohort);
+	public String create(BuilderFactory _factory, String eventKey, CohortNew.Data cohort)
+			throws NotFoundException,
+			InvalidDataException;
 
-	public void update(BuilderFactory _factory, String eventKey, String key, Cohort.Patch cohort);
+	public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Cohort.Patch cohort)
+			throws NotFoundException,
+			InvalidDataException,
+			StaleDataException;
 
-	public void delete(BuilderFactory _factory, String eventKey, String key);
+	public void delete(BuilderFactory _factory, String eventKey, String key, Long version)
+			throws NotFoundException,
+			StaleDataException;
 
 }

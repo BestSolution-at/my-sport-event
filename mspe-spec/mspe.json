@@ -40,7 +40,7 @@
           "array": false,
           "readonly": false,
           "optional": false,
-          "nullable": true,
+          "nullable": false,
           "variant": "builtin",
           "type": "int",
           "doc": ""
@@ -97,6 +97,12 @@
           "name": "key",
           "type": "string",
           "doc": ""
+        },
+        {
+          "@type": "RevisionProperty",
+          "name": "version",
+          "type": "long",
+          "doc": ""
         }
       ],
       "doc": ""
@@ -114,6 +120,12 @@
           "@type": "KeyProperty",
           "name": "key",
           "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "RevisionProperty",
+          "name": "version",
+          "type": "long",
           "doc": ""
         }
       ],
@@ -176,7 +188,7 @@
     {
       "@type": "RecordType",
       "name": "SportEvent",
-      "patchable": false,
+      "patchable": true,
       "mixins": [
         "SportEventBase"
       ],
@@ -185,6 +197,12 @@
           "@type": "KeyProperty",
           "name": "key",
           "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "RevisionProperty",
+          "name": "version",
+          "type": "long",
           "doc": ""
         }
       ],
@@ -266,6 +284,12 @@
           "doc": ""
         },
         {
+          "@type": "RevisionProperty",
+          "name": "version",
+          "type": "long",
+          "doc": ""
+        },
+        {
           "@type": "Property",
           "name": "teamMates",
           "array": true,
@@ -274,6 +298,37 @@
           "nullable": false,
           "variant": "builtin",
           "type": "string",
+          "doc": ""
+        }
+      ],
+      "doc": ""
+    },
+    {
+      "@type": "RecordType",
+      "name": "UpdateResult",
+      "patchable": false,
+      "mixins": [],
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "key",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "version",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "long",
           "doc": ""
         }
       ],
@@ -316,8 +371,16 @@
             "type": "SportEvent",
             "doc": ""
           },
-          "errors": [],
-          "operationErrors": [],
+          "errors": [
+            "NotFound"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            }
+          ],
           "meta": {
             "rest": {
               "method": "GET",
@@ -363,7 +426,7 @@
           "parameters": [
             {
               "@type": "Parameter",
-              "name": "participant",
+              "name": "event",
               "array": false,
               "nullable": false,
               "optional": false,
@@ -380,8 +443,16 @@
             "type": "string",
             "doc": ""
           },
-          "errors": [],
-          "operationErrors": [],
+          "errors": [
+            "InvalidData"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "InvalidData",
+              "doc": ""
+            }
+          ],
           "meta": {
             "rest": {
               "method": "POST",
@@ -422,18 +493,45 @@
             },
             {
               "@type": "Parameter",
-              "name": "participant",
+              "name": "event",
               "array": false,
               "nullable": false,
               "optional": false,
               "patch": true,
               "variant": "record",
-              "type": "Participant",
+              "type": "SportEvent",
               "doc": ""
             }
           ],
-          "errors": [],
-          "operationErrors": [],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "record",
+            "type": "UpdateResult",
+            "doc": ""
+          },
+          "errors": [
+            "NotFound",
+            "InvalidData",
+            "StaleData"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            },
+            {
+              "@type": "OperationError",
+              "error": "InvalidData",
+              "doc": ""
+            },
+            {
+              "@type": "OperationError",
+              "error": "StaleData",
+              "doc": ""
+            }
+          ],
           "meta": {
             "rest": {
               "method": "PATCH",
@@ -449,6 +547,10 @@
                 {
                   "statusCode": 422,
                   "error": "InvalidData"
+                },
+                {
+                  "statusCode": 412,
+                  "error": "StaleData"
                 }
               ]
             }
@@ -475,10 +577,41 @@
                   "source": "path"
                 }
               }
+            },
+            {
+              "@type": "Parameter",
+              "name": "version",
+              "array": false,
+              "nullable": false,
+              "optional": true,
+              "patch": false,
+              "variant": "builtin",
+              "type": "long",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "version",
+                  "source": "header"
+                }
+              }
             }
           ],
-          "errors": [],
-          "operationErrors": [],
+          "errors": [
+            "NotFound",
+            "StaleData"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            },
+            {
+              "@type": "OperationError",
+              "error": "StaleData",
+              "doc": ""
+            }
+          ],
           "meta": {
             "rest": {
               "method": "DELETE",
@@ -492,8 +625,8 @@
                   "error": "NotFound"
                 },
                 {
-                  "statusCode": 422,
-                  "error": "InvalidData"
+                  "statusCode": 412,
+                  "error": "StaleData"
                 }
               ]
             }
@@ -532,6 +665,23 @@
                   "source": "path"
                 }
               }
+            },
+            {
+              "@type": "Parameter",
+              "name": "key",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "key",
+                  "source": "path"
+                }
+              }
             }
           ],
           "resultType": {
@@ -541,8 +691,16 @@
             "type": "Cohort",
             "doc": ""
           },
-          "errors": [],
-          "operationErrors": [],
+          "errors": [
+            "NotFound"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            }
+          ],
           "meta": {
             "rest": {
               "method": "GET",
@@ -589,13 +747,29 @@
             "type": "Cohort",
             "doc": ""
           },
-          "errors": [],
-          "operationErrors": [],
+          "errors": [
+            "NotFound"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            }
+          ],
           "meta": {
             "rest": {
               "method": "GET",
               "path": "",
-              "results": []
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                }
+              ]
             }
           }
         },
@@ -640,8 +814,22 @@
             "type": "string",
             "doc": ""
           },
-          "errors": [],
-          "operationErrors": [],
+          "errors": [
+            "NotFound",
+            "InvalidData"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            },
+            {
+              "@type": "OperationError",
+              "error": "InvalidData",
+              "doc": ""
+            }
+          ],
           "meta": {
             "rest": {
               "method": "POST",
@@ -649,6 +837,10 @@
               "results": [
                 {
                   "statusCode": 201
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
                 },
                 {
                   "statusCode": 422,
@@ -709,8 +901,35 @@
               "doc": ""
             }
           ],
-          "errors": [],
-          "operationErrors": [],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "record",
+            "type": "UpdateResult",
+            "doc": ""
+          },
+          "errors": [
+            "NotFound",
+            "InvalidData",
+            "StaleData"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            },
+            {
+              "@type": "OperationError",
+              "error": "InvalidData",
+              "doc": ""
+            },
+            {
+              "@type": "OperationError",
+              "error": "StaleData",
+              "doc": ""
+            }
+          ],
           "meta": {
             "rest": {
               "method": "PATCH",
@@ -726,6 +945,10 @@
                 {
                   "statusCode": 422,
                   "error": "InvalidData"
+                },
+                {
+                  "statusCode": 412,
+                  "error": "StaleData"
                 }
               ]
             }
@@ -769,10 +992,41 @@
                   "source": "path"
                 }
               }
+            },
+            {
+              "@type": "Parameter",
+              "name": "version",
+              "array": false,
+              "nullable": false,
+              "optional": true,
+              "patch": false,
+              "variant": "builtin",
+              "type": "long",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "version",
+                  "source": "header"
+                }
+              }
             }
           ],
-          "errors": [],
-          "operationErrors": [],
+          "errors": [
+            "NotFound",
+            "StaleData"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            },
+            {
+              "@type": "OperationError",
+              "error": "StaleData",
+              "doc": ""
+            }
+          ],
           "meta": {
             "rest": {
               "method": "DELETE",
@@ -786,8 +1040,8 @@
                   "error": "NotFound"
                 },
                 {
-                  "statusCode": 422,
-                  "error": "InvalidData"
+                  "statusCode": 412,
+                  "error": "StaleData"
                 }
               ]
             }
@@ -835,8 +1089,16 @@
             "type": "Participant",
             "doc": ""
           },
-          "errors": [],
-          "operationErrors": [],
+          "errors": [
+            "NotFound"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            }
+          ],
           "meta": {
             "rest": {
               "method": "GET",
@@ -883,8 +1145,16 @@
             "type": "Participant",
             "doc": ""
           },
-          "errors": [],
-          "operationErrors": [],
+          "errors": [
+            "NotFound"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            }
+          ],
           "meta": {
             "rest": {
               "method": "GET",
@@ -934,8 +1204,22 @@
             "type": "string",
             "doc": ""
           },
-          "errors": [],
-          "operationErrors": [],
+          "errors": [
+            "NotFound",
+            "InvalidData"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            },
+            {
+              "@type": "OperationError",
+              "error": "InvalidData",
+              "doc": ""
+            }
+          ],
           "meta": {
             "rest": {
               "method": "POST",
@@ -1003,8 +1287,35 @@
               "doc": ""
             }
           ],
-          "errors": [],
-          "operationErrors": [],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "record",
+            "type": "UpdateResult",
+            "doc": ""
+          },
+          "errors": [
+            "NotFound",
+            "InvalidData",
+            "StaleData"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            },
+            {
+              "@type": "OperationError",
+              "error": "InvalidData",
+              "doc": ""
+            },
+            {
+              "@type": "OperationError",
+              "error": "StaleData",
+              "doc": ""
+            }
+          ],
           "meta": {
             "rest": {
               "method": "PATCH",
@@ -1063,10 +1374,41 @@
                   "source": "path"
                 }
               }
+            },
+            {
+              "@type": "Parameter",
+              "name": "version",
+              "array": false,
+              "nullable": false,
+              "optional": true,
+              "patch": false,
+              "variant": "builtin",
+              "type": "long",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "version",
+                  "source": "header"
+                }
+              }
             }
           ],
-          "errors": [],
-          "operationErrors": [],
+          "errors": [
+            "NotFound",
+            "StaleData"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            },
+            {
+              "@type": "OperationError",
+              "error": "StaleData",
+              "doc": ""
+            }
+          ],
           "meta": {
             "rest": {
               "method": "DELETE",
@@ -1103,6 +1445,10 @@
     {
       "@type": "Error",
       "name": "InvalidData"
+    },
+    {
+      "@type": "Error",
+      "name": "StaleData"
     }
   ]
 }

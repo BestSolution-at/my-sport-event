@@ -1,5 +1,8 @@
 package at.mspe.server.jpa.model;
 
+import java.util.UUID;
+import java.util.function.Function;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
@@ -15,7 +18,7 @@ import jakarta.persistence.Version;
 
 @Entity(name = "Cohort")
 @DiscriminatorColumn(name = "coh_type", discriminatorType = DiscriminatorType.INTEGER)
-public abstract class CohortEntity {
+public class CohortEntity {
     public static final String GENERIC_COHORT = "1";
     public static final String BIRTHYEAR_COHORT = "2";
 
@@ -25,14 +28,33 @@ public abstract class CohortEntity {
     @Column(name = "coh_id")
     public Long id;
 
+    @Column(name = "coh_key", unique = true, nullable = false, updatable = false)
+    public UUID key;
+
     @Version
     @Column(name = "coh_version")
     public long version;
 
-    String name;
+    @Column(name = "name", length = 255)
+    public String name;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "coh_fk_sportevent", foreignKey = @ForeignKey(name = "coh_fkey_sportevent"))
-    SportEventEntity sportEvent;
+    public SportEventEntity sportEvent;
 
+    public String name() {
+        return name;
+    }
+
+    public void name(String name) {
+        this.name = name;
+    }
+
+    public UUID key() {
+        return key;
+    }
+
+    public void key(UUID key) {
+        this.key = key;
+    }
 }

@@ -10,10 +10,11 @@ import jakarta.ws.rs.core.Response.ResponseBuilder;
 import at.mspe.server.rest.model._JsonUtils;
 import at.mspe.server.service.model.Cohort;
 import at.mspe.server.service.model.CohortNew;
+import at.mspe.server.service.model.UpdateResult;
 
 @Singleton
 public class EventCohortResourceResponseBuilder {
-	public ResponseBuilder get(Cohort.Data $result, String eventKey) {
+	public ResponseBuilder get(Cohort.Data $result, String eventKey, String key) {
 		return Response.status(200).entity(_JsonUtils.toJsonString($result, false));
 	}
 
@@ -25,11 +26,11 @@ public class EventCohortResourceResponseBuilder {
 		return Response.status(201).entity(_JsonUtils.encodeAsJsonString($result));
 	}
 
-	public ResponseBuilder update(String eventKey, String key, Cohort.Patch cohort) {
-		return Response.status(200);
+	public ResponseBuilder update(UpdateResult.Data $result, String eventKey, String key, Cohort.Patch cohort) {
+		return Response.status(200).entity(_JsonUtils.toJsonString($result, false));
 	}
 
-	public ResponseBuilder delete(String eventKey, String key) {
+	public ResponseBuilder delete(String eventKey, String key, Long version) {
 		return Response.status(200);
 	}
 

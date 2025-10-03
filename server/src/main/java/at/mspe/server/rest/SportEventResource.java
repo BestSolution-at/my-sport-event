@@ -7,6 +7,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -14,10 +15,11 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Produces;
 
 import at.mspe.server.service.InvalidDataException;
-import at.mspe.server.service.model.Participant;
+import at.mspe.server.service.model.SportEvent;
 import at.mspe.server.service.model.SportEventNew;
 import at.mspe.server.service.NotFoundException;
 import at.mspe.server.service.SportEventService;
+import at.mspe.server.service.StaleDataException;
 
 @ApplicationScoped
 @Path("/api/sportevent")
@@ -53,11 +55,11 @@ public class SportEventResource {
 	}
 
 	@POST
-	public Response create(String _participant) {
-		var participant = builderFactory.of(SportEventNew.Data.class, _participant);
+	public Response create(String _event) {
+		var event = builderFactory.of(SportEventNew.Data.class, _event);
 		try {
-			var result = service.create(builderFactory, participant);
-			return responseBuilder.create(result, participant).build();
+			var result = service.create(builderFactory, event);
+			return responseBuilder.create(result, event).build();
 		} catch (InvalidDataException e) {
 			return _RestUtils.toResponse(422, e);
 		}
@@ -67,30 +69,35 @@ public class SportEventResource {
 	@Path("{key}")
 	public Response update(
 			@PathParam("key") String _key,
-			String _participant) {
+			String _event) {
 		var key = _key;
-		var participant = builderFactory.of(Participant.Patch.class, _participant);
+		var event = builderFactory.of(SportEvent.Patch.class, _event);
 		try {
-			service.update(builderFactory, key, participant);
-			return responseBuilder.update(key, participant).build();
+			var result = service.update(builderFactory, key, event);
+			return responseBuilder.update(result, key, event).build();
 		} catch (NotFoundException e) {
 			return _RestUtils.toResponse(404, e);
 		} catch (InvalidDataException e) {
 			return _RestUtils.toResponse(422, e);
+		} catch (StaleDataException e) {
+			return _RestUtils.toResponse(412, e);
 		}
 	}
 
 	@DELETE
 	@Path("{key}")
-	public Response delete(@PathParam("key") String _key) {
+	public Response delete(
+			@PathParam("key") String _key,
+			@HeaderParam("version") Long _version) {
 		var key = _key;
+		var version = _version;
 		try {
-			service.delete(builderFactory, key);
-			return responseBuilder.delete(key).build();
+			service.delete(builderFactory, key, version);
+			return responseBuilder.delete(key, version).build();
 		} catch (NotFoundException e) {
 			return _RestUtils.toResponse(404, e);
-		} catch (InvalidDataException e) {
-			return _RestUtils.toResponse(422, e);
+		} catch (StaleDataException e) {
+			return _RestUtils.toResponse(412, e);
 		}
 	}
 

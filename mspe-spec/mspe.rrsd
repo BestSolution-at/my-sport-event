@@ -3,42 +3,54 @@ resource SportEvent at '/api/sportevent' {
         201
         422: InvalidData
     }
+    
     GET get at '${key}' => {
         200
         404: NotFound
     }
+    
     GET list at ''
-    DELETE delete at '${key}' => {
+
+    DELETE delete at '${key}'
+        header-param version => {
         200
         404: NotFound
-        422: InvalidData
+        412: StaleData
     }
+
     PATCH update at '${key}' => {
         200
         404: NotFound
         422: InvalidData
+        412: StaleData
     }
 }
 
 resource EventCohort at '/api/sportevent/${eventKey}/cohorts' {
     POST create at ''  => {
         201
+        404: NotFound
         422: InvalidData
     }
     GET get at '${key}' => {
         200
         404: NotFound
     }
-    GET list at ''
-    DELETE delete at '${key}' => {
+    GET list at ''  => {
         200
         404: NotFound
-        422: InvalidData
+    }
+    DELETE delete at '${key}'
+        header-param version => {
+        200
+        404: NotFound
+        412: StaleData
     }
     PATCH update at '${key}' => {
         200
         404: NotFound
         422: InvalidData
+        412: StaleData
     }
 }
 
@@ -52,7 +64,8 @@ resource EventParticipant at '/api/sportevent/${eventKey}/participants' {
         404: NotFound
     }
     GET list at ''
-    DELETE delete at '${key}' => {
+    DELETE delete at '${key}'
+        header-param version => {
         200
         404: NotFound
         422: InvalidData

@@ -16,6 +16,10 @@ public class BirthyearCohortDataImpl extends _BaseDataImpl implements BirthyearC
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	public long version() {
+		return _JsonUtils.mapLong(data, "version");
+	}
+
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
@@ -25,7 +29,7 @@ public class BirthyearCohortDataImpl extends _BaseDataImpl implements BirthyearC
 	}
 
 	public int max() {
-		return _JsonUtils.mapInt(data, "max", 0);
+		return _JsonUtils.mapInt(data, "max");
 	}
 
 	public static BirthyearCohort.Data of(JsonObject obj) {
@@ -33,7 +37,7 @@ public class BirthyearCohortDataImpl extends _BaseDataImpl implements BirthyearC
 	}
 
 	public String toString() {
-		return "%s[%s=%s]".formatted(getClass().getSimpleName(), "key", key());
+		return "%s[%s=%s@%s=%s]".formatted(getClass().getSimpleName(), "key", key(), "version", version());
 	}
 
 	public static class DataBuilderImpl implements BirthyearCohort.DataBuilder {
@@ -45,6 +49,11 @@ public class BirthyearCohortDataImpl extends _BaseDataImpl implements BirthyearC
 
 		public BirthyearCohort.DataBuilder key(String key) {
 			$builder.add("key", key);
+			return this;
+		}
+
+		public BirthyearCohort.DataBuilder version(long version) {
+			$builder.add("version", version);
 			return this;
 		}
 

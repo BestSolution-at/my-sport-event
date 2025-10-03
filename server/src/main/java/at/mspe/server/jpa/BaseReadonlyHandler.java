@@ -5,12 +5,16 @@ import org.hibernate.Session;
 import jakarta.persistence.EntityManager;
 
 public class BaseReadonlyHandler extends BaseHandler {
+    protected BaseReadonlyHandler() {
+        super();
+    }
 
     public BaseReadonlyHandler(EntityManager em) {
         super(em);
     }
 
-    public EntityManager em() {
+    @Override
+    EntityManager em() {
         this.em.unwrap(Session.class).setDefaultReadOnly(true);
         return this.em;
     }

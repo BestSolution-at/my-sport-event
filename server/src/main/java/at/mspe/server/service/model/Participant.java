@@ -12,6 +12,8 @@ public interface Participant {
 	public interface Data extends _Base.BaseData, Participant, ParticipantBaseMixin {
 		public String key();
 
+		public long version();
+
 		public List<String> teamMates();
 
 		public String firstname();
@@ -26,6 +28,8 @@ public interface Participant {
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<Participant.Data> {
 		public DataBuilder key(String key);
+
+		public DataBuilder version(long version);
 
 		public DataBuilder teamMates(List<String> teamMates);
 
@@ -42,6 +46,8 @@ public interface Participant {
 	public interface Patch extends _Base.BaseData, Participant {
 		public String key();
 
+		public long version();
+
 		public Optional<String> firstname();
 
 		public Optional<String> lastname();
@@ -54,6 +60,8 @@ public interface Participant {
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<Participant.Patch> {
 		public PatchBuilder key(String key);
+
+		public PatchBuilder version(long version);
 
 		public PatchBuilder firstname(String firstname);
 

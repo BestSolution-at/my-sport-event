@@ -18,6 +18,10 @@ public class GenericCohortPatchImpl extends _BaseDataImpl implements GenericCoho
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	public long version() {
+		return _JsonUtils.mapLong(data, "version");
+	}
+
 	public Optional<String> name() {
 		return _JsonUtils.mapOptString(data, "name");
 	}
@@ -31,6 +35,11 @@ public class GenericCohortPatchImpl extends _BaseDataImpl implements GenericCoho
 
 		public GenericCohort.PatchBuilder key(String key) {
 			$builder.add("key", key);
+			return this;
+		}
+
+		public GenericCohort.PatchBuilder version(long version) {
+			$builder.add("version", version);
 			return this;
 		}
 

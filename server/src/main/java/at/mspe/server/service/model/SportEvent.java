@@ -2,6 +2,7 @@
 package at.mspe.server.service.model;
 
 import java.time.ZonedDateTime;
+import java.util.Optional;
 
 import at.mspe.server.service.model.mixins.SportEventBaseMixin;
 
@@ -9,6 +10,8 @@ public interface SportEvent {
 
 	public interface Data extends _Base.BaseData, SportEvent, SportEventBaseMixin {
 		public String key();
+
+		public long version();
 
 		public String name();
 
@@ -19,9 +22,33 @@ public interface SportEvent {
 	public interface DataBuilder extends _Base.BaseDataBuilder<SportEvent.Data> {
 		public DataBuilder key(String key);
 
+		public DataBuilder version(long version);
+
 		public DataBuilder name(String name);
 
 		public DataBuilder date(ZonedDateTime date);
+
+	}
+
+	public interface Patch extends _Base.BaseData, SportEvent {
+		public String key();
+
+		public long version();
+
+		public Optional<String> name();
+
+		public Optional<ZonedDateTime> date();
+
+	}
+
+	public interface PatchBuilder extends _Base.BaseDataBuilder<SportEvent.Patch> {
+		public PatchBuilder key(String key);
+
+		public PatchBuilder version(long version);
+
+		public PatchBuilder name(String name);
+
+		public PatchBuilder date(ZonedDateTime date);
 
 	}
 }

@@ -3,19 +3,26 @@ package at.mspe.server.service;
 
 import java.util.List;
 
-import at.mspe.server.service.model.Participant;
 import at.mspe.server.service.model.SportEvent;
 import at.mspe.server.service.model.SportEventNew;
+import at.mspe.server.service.model.UpdateResult;
 
 public interface SportEventService {
-	public SportEvent.Data get(BuilderFactory _factory, String key);
+	public SportEvent.Data get(BuilderFactory _factory, String key)
+			throws NotFoundException;
 
 	public List<SportEvent.Data> list(BuilderFactory _factory);
 
-	public String create(BuilderFactory _factory, SportEventNew.Data participant);
+	public String create(BuilderFactory _factory, SportEventNew.Data event)
+			throws InvalidDataException;
 
-	public void update(BuilderFactory _factory, String key, Participant.Patch participant);
+	public UpdateResult.Data update(BuilderFactory _factory, String key, SportEvent.Patch event)
+			throws NotFoundException,
+			InvalidDataException,
+			StaleDataException;
 
-	public void delete(BuilderFactory _factory, String key);
+	public void delete(BuilderFactory _factory, String key, Long version)
+			throws NotFoundException,
+			StaleDataException;
 
 }

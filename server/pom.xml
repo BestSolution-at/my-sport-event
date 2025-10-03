@@ -56,6 +56,13 @@
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-hibernate-orm</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.uuid</groupId>
+            <artifactId>java-uuid-generator</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5</artifactId>
@@ -121,6 +128,28 @@
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                         <maven.home>${maven.home}</maven.home>
                     </systemPropertyVariables>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>at.bestsolution.maven</groupId>
+                <artifactId>hibernate6-ddl-maven-plugin</artifactId>
+                <version>1.2.0</version>
+                <executions>
+                    <execution>
+                        <id>gen-ddl</id>
+                        <goals>
+                            <goal>gen-ddl</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <dialects>
+                        <param>PostgreSQL@17</param>
+                    </dialects>
+                    <packages>
+                        <param>at.mspe.server.jpa.model</param>
+                    </packages>
+                    <outputDirectory>${project.basedir}/src/database/sql-generated</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>

@@ -18,6 +18,8 @@ import at.mspe.server.rest.model.ParticipantNewDataImpl;
 import at.mspe.server.rest.model.ParticipantPatchImpl;
 import at.mspe.server.rest.model.SportEventDataImpl;
 import at.mspe.server.rest.model.SportEventNewDataImpl;
+import at.mspe.server.rest.model.SportEventPatchImpl;
+import at.mspe.server.rest.model.UpdateResultDataImpl;
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.model._Base;
 import at.mspe.server.service.model.BirthyearCohort;
@@ -30,6 +32,7 @@ import at.mspe.server.service.model.Participant;
 import at.mspe.server.service.model.ParticipantNew;
 import at.mspe.server.service.model.SportEvent;
 import at.mspe.server.service.model.SportEventNew;
+import at.mspe.server.service.model.UpdateResult;
 
 @Singleton
 public class RestBuilderFactory implements BuilderFactory {
@@ -59,6 +62,9 @@ public class RestBuilderFactory implements BuilderFactory {
 		if (type == SportEvent.DataBuilder.class) {
 			return type.cast(SportEventDataImpl.builder());
 		}
+		if (type == SportEvent.PatchBuilder.class) {
+			return type.cast(SportEventPatchImpl.builder());
+		}
 		if (type == ParticipantNew.DataBuilder.class) {
 			return type.cast(ParticipantNewDataImpl.builder());
 		}
@@ -67,6 +73,9 @@ public class RestBuilderFactory implements BuilderFactory {
 		}
 		if (type == Participant.PatchBuilder.class) {
 			return type.cast(ParticipantPatchImpl.builder());
+		}
+		if (type == UpdateResult.DataBuilder.class) {
+			return type.cast(UpdateResultDataImpl.builder());
 		}
 		throw new IllegalArgumentException("Unsupported Builder '%s'".formatted(type));
 	}
@@ -96,6 +105,9 @@ public class RestBuilderFactory implements BuilderFactory {
 		if (type == SportEvent.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, SportEventDataImpl::of));
 		}
+		if (type == SportEvent.Patch.class) {
+			return type.cast(_JsonUtils.fromString(data, SportEventPatchImpl::of));
+		}
 		if (type == ParticipantNew.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, ParticipantNewDataImpl::of));
 		}
@@ -104,6 +116,9 @@ public class RestBuilderFactory implements BuilderFactory {
 		}
 		if (type == Participant.Patch.class) {
 			return type.cast(_JsonUtils.fromString(data, ParticipantPatchImpl::of));
+		}
+		if (type == UpdateResult.Data.class) {
+			return type.cast(_JsonUtils.fromString(data, UpdateResultDataImpl::of));
 		}
 		if (type == CohortNew.Data.class) {
 			return type.cast(_JsonUtils.fromString(data, CohortNewDataImpl::of));

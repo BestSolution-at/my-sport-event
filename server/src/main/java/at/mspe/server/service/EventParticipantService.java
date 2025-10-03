@@ -5,16 +5,26 @@ import java.util.List;
 
 import at.mspe.server.service.model.Participant;
 import at.mspe.server.service.model.ParticipantNew;
+import at.mspe.server.service.model.UpdateResult;
 
 public interface EventParticipantService {
-	public Participant.Data get(BuilderFactory _factory, String eventKey);
+	public Participant.Data get(BuilderFactory _factory, String eventKey)
+			throws NotFoundException;
 
-	public List<Participant.Data> list(BuilderFactory _factory, String eventKey);
+	public List<Participant.Data> list(BuilderFactory _factory, String eventKey)
+			throws NotFoundException;
 
-	public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant);
+	public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant)
+			throws NotFoundException,
+			InvalidDataException;
 
-	public void update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant);
+	public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant)
+			throws NotFoundException,
+			InvalidDataException,
+			StaleDataException;
 
-	public void delete(BuilderFactory _factory, String eventKey, String key);
+	public void delete(BuilderFactory _factory, String eventKey, String key, Long version)
+			throws NotFoundException,
+			StaleDataException;
 
 }

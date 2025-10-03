@@ -16,6 +16,10 @@ public class GenericCohortDataImpl extends _BaseDataImpl implements GenericCohor
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	public long version() {
+		return _JsonUtils.mapLong(data, "version");
+	}
+
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
@@ -25,7 +29,7 @@ public class GenericCohortDataImpl extends _BaseDataImpl implements GenericCohor
 	}
 
 	public String toString() {
-		return "%s[%s=%s]".formatted(getClass().getSimpleName(), "key", key());
+		return "%s[%s=%s@%s=%s]".formatted(getClass().getSimpleName(), "key", key(), "version", version());
 	}
 
 	public static class DataBuilderImpl implements GenericCohort.DataBuilder {
@@ -37,6 +41,11 @@ public class GenericCohortDataImpl extends _BaseDataImpl implements GenericCohor
 
 		public GenericCohort.DataBuilder key(String key) {
 			$builder.add("key", key);
+			return this;
+		}
+
+		public GenericCohort.DataBuilder version(long version) {
+			$builder.add("version", version);
 			return this;
 		}
 

@@ -19,6 +19,10 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	public long version() {
+		return _JsonUtils.mapLong(data, "version");
+	}
+
 	public List<String> teamMates() {
 		return _JsonUtils.mapStrings(data, "teamMates");
 	}
@@ -44,7 +48,7 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 	}
 
 	public String toString() {
-		return "%s[%s=%s]".formatted(getClass().getSimpleName(), "key", key());
+		return "%s[%s=%s@%s=%s]".formatted(getClass().getSimpleName(), "key", key(), "version", version());
 	}
 
 	public static class DataBuilderImpl implements Participant.DataBuilder {
@@ -52,6 +56,11 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 
 		public Participant.DataBuilder key(String key) {
 			$builder.add("key", key);
+			return this;
+		}
+
+		public Participant.DataBuilder version(long version) {
+			$builder.add("version", version);
 			return this;
 		}
 

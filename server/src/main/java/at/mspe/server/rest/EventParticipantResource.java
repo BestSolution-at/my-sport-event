@@ -7,6 +7,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.PATCH;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -77,8 +78,8 @@ public class EventParticipantResource {
 		var key = _key;
 		var participant = builderFactory.of(Participant.Patch.class, _participant);
 		try {
-			service.update(builderFactory, eventKey, key, participant);
-			return responseBuilder.update(eventKey, key, participant).build();
+			var result = service.update(builderFactory, eventKey, key, participant);
+			return responseBuilder.update(result, eventKey, key, participant).build();
 		} catch (NotFoundException e) {
 			return _RestUtils.toResponse(404, e);
 		} catch (InvalidDataException e) {
@@ -90,12 +91,14 @@ public class EventParticipantResource {
 	@Path("{key}")
 	public Response delete(
 			@PathParam("eventKey") String _eventKey,
-			@PathParam("key") String _key) {
+			@PathParam("key") String _key,
+			@HeaderParam("version") Long _version) {
 		var eventKey = _eventKey;
 		var key = _key;
+		var version = _version;
 		try {
-			service.delete(builderFactory, eventKey, key);
-			return responseBuilder.delete(eventKey, key).build();
+			service.delete(builderFactory, eventKey, key, version);
+			return responseBuilder.delete(eventKey, key, version).build();
 		} catch (NotFoundException e) {
 			return _RestUtils.toResponse(404, e);
 		} catch (InvalidDataException e) {

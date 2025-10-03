@@ -6,7 +6,8 @@ import at.mspe.server.service.model._Base;
 public class RSDException extends RuntimeException {
 	public enum Type {
 		NotFound,
-		InvalidData;
+		InvalidData,
+		StaleData;
 	}
 
 	public final Type type;
