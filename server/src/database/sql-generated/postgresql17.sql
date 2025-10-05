@@ -5,15 +5,25 @@
 
     create sequence sportevent_seq_id start with 1 increment by 1;
 
+    create table BirthyearCohort (
+        coh_max integer not null,
+        coh_min integer not null,
+        coh_id bigint not null,
+        primary key (coh_id)
+    );
+
     create table Cohort (
         coh_type integer not null,
         coh_id bigint not null,
         coh_key uuid not null unique,
-        name varchar(255),
+        coh_name varchar(255),
         coh_version bigint,
-        coh_max integer not null,
-        coh_min integer not null,
         coh_fk_sportevent bigint not null,
+        primary key (coh_id)
+    );
+
+    create table GenericCohort (
+        coh_id bigint not null,
         primary key (coh_id)
     );
 
@@ -28,7 +38,7 @@
         par_team varchar(255),
         par_version bigint,
         par_fk_cohort bigint,
-        par_fk_sportevent bigint,
+        par_fk_sportevent bigint not null,
         primary key (par_id)
     );
 
@@ -42,10 +52,20 @@
         constraint sportevent_uq_key unique (see_key)
     );
 
+    alter table if exists BirthyearCohort 
+       add constraint FKo30cxi0bx2o049o72k9ikf9xl 
+       foreign key (coh_id) 
+       references Cohort;
+
     alter table if exists Cohort 
        add constraint coh_fkey_sportevent 
        foreign key (coh_fk_sportevent) 
        references SportEvent;
+
+    alter table if exists GenericCohort 
+       add constraint FKfblrp5hdqjfb4xj8u3wbybw87 
+       foreign key (coh_id) 
+       references Cohort;
 
     alter table if exists Participant 
        add constraint par_fkey_cohort 

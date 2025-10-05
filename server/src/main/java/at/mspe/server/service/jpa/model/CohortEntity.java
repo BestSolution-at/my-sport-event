@@ -1,7 +1,6 @@
 package at.mspe.server.service.jpa.model;
 
 import java.util.UUID;
-import java.util.function.Function;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
@@ -11,6 +10,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
@@ -18,6 +19,7 @@ import jakarta.persistence.Version;
 
 @Entity(name = "Cohort")
 @DiscriminatorColumn(name = "coh_type", discriminatorType = DiscriminatorType.INTEGER)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class CohortEntity {
     public static final String GENERIC_COHORT = "1";
     public static final String BIRTHYEAR_COHORT = "2";
@@ -35,7 +37,7 @@ public class CohortEntity {
     @Column(name = "coh_version")
     public long version;
 
-    @Column(name = "name", length = 255)
+    @Column(name = "coh_name", length = 255)
     public String name;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

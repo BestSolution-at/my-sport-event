@@ -18,17 +18,18 @@ public class CreateHandlerJPA extends BaseHandler implements SportEventServiceIm
     }
 
     @Override
+    @Transactional
     public String create(BuilderFactory _factory, SportEventNew.Data event) {
-        return apply(em -> create(em, _factory, event));
+        return apply(em -> create(em, event));
     }
 
-    @Transactional
-    public String create(EntityManager em, BuilderFactory _factory, SportEventNew.Data event) {
+    private static String create(EntityManager em, SportEventNew.Data event) {
         var entity = SportEventEntity.builder()
                 .key(generateKey())
                 .name(event.name())
                 .date(event.date())
                 .build();
+        SportEventEntity.validate(entity);
         em.persist(entity);
         return entity.key.toString();
     }

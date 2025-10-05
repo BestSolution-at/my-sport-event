@@ -3,6 +3,7 @@ package at.mspe.server.service.jpa.model;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
+import at.mspe.server.service.InvalidDataException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -92,10 +93,10 @@ public class SportEventEntity {
 
     public static void validate(SportEventEntity entity) {
         if (entity.name == null || entity.name.isBlank()) {
-            throw new IllegalArgumentException("Name must not be empty");
+            throw new InvalidDataException("Name must not be empty");
         }
         if (entity.date == null) {
-            throw new IllegalArgumentException("Date must not be empty");
+            throw new InvalidDataException("Date must not be empty");
         }
     }
 }

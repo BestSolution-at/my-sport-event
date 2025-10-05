@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.UUID;
 import java.util.function.Function;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -53,7 +52,7 @@ public class ParticipantEntity {
     @JoinColumn(name = "par_fk_cohort", foreignKey = @ForeignKey(name = "par_fkey_cohort"))
     public CohortEntity cohort;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "par_fk_sportevent", foreignKey = @ForeignKey(name = "par_fkey_sportevent"))
     public SportEventEntity sportEvent;
 
