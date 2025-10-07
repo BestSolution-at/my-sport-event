@@ -28,12 +28,12 @@ public class UpdateHandlerJPA extends BaseHandler implements EventCohortServiceI
     }
 
     @Override
+    @Transactional
     public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Cohort.Patch cohort) {
         return apply(em -> update(em, _factory, eventKey, key, cohort));
     }
 
-    @Transactional
-    public UpdateResult.Data update(EntityManager em, BuilderFactory factory, String eventKey, String key,
+    private static UpdateResult.Data update(EntityManager em, BuilderFactory factory, String eventKey, String key,
             Cohort.Patch cohort) {
         if (!Objects.equals(key, cohort.key())) {
             throw new InvalidDataException(

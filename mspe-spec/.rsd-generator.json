@@ -20,6 +20,17 @@
                 "DayOfWeek": "java.time.DayOfWeek",
                 "Month": "java.time.Month"
             }
+        },
+        {
+            "name": "typescript-client-api",
+            "targetFolder": "../admin-frontend/src/remote",
+            "allowImportingTsExtensions": true
+        },
+        {
+            "name": "typescript-rest-client-fetch",
+            "targetFolder": "../admin-frontend/src/remote",
+            "allowImportingTsExtensions": true,
+            "apiNamespacePath": "../index.ts"
         }
     ]
 }

@@ -23,7 +23,7 @@ public class ListHandlerJPA extends BaseReadonlyHandler implements SportEventSer
         return apply(em -> list(em, _factory));
     }
 
-    public List<SportEvent.Data> list(EntityManager em, BuilderFactory _factory) {
+    private static List<SportEvent.Data> list(EntityManager em, BuilderFactory _factory) {
         var entities = em.createQuery("""
                 SELECT
                     se

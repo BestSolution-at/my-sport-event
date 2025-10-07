@@ -25,8 +25,11 @@ public class BaseTest {
 
     public String SimpleEmptyEventKey;
     public String FullEventKey;
+
     public String FullEvent_GenericCohortKey;
     public String FullEvent_BirthyearCohortKey;
+    public String FullEvent_GenericCohortNotReferencedKey;
+
     public String FullEvent_ParticpantKey;
     public String FullEvent_ParticpantWithGenericCohortKey;
     public String FullEvent_ParticpantWithBirthyearCohortKey;
@@ -70,6 +73,17 @@ public class BaseTest {
         }
 
         {
+
+            var cohort = GenericCohortEntity.builder()
+                    .key(UUID.randomUUID())
+                    .name("Generic Cohort - not referenced")
+                    .sportEvent(event)
+                    .build();
+            em.persist(cohort);
+            this.FullEvent_GenericCohortNotReferencedKey = cohort.key.toString();
+        }
+
+        {
             var cohort = GenericCohortEntity.builder()
                     .key(UUID.randomUUID())
                     .name("Generic Cohort")
@@ -85,6 +99,7 @@ public class BaseTest {
                         .firstname("Jane")
                         .lastname("Dune")
                         .sportEvent(event)
+                        .cohort(cohort)
                         .build();
                 em.persist(participant);
                 this.FullEvent_ParticpantWithGenericCohortKey = participant.key.toString();
@@ -110,6 +125,7 @@ public class BaseTest {
                         .firstname("Jim")
                         .lastname("Dome")
                         .sportEvent(event)
+                        .cohort(cohort)
                         .build();
                 em.persist(participant);
                 this.FullEvent_ParticpantWithBirthyearCohortKey = participant.key.toString();
@@ -162,6 +178,7 @@ public class BaseTest {
                     pa
                 FROM
                     Participant pa
+                LEFT JOIN FETCH pa.cohort
                 WHERE
                     pa.key = :key
                 """, ParticipantEntity.class);

@@ -25,7 +25,7 @@ public class ListHandlerJPA extends BaseReadonlyHandler implements EventCohortSe
         return apply(em -> list(em, _factory, eventKey));
     }
 
-    public List<Cohort.Data> list(EntityManager em, BuilderFactory _factory, String _eventKey) {
+    private static List<Cohort.Data> list(EntityManager em, BuilderFactory factory, String _eventKey) {
         var eventKey = Utils.parseUUID(_eventKey, SportEventHelper.NOT_FOUND);
         var query = em.createQuery("""
                 SELECT
@@ -36,9 +36,12 @@ public class ListHandlerJPA extends BaseReadonlyHandler implements EventCohortSe
                     co.sportEvent.key = :eventKey
                 """, CohortEntity.class);
         query.setParameter("eventKey", eventKey);
+        if (query.getResultList().isEmpty()) {
+            SportEventHelper.findSportEventByKey(em, _eventKey);
+        }
         return query.getResultList()
                 .stream()
-                .map(e -> EventCohortHelper.toData(e, _factory))
+                .map(e -> EventCohortHelper.toData(e, factory))
                 .toList();
     }
 }

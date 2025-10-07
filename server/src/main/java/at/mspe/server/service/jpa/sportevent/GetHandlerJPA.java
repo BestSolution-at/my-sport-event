@@ -20,7 +20,7 @@ public class GetHandlerJPA extends BaseReadonlyHandler implements SportEventServ
         return apply(em -> get(em, factory, key));
     }
 
-    public SportEvent.Data get(EntityManager em, BuilderFactory factory, String key) {
+    private static SportEvent.Data get(EntityManager em, BuilderFactory factory, String key) {
         var entity = SportEventHelper.findSportEventByKey(em, key);
         return SportEventHelper.toData(entity, factory);
     }

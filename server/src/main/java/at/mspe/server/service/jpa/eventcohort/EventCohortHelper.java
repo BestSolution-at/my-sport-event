@@ -22,14 +22,14 @@ public class EventCohortHelper {
         try {
             return em.createQuery("""
                     SELECT
-                        c
+                        co
                     FROM
-                        CohortEntity c
+                        Cohort co
                     WHERE
-                        c.event.key = :eventKey
-                    AND c.key = :key
+                        co.sportEvent.key = :eventKey
+                    AND co.key = :key
                     """, CohortEntity.class)
-                    .setParameter("key", eventKey)
+                    .setParameter("eventKey", eventKey)
                     .setParameter("key", key)
                     .getSingleResult();
         } catch (NoResultException ex) {

@@ -27,11 +27,11 @@ public class BaseHandler {
         return Generators.timeBasedEpochGenerator().generate();
     }
 
-    public void accept(Consumer<EntityManager> consumer) {
+    protected void accept(Consumer<EntityManager> consumer) {
         consumer.accept(em());
     }
 
-    public <T> T apply(Function<EntityManager, T> function) {
+    protected <T> T apply(Function<EntityManager, T> function) {
         return function.apply(em());
     }
 }

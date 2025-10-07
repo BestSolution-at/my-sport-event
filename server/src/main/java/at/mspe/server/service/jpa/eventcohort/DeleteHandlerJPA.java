@@ -43,7 +43,7 @@ public class DeleteHandlerJPA extends BaseHandler implements EventCohortServiceI
                 SELECT
                     pa
                 FROM
-                    Participant
+                    Participant pa
                 WHERE
                     pa.cohort = :cohort
                 """, ParticipantEntity.class);

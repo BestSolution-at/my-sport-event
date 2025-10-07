@@ -7,6 +7,7 @@ import at.mspe.server.service.jpa.model.SportEventEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.StaleDataException;
@@ -23,11 +24,13 @@ public class UpdateHandlerJPA extends BaseHandler implements SportEventServiceIm
     }
 
     @Override
+    @Transactional
     public UpdateResult.Data update(BuilderFactory _factory, String key, SportEvent.Patch event) {
         return apply(em -> update(em, _factory, key, event));
     }
 
-    public UpdateResult.Data update(EntityManager em, BuilderFactory factory, String key, SportEvent.Patch event) {
+    private static UpdateResult.Data update(EntityManager em, BuilderFactory factory, String key,
+            SportEvent.Patch event) {
         if (!Objects.equals(key, event.key())) {
             throw new InvalidDataException("key '%s' and event.key '%s' have to be equal".formatted(key, event.key()));
         }

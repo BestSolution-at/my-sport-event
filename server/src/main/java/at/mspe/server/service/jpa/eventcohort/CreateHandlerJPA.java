@@ -7,7 +7,9 @@ import at.mspe.server.service.jpa.sportevent.SportEventHelper;
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.impl.EventCohortServiceImpl;
 import at.mspe.server.service.model.BirthyearCohort;
+import at.mspe.server.service.model.BirthyearCohortNew;
 import at.mspe.server.service.model.GenericCohort;
+import at.mspe.server.service.model.GenericCohortNew;
 import at.mspe.server.service.model.CohortNew;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -22,16 +24,16 @@ public class CreateHandlerJPA extends BaseHandler implements EventCohortServiceI
         super(em);
     }
 
+    @Transactional
     @Override
     public String create(BuilderFactory _factory, String eventKey, CohortNew.Data cohort) {
         return apply(em -> create(em, _factory, eventKey, cohort));
     }
 
-    @Transactional
-    public String create(EntityManager em, BuilderFactory factory, String eventKey, CohortNew.Data cohort) {
+    private static String create(EntityManager em, BuilderFactory factory, String eventKey, CohortNew.Data cohort) {
         var sportEvent = SportEventHelper.findSportEventByKey(em, eventKey);
 
-        if (cohort instanceof GenericCohort.Data generic) {
+        if (cohort instanceof GenericCohortNew.Data generic) {
             var entity = GenericCohortEntity.builder()
                     .key(generateKey())
                     .name(generic.name())
@@ -41,7 +43,7 @@ public class CreateHandlerJPA extends BaseHandler implements EventCohortServiceI
             em.persist(entity);
             em.flush();
             return entity.key.toString();
-        } else if (cohort instanceof BirthyearCohort.Data birthyear) {
+        } else if (cohort instanceof BirthyearCohortNew.Data birthyear) {
             var entity = BirthyearCohortEntity.builder()
                     .key(generateKey())
                     .name(birthyear.name())

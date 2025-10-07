@@ -2,6 +2,7 @@ package at.mspe.server.service.jpa.model.cohort;
 
 import java.util.UUID;
 
+import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.jpa.model.CohortEntity;
 import at.mspe.server.service.jpa.model.SportEventEntity;
 import jakarta.persistence.DiscriminatorValue;
@@ -46,7 +47,7 @@ public class GenericCohortEntity extends CohortEntity {
 
     public static void validate(GenericCohortEntity entity) {
         if (entity.name == null || entity.name.isBlank()) {
-            throw new IllegalArgumentException("Name must not be empty");
+            throw new InvalidDataException("Name must not be empty");
         }
     }
 }

@@ -126,7 +126,7 @@ service EventCohort {
 }
 
 service EventParticipant {
-    operation get(eventKey: string): Participant
+    operation get(eventKey: string, key: string): Participant
         throws
             NotFound;
     
