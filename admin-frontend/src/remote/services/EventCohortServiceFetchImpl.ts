@@ -220,3 +220,4 @@ function fnDelete(props: ServiceProps<api.service.ErrorType>): api.service.Event
 		}
 	};
 }
+
