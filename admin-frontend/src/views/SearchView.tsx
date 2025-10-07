@@ -1,16 +1,13 @@
-import { Divider } from '../components/divider';
-import { Heading } from '../components/heading';
-
 import { useLocalizedStringFormatter } from '@react-aria/i18n';
 import { messages } from '../messages';
+import { ViewHeader } from './utils/ViewHeader';
 
 export function SearchView() {
-	const x = useLocalizedStringFormatter(messages);
+	const message = useLocalizedStringFormatter(messages);
 
 	return (
 		<div className="mx-auto mx-w6xl">
-			<Heading>{x.format('SearchView_Title')}</Heading>
-			<Divider className="mt-6" />
+			<ViewHeader title={message.format('SearchView_Title')} />
 		</div>
 	);
 }

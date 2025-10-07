@@ -16,7 +16,7 @@ public class GetHandlerJPA extends BaseReadonlyHandler implements EventParticipa
     }
 
     @Override
-    public Data get(BuilderFactory _factory, String eventKey) {
+    public Data get(BuilderFactory _factory, String eventKey, String key) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'get'");
     }

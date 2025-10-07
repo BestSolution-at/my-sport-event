@@ -33,6 +33,7 @@ public class SportEventHelper {
     public static SportEvent.Data toData(SportEventEntity entity, BuilderFactory factory) {
         return factory.builder(SportEvent.DataBuilder.class)
                 .key(entity.key.toString())
+                .version(entity.version)
                 .name(entity.name)
                 .date(entity.date)
                 .build();

@@ -68,11 +68,12 @@ resource EventParticipant at '/api/sportevent/${eventKey}/participants' {
         header-param version => {
         200
         404: NotFound
-        422: InvalidData
+        412: StaleData
     }
     PATCH update at '${key}' => {
         200
         404: NotFound
         422: InvalidData
+        412: StaleData
     }
 }

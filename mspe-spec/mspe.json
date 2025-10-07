@@ -1348,6 +1348,10 @@
                 {
                   "statusCode": 422,
                   "error": "InvalidData"
+                },
+                {
+                  "statusCode": 412,
+                  "error": "StaleData"
                 }
               ]
             }
@@ -1439,8 +1443,8 @@
                   "error": "NotFound"
                 },
                 {
-                  "statusCode": 422,
-                  "error": "InvalidData"
+                  "statusCode": 412,
+                  "error": "StaleData"
                 }
               ]
             }

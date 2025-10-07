@@ -19,6 +19,7 @@ import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.model.Participant;
 import at.mspe.server.service.model.ParticipantNew;
 import at.mspe.server.service.NotFoundException;
+import at.mspe.server.service.StaleDataException;
 
 @ApplicationScoped
 @Path("/api/sportevent/{eventKey}/participants")
@@ -87,6 +88,8 @@ public class EventParticipantResource {
 			return _RestUtils.toResponse(404, e);
 		} catch (InvalidDataException e) {
 			return _RestUtils.toResponse(422, e);
+		} catch (StaleDataException e) {
+			return _RestUtils.toResponse(412, e);
 		}
 	}
 
@@ -104,8 +107,8 @@ public class EventParticipantResource {
 			return responseBuilder.delete(eventKey, key, version).build();
 		} catch (NotFoundException e) {
 			return _RestUtils.toResponse(404, e);
-		} catch (InvalidDataException e) {
-			return _RestUtils.toResponse(422, e);
+		} catch (StaleDataException e) {
+			return _RestUtils.toResponse(412, e);
 		}
 	}
 

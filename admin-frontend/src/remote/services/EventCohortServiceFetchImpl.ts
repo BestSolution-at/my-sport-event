@@ -24,23 +24,23 @@ function fnGet(props: ServiceProps<api.service.ErrorType>): api.service.EventCoh
 			const $path = `${baseUrl}/api/sportevent/${eventKey}/cohorts/${key}`;
 			const $response = await fetchAPI($path, { ...$init, method: 'GET' });
 
-			if($response.status === 200) {
+			if ($response.status === 200) {
 				const $data = await $response.json();
 				const $result = api.model.CohortFromJSON($data);
 				return safeExecute(api.result.OK($result), () => onSuccess?.('get', $result));
-			} else if($response.status === 404) {
+			} else if ($response.status === 404) {
 				const err = {
 					_type: 'NotFound',
 					message: await $response.text(),
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('get', err));
 			}
-			const err = { _type: '_Status', message: $response.statusText, status: $response.status, } as const;
+			const err = { _type: '_Status', message: $response.statusText, status: $response.status } as const;
 			return api.result.ERR(err);
-		} catch(e) {
-			onCatch?.('get', e)
+		} catch (e) {
+			onCatch?.('get', e);
 			const ee = e instanceof Error ? e : new Error('', { cause: e });
-			const err = { _type: '_Native', message: ee.message, error: ee, } as const;
+			const err = { _type: '_Native', message: ee.message, error: ee } as const;
 			return api.result.ERR(err);
 		} finally {
 			final?.('get');
@@ -61,26 +61,26 @@ function fnList(props: ServiceProps<api.service.ErrorType>): api.service.EventCo
 			const $path = `${baseUrl}/api/sportevent/${eventKey}/cohorts/`;
 			const $response = await fetchAPI($path, { ...$init, method: 'GET' });
 
-			if($response.status === 200) {
+			if ($response.status === 200) {
 				const $data = await $response.json();
-				if(!api.utils.isArray) {
+				if (!api.utils.isArray) {
 					throw new Error('Invalid result');
 				}
 				const $result = $data.map(api.model.CohortFromJSON);
 				return safeExecute(api.result.OK($result), () => onSuccess?.('list', $result));
-			} else if($response.status === 404) {
+			} else if ($response.status === 404) {
 				const err = {
 					_type: 'NotFound',
 					message: await $response.text(),
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('list', err));
 			}
-			const err = { _type: '_Status', message: $response.statusText, status: $response.status, } as const;
+			const err = { _type: '_Status', message: $response.statusText, status: $response.status } as const;
 			return api.result.ERR(err);
-		} catch(e) {
-			onCatch?.('list', e)
+		} catch (e) {
+			onCatch?.('list', e);
 			const ee = e instanceof Error ? e : new Error('', { cause: e });
-			const err = { _type: '_Native', message: ee.message, error: ee, } as const;
+			const err = { _type: '_Native', message: ee.message, error: ee } as const;
 			return api.result.ERR(err);
 		} finally {
 			final?.('list');
@@ -101,28 +101,28 @@ function fnCreate(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			const $path = `${baseUrl}/api/sportevent/${eventKey}/cohorts/`;
 			const $body = JSON.stringify(api.model.CohortNewToJSON(cohort));
 			const $response = await fetchAPI($path, { ...$init, method: 'POST', body: $body });
-			if($response.status === 201) {
+			if ($response.status === 201) {
 				const $data = await $response.json();
 				return safeExecute(api.result.OK($data), () => onSuccess?.('create', $data));
-			} else if($response.status === 404) {
+			} else if ($response.status === 404) {
 				const err = {
 					_type: 'NotFound',
 					message: await $response.text(),
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('create', err));
-			} else if($response.status === 422) {
+			} else if ($response.status === 422) {
 				const err = {
 					_type: 'InvalidData',
 					message: await $response.text(),
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('create', err));
 			}
-			const err = { _type: '_Status', message: $response.statusText, status: $response.status, } as const;
+			const err = { _type: '_Status', message: $response.statusText, status: $response.status } as const;
 			return api.result.ERR(err);
-		} catch(e) {
-			onCatch?.('create', e)
+		} catch (e) {
+			onCatch?.('create', e);
 			const ee = e instanceof Error ? e : new Error('', { cause: e });
-			const err = { _type: '_Native', message: ee.message, error: ee, } as const;
+			const err = { _type: '_Native', message: ee.message, error: ee } as const;
 			return api.result.ERR(err);
 		} finally {
 			final?.('create');
@@ -133,7 +133,7 @@ function fnCreate(props: ServiceProps<api.service.ErrorType>): api.service.Event
 function fnUpdate(props: ServiceProps<api.service.ErrorType>): api.service.EventCohortService['update'] {
 	const { baseUrl, fetchAPI = fetch, lifecycleHandlers = {} } = props;
 	const { preFetch, onSuccess, onError, onCatch, final } = lifecycleHandlers;
-	return async (eventKey: string, key: string, cohort: api.model.Cohort) => {
+	return async (eventKey: string, key: string, cohort: api.model.CohortPatch) => {
 		try {
 			const $init = (await preFetch?.('update')) ?? {};
 			const $headers = new Headers($init.headers ?? {});
@@ -143,35 +143,35 @@ function fnUpdate(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			const $path = `${baseUrl}/api/sportevent/${eventKey}/cohorts/${key}`;
 			const $body = JSON.stringify(api.model.CohortPatchToJSON(cohort));
 			const $response = await fetchAPI($path, { ...$init, method: 'PATCH', body: $body });
-			if($response.status === 200) {
+			if ($response.status === 200) {
 				const $data = await $response.json();
 				const $result = api.model.UpdateResultFromJSON($data);
 				return safeExecute(api.result.OK($result), () => onSuccess?.('update', $result));
-			} else if($response.status === 404) {
+			} else if ($response.status === 404) {
 				const err = {
 					_type: 'NotFound',
 					message: await $response.text(),
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('update', err));
-			} else if($response.status === 422) {
+			} else if ($response.status === 422) {
 				const err = {
 					_type: 'InvalidData',
 					message: await $response.text(),
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('update', err));
-			} else if($response.status === 412) {
+			} else if ($response.status === 412) {
 				const err = {
 					_type: 'StaleData',
 					message: await $response.text(),
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('update', err));
 			}
-			const err = { _type: '_Status', message: $response.statusText, status: $response.status, } as const;
+			const err = { _type: '_Status', message: $response.statusText, status: $response.status } as const;
 			return api.result.ERR(err);
-		} catch(e) {
-			onCatch?.('update', e)
+		} catch (e) {
+			onCatch?.('update', e);
 			const ee = e instanceof Error ? e : new Error('', { cause: e });
-			const err = { _type: '_Native', message: ee.message, error: ee, } as const;
+			const err = { _type: '_Native', message: ee.message, error: ee } as const;
 			return api.result.ERR(err);
 		} finally {
 			final?.('update');
@@ -187,37 +187,36 @@ function fnDelete(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			const $init = (await preFetch?.('delete')) ?? {};
 			const $headers = new Headers($init.headers ?? {});
 			$headers.append('Content-Type', 'application/json');
-			ifDefined(version, v => $headers.append('version',`${v}`));
+			ifDefined(version, v => $headers.append('version', `${v}`));
 			$init.headers = $headers;
 
 			const $path = `${baseUrl}/api/sportevent/${eventKey}/cohorts/${key}`;
 			const $response = await fetchAPI($path, { ...$init, method: 'DELETE' });
 
-			if($response.status === 200) {
+			if ($response.status === 200) {
 				return safeExecute(api.result.OK(api.result.Void), () => onSuccess?.('delete', api.result.Void));
-			} else if($response.status === 404) {
+			} else if ($response.status === 404) {
 				const err = {
 					_type: 'NotFound',
 					message: await $response.text(),
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('delete', err));
-			} else if($response.status === 412) {
+			} else if ($response.status === 412) {
 				const err = {
 					_type: 'StaleData',
 					message: await $response.text(),
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('delete', err));
 			}
-			const err = { _type: '_Status', message: $response.statusText, status: $response.status, } as const;
+			const err = { _type: '_Status', message: $response.statusText, status: $response.status } as const;
 			return api.result.ERR(err);
-		} catch(e) {
-			onCatch?.('delete', e)
+		} catch (e) {
+			onCatch?.('delete', e);
 			const ee = e instanceof Error ? e : new Error('', { cause: e });
-			const err = { _type: '_Native', message: ee.message, error: ee, } as const;
+			const err = { _type: '_Native', message: ee.message, error: ee } as const;
 			return api.result.ERR(err);
 		} finally {
 			final?.('delete');
 		}
 	};
 }
-
