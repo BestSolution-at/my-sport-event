@@ -37,6 +37,6 @@ export async function $<X extends NonUndefined, Y extends RSDError>(source: Prom
 	if (r !== null) {
 		throw r;
 	}
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	return o as any;
+	return o as X;
 }
+

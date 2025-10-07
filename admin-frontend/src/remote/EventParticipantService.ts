@@ -6,7 +6,7 @@ import type { ParticipantNew } from './model/ParticipantNew.ts';
 import type { UpdateResult } from './model/UpdateResult.ts';
 
 export interface EventParticipantService {
-	get(eventKey: string): Promise<Result<Participant, NotFoundError | StatusRSDError | NativeRSDError>>;
+	get(eventKey: string, key: string): Promise<Result<Participant, NotFoundError | StatusRSDError | NativeRSDError>>;
 	list(eventKey: string): Promise<Result<Participant[], NotFoundError | StatusRSDError | NativeRSDError>>;
 	create(eventKey: string, participant: ParticipantNew): Promise<Result<string, NotFoundError | InvalidDataError | StatusRSDError | NativeRSDError>>;
 	update(eventKey: string, key: string, participant: ParticipantPatch): Promise<Result<UpdateResult, NotFoundError | InvalidDataError | StaleDataError | StatusRSDError | NativeRSDError>>;

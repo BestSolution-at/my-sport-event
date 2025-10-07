@@ -14,7 +14,7 @@ import at.mspe.server.service.model.UpdateResult;
 
 @Singleton
 public class EventParticipantResourceResponseBuilder {
-	public ResponseBuilder get(Participant.Data $result, String eventKey) {
+	public ResponseBuilder get(Participant.Data $result, String eventKey, String key) {
 		return Response.status(200).entity(_JsonUtils.toJsonString($result, false));
 	}
 

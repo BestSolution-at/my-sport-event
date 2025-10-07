@@ -8,7 +8,7 @@ import at.mspe.server.service.model.ParticipantNew;
 import at.mspe.server.service.model.UpdateResult;
 
 public interface EventParticipantService {
-	public Participant.Data get(BuilderFactory _factory, String eventKey)
+	public Participant.Data get(BuilderFactory _factory, String eventKey, String key)
 			throws NotFoundException;
 
 	public List<Participant.Data> list(BuilderFactory _factory, String eventKey)

@@ -31,9 +31,9 @@ public class EventParticipantServiceImpl implements EventParticipantService {
 	}
 
 	@Override
-	public Participant.Data get(BuilderFactory _factory, String eventKey)
+	public Participant.Data get(BuilderFactory _factory, String eventKey, String key)
 			throws NotFoundException {
-		return getHandler.get(_factory, eventKey);
+		return getHandler.get(_factory, eventKey, key);
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class EventParticipantServiceImpl implements EventParticipantService {
 	}
 
 	public interface GetHandler {
-		public Participant.Data get(BuilderFactory _factory, String eventKey)
+		public Participant.Data get(BuilderFactory _factory, String eventKey, String key)
 				throws NotFoundException;
 	}
 

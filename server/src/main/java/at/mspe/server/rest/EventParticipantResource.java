@@ -37,11 +37,14 @@ public class EventParticipantResource {
 
 	@GET
 	@Path("{key}")
-	public Response get(@PathParam("eventKey") String _eventKey) {
+	public Response get(
+			@PathParam("eventKey") String _eventKey,
+			@PathParam("key") String _key) {
 		var eventKey = _eventKey;
+		var key = _key;
 		try {
-			var result = service.get(builderFactory, eventKey);
-			return responseBuilder.get(result, eventKey).build();
+			var result = service.get(builderFactory, eventKey, key);
+			return responseBuilder.get(result, eventKey, key).build();
 		} catch (NotFoundException e) {
 			return _RestUtils.toResponse(404, e);
 		}

@@ -14,7 +14,7 @@ export function createEventParticipantService(props: ServiceProps<api.service.Er
 function fnGet(props: ServiceProps<api.service.ErrorType>): api.service.EventParticipantService['get'] {
 	const { baseUrl, fetchAPI = fetch, lifecycleHandlers = {} } = props;
 	const { preFetch, onSuccess, onError, onCatch, final } = lifecycleHandlers;
-	return async (eventKey: string) => {
+	return async (eventKey: string, key: string) => {
 		try {
 			const $init = (await preFetch?.('get')) ?? {};
 			const $headers = new Headers($init.headers ?? {});
