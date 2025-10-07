@@ -52,7 +52,7 @@ export function GenericCohortToJSON($value: GenericCohort): Record<string, unkno
 }
 
 export type GenericCohortPatch = {
-	'@type': 'generic-patch';
+	'@type': 'patch:generic';
 	readonly key: string;
 	readonly version: number;
 	readonly name?: string;
@@ -73,7 +73,7 @@ export function GenericCohortPatchFromJSON($value: Record<string, unknown>): Gen
 	const version = propValue('version', $value, isNumber);
 	const name = propValue('name', $value, isString, 'optional');
 	return {
-		'@type': 'generic-patch',
+		'@type': 'patch:generic',
 		key,
 		version,
 		name,
@@ -86,7 +86,7 @@ export function GenericCohortPatchToJSON($value: GenericCohortPatch): Record<str
 	const name = $value.name;
 
 	return {
-		'@type': 'generic-patch',
+		'@type': 'patch:generic',
 		key,
 		version,
 		name,

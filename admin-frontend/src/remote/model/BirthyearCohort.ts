@@ -64,7 +64,7 @@ export function BirthyearCohortToJSON($value: BirthyearCohort): Record<string, u
 }
 
 export type BirthyearCohortPatch = {
-	'@type': 'birthyear-patch';
+	'@type': 'patch:birthyear';
 	readonly key: string;
 	readonly version: number;
 	readonly name?: string;
@@ -91,7 +91,7 @@ export function BirthyearCohortPatchFromJSON($value: Record<string, unknown>): B
 	const min = propValue('min', $value, isNumber, 'optional');
 	const max = propValue('max', $value, isNumber, 'optional');
 	return {
-		'@type': 'birthyear-patch',
+		'@type': 'patch:birthyear',
 		key,
 		version,
 		name,
@@ -108,7 +108,7 @@ export function BirthyearCohortPatchToJSON($value: BirthyearCohortPatch): Record
 	const max = $value.max;
 
 	return {
-		'@type': 'birthyear-patch',
+		'@type': 'patch:birthyear',
 		key,
 		version,
 		name,

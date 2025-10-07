@@ -3,6 +3,8 @@ import {
 	type GenericCohort,
 	GenericCohortFromJSON,
 	type GenericCohortPatch,
+	GenericCohortPatchFromJSON,
+	GenericCohortPatchToJSON,
 	GenericCohortToJSON,
 	isGenericCohort,
 } from './GenericCohort.ts';
@@ -10,6 +12,8 @@ import {
 	type BirthyearCohort,
 	BirthyearCohortFromJSON,
 	type BirthyearCohortPatch,
+	BirthyearCohortPatchFromJSON,
+	BirthyearCohortPatchToJSON,
 	BirthyearCohortToJSON,
 	isBirthyearCohort,
 } from './BirthyearCohort.ts';
@@ -37,6 +41,7 @@ export function CohortFromJSON(value: Record<string, unknown>): Cohort {
 			throw new Error(`Unknown descriminator "${descriminator}"`);
 	}
 }
+
 export function CohortToJSON(value: Cohort): Record<string, unknown> {
 	const $desc = value['@type'];
 	switch ($desc) {
@@ -44,6 +49,33 @@ export function CohortToJSON(value: Cohort): Record<string, unknown> {
 			return GenericCohortToJSON(value);
 		case 'birthyear':
 			return BirthyearCohortToJSON(value);
+		default:
+			throw new Error(`Unknown descriminator "${$desc}";`);
+	}
+}
+
+export function CohortPatchFromJSON(value: Record<string, unknown>): CohortPatch {
+	const descriminator = value['@type'];
+	if (!isString(descriminator)) {
+		throw new Error('No valid descriminator found');
+	}
+	switch (descriminator) {
+		case 'patch:generic':
+			return GenericCohortPatchFromJSON(value);
+		case 'patch:birthyear':
+			return BirthyearCohortPatchFromJSON(value);
+		default:
+			throw new Error(`Unknown descriminator "${descriminator}";`);
+	}
+}
+
+export function CohortPatchToJSON(value: CohortPatch): Record<string, unknown> {
+	const $desc = value['@type'];
+	switch ($desc) {
+		case 'patch:generic':
+			return GenericCohortPatchToJSON(value);
+		case 'patch:birthyear':
+			return BirthyearCohortPatchToJSON(value);
 		default:
 			throw new Error(`Unknown descriminator "${$desc}";`);
 	}
