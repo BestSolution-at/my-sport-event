@@ -75,7 +75,7 @@ export type BirthyearCohortPatch = {
 export function isBirthyearCohortPatch(value: unknown): value is BirthyearCohortPatch {
 	return (
 		isRecord(value) &&
-		checkProp(value, '@type', createIsStringTypeGuard('birthyear')) &&
+		checkProp(value, '@type', createIsStringTypeGuard('patch:birthyear')) &&
 		checkProp(value, 'key', isString) &&
 		checkProp(value, 'version', isNumber) &&
 		checkOptProp(value, 'name', isString) &&

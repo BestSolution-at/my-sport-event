@@ -2,7 +2,7 @@
 import { checkProp, createIsStringTypeGuard, isRecord, isString, propValue } from '../_type-utils.ts';
 
 export type GenericCohortNew = {
-	'@type': 'generic',
+	'@type': 'generic';
 	readonly name: string;
 };
 

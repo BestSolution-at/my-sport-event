@@ -61,7 +61,7 @@ export type GenericCohortPatch = {
 export function isGenericCohortPatch(value: unknown): value is GenericCohortPatch {
 	return (
 		isRecord(value) &&
-		checkProp(value, '@type', createIsStringTypeGuard('generic')) &&
+		checkProp(value, '@type', createIsStringTypeGuard('patch:generic')) &&
 		checkProp(value, 'key', isString) &&
 		checkProp(value, 'version', isNumber) &&
 		checkOptProp(value, 'name', isString)

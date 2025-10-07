@@ -2,7 +2,7 @@
 import { checkProp, createIsStringTypeGuard, isNumber, isRecord, isString, propValue } from '../_type-utils.ts';
 
 export type BirthyearCohortNew = {
-	'@type': 'birthyear',
+	'@type': 'birthyear';
 	readonly name: string;
 	readonly min: number;
 	readonly max: number;
