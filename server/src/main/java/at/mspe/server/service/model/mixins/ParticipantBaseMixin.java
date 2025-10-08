@@ -3,6 +3,8 @@ package at.mspe.server.service.model.mixins;
 
 import java.time.LocalDate;
 
+import at.mspe.server.service.model.Gender;
+
 public interface ParticipantBaseMixin {
 	public String firstname();
 
@@ -11,5 +13,7 @@ public interface ParticipantBaseMixin {
 	public String team();
 
 	public LocalDate birthday();
+
+	public Gender gender();
 
 }

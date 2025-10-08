@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 import java.util.function.Function;
 
+import at.mspe.server.service.InvalidDataException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -47,6 +48,9 @@ public class ParticipantEntity {
 
     @Column(name = "par_competionnumber", nullable = true)
     public String competitionNumber;
+
+    @Column(name = "par_gender", nullable = false)
+    public Gender gender;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "par_fk_cohort", foreignKey = @ForeignKey(name = "par_fkey_cohort"))
@@ -138,6 +142,7 @@ public class ParticipantEntity {
         private String competitionNumber;
         private CohortEntity cohort;
         private SportEventEntity sportEvent;
+        private Gender gender;
 
         public ParticipantEntityBuilder key(UUID key) {
             this.key = key;
@@ -189,6 +194,11 @@ public class ParticipantEntity {
             return sportEvent(builderFunction.apply(SportEventEntity.builder()));
         }
 
+        public ParticipantEntityBuilder gender(Gender gender) {
+            this.gender = gender;
+            return this;
+        }
+
         public ParticipantEntity build() {
             var entity = new ParticipantEntity();
             entity.key = this.key;
@@ -200,16 +210,20 @@ public class ParticipantEntity {
             entity.competitionNumber = this.competitionNumber;
             entity.cohort = this.cohort;
             entity.sportEvent = this.sportEvent;
+            entity.gender = gender;
             return entity;
         }
     }
 
     public static void validate(ParticipantEntity entity) {
         if (entity.firstname == null || entity.firstname.isBlank()) {
-            throw new IllegalArgumentException("Firstname must not be empty");
+            throw new InvalidDataException("Firstname must not be empty");
         }
         if (entity.lastname == null || entity.lastname.isBlank()) {
-            throw new IllegalArgumentException("Lastname must not be empty");
+            throw new InvalidDataException("Lastname must not be empty");
+        }
+        if (entity.gender == null) {
+            throw new InvalidDataException("Gender must not be empty");
         }
     }
 }

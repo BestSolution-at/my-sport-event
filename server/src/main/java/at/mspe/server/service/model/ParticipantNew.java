@@ -16,6 +16,8 @@ public interface ParticipantNew {
 
 		public LocalDate birthday();
 
+		public Gender gender();
+
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<ParticipantNew.Data> {
@@ -26,6 +28,8 @@ public interface ParticipantNew {
 		public DataBuilder team(String team);
 
 		public DataBuilder birthday(LocalDate birthday);
+
+		public DataBuilder gender(Gender gender);
 
 	}
 }

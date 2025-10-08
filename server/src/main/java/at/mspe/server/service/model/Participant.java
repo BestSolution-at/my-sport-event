@@ -24,6 +24,8 @@ public interface Participant {
 
 		public LocalDate birthday();
 
+		public Gender gender();
+
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<Participant.Data> {
@@ -41,6 +43,8 @@ public interface Participant {
 
 		public DataBuilder birthday(LocalDate birthday);
 
+		public DataBuilder gender(Gender gender);
+
 	}
 
 	public interface Patch extends _Base.BaseData, Participant {
@@ -56,6 +60,8 @@ public interface Participant {
 
 		public Optional<LocalDate> birthday();
 
+		public Optional<Gender> gender();
+
 	}
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<Participant.Patch> {
@@ -70,6 +76,8 @@ public interface Participant {
 		public PatchBuilder team(String team);
 
 		public PatchBuilder birthday(LocalDate birthday);
+
+		public PatchBuilder gender(Gender gender);
 
 	}
 }

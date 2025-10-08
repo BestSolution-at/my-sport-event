@@ -7,6 +7,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
+import at.mspe.server.service.model.Gender;
 import at.mspe.server.service.model.GenericCohort;
 
 public class GenericCohortPatchImpl extends _BaseDataImpl implements GenericCohort.Patch {
@@ -24,6 +25,10 @@ public class GenericCohortPatchImpl extends _BaseDataImpl implements GenericCoho
 
 	public Optional<String> name() {
 		return _JsonUtils.mapOptString(data, "name");
+	}
+
+	public Optional<Gender> gender() {
+		return _JsonUtils.mapOptLiteral(data, "gender", Gender::valueOf);
 	}
 
 	public static class PatchBuilderImpl implements GenericCohort.PatchBuilder {
@@ -46,6 +51,12 @@ public class GenericCohortPatchImpl extends _BaseDataImpl implements GenericCoho
 		@Override
 		public GenericCohort.PatchBuilder name(String name) {
 			$builder.add("name", name);
+			return this;
+		}
+
+		@Override
+		public GenericCohort.PatchBuilder gender(Gender gender) {
+			;
 			return this;
 		}
 

@@ -2,6 +2,25 @@
   "@type": "RSDModel",
   "elements": [
     {
+      "@type": "EnumType",
+      "name": "Gender",
+      "entries": [
+        {
+          "@type": "EnumEntry",
+          "name": "MALE"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "FEMALE"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "ALL"
+        }
+      ],
+      "doc": ""
+    },
+    {
       "@type": "MixinType",
       "name": "CohortBase",
       "properties": [
@@ -14,6 +33,17 @@
           "nullable": false,
           "variant": "builtin",
           "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "gender",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "enum",
+          "type": "Gender",
           "doc": ""
         }
       ],
@@ -254,6 +284,17 @@
           "nullable": false,
           "variant": "builtin",
           "type": "local-date",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "gender",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "enum",
+          "type": "Gender",
           "doc": ""
         }
       ],

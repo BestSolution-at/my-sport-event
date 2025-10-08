@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.jpa.model.CohortEntity;
+import at.mspe.server.service.jpa.model.Gender;
 import at.mspe.server.service.jpa.model.SportEventEntity;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -19,6 +20,7 @@ public class GenericCohortEntity extends CohortEntity {
         private UUID key;
         private String name;
         private SportEventEntity sportEvent;
+        private Gender gender;
 
         public GenericCohortEntityBuilder key(UUID key) {
             this.key = key;
@@ -27,6 +29,11 @@ public class GenericCohortEntity extends CohortEntity {
 
         public GenericCohortEntityBuilder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        public GenericCohortEntityBuilder gender(Gender gender) {
+            this.gender = gender;
             return this;
         }
 
@@ -40,6 +47,7 @@ public class GenericCohortEntity extends CohortEntity {
             entity.key = this.key;
             entity.name = this.name;
             entity.sportEvent = this.sportEvent;
+            entity.gender = this.gender;
             validate(entity);
             return entity;
         }
@@ -48,6 +56,9 @@ public class GenericCohortEntity extends CohortEntity {
     public static void validate(GenericCohortEntity entity) {
         if (entity.name == null || entity.name.isBlank()) {
             throw new InvalidDataException("Name must not be empty");
+        }
+        if (entity.gender == null) {
+            throw new InvalidDataException("Gender must not be empty");
         }
     }
 }

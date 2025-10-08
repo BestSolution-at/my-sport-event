@@ -11,6 +11,7 @@ import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.jpa.model.cohort.BirthyearCohortEntity;
 import at.mspe.server.service.jpa.model.cohort.GenericCohortEntity;
 import at.mspe.server.service.model.BirthyearCohortNew;
+import at.mspe.server.service.model.Gender;
 import at.mspe.server.service.model.GenericCohortNew;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -27,6 +28,7 @@ public class CreateHandlerJPATest extends CohortHandlerTest<CreateHandlerJPA> {
     public void createGeneric() {
         var dto = builderFactory.builder(GenericCohortNew.DataBuilder.class)
                 .name("New Generic Cohort")
+                .gender(Gender.MALE)
                 .build();
         var key = handler.create(builderFactory, SimpleEmptyEventKey, dto);
         assertNotNull(key);
@@ -40,6 +42,7 @@ public class CreateHandlerJPATest extends CohortHandlerTest<CreateHandlerJPA> {
     public void failGenericEmptyName() {
         var dto = builderFactory.builder(GenericCohortNew.DataBuilder.class)
                 .name("")
+                .gender(Gender.MALE)
                 .build();
         assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto));
     }
@@ -50,6 +53,7 @@ public class CreateHandlerJPATest extends CohortHandlerTest<CreateHandlerJPA> {
                 .name("New Birthyear Cohort")
                 .min(1980)
                 .max(1981)
+                .gender(Gender.ALL)
                 .build();
         var key = handler.create(builderFactory, SimpleEmptyEventKey, dto);
         assertNotNull(key);
@@ -68,6 +72,7 @@ public class CreateHandlerJPATest extends CohortHandlerTest<CreateHandlerJPA> {
                 .name("")
                 .min(1980)
                 .max(1981)
+                .gender(Gender.ALL)
                 .build();
         assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto));
     }
@@ -78,6 +83,7 @@ public class CreateHandlerJPATest extends CohortHandlerTest<CreateHandlerJPA> {
                 .name("New Birthyear Cohort")
                 .min(-1)
                 .max(1981)
+                .gender(Gender.ALL)
                 .build();
         assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto));
     }
@@ -88,6 +94,7 @@ public class CreateHandlerJPATest extends CohortHandlerTest<CreateHandlerJPA> {
                 .name("New Birthyear Cohort")
                 .min(1980)
                 .max(-1)
+                .gender(Gender.ALL)
                 .build();
         assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto));
     }
@@ -98,6 +105,7 @@ public class CreateHandlerJPATest extends CohortHandlerTest<CreateHandlerJPA> {
                 .name("New Birthyear Cohort")
                 .min(1980)
                 .max(1979)
+                .gender(Gender.ALL)
                 .build();
         assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto));
     }

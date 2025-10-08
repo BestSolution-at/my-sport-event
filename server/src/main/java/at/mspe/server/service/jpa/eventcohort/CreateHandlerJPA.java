@@ -1,14 +1,13 @@
 package at.mspe.server.service.jpa.eventcohort;
 
 import at.mspe.server.service.jpa.BaseHandler;
+import at.mspe.server.service.jpa.model.Gender;
 import at.mspe.server.service.jpa.model.cohort.BirthyearCohortEntity;
 import at.mspe.server.service.jpa.model.cohort.GenericCohortEntity;
 import at.mspe.server.service.jpa.sportevent.SportEventHelper;
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.impl.EventCohortServiceImpl;
-import at.mspe.server.service.model.BirthyearCohort;
 import at.mspe.server.service.model.BirthyearCohortNew;
-import at.mspe.server.service.model.GenericCohort;
 import at.mspe.server.service.model.GenericCohortNew;
 import at.mspe.server.service.model.CohortNew;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -38,6 +37,7 @@ public class CreateHandlerJPA extends BaseHandler implements EventCohortServiceI
                     .key(generateKey())
                     .name(generic.name())
                     .sportEvent(sportEvent)
+                    .gender(Gender.valueOf(cohort.gender().toString()))
                     .build();
 
             em.persist(entity);
@@ -49,6 +49,7 @@ public class CreateHandlerJPA extends BaseHandler implements EventCohortServiceI
                     .name(birthyear.name())
                     .min(birthyear.min())
                     .max(birthyear.max())
+                    .gender(Gender.valueOf(cohort.gender().toString()))
                     .sportEvent(sportEvent)
                     .build();
             em.persist(entity);

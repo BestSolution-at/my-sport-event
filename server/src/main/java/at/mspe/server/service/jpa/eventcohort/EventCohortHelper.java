@@ -9,6 +9,7 @@ import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.NotFoundException;
 import at.mspe.server.service.model.BirthyearCohort;
 import at.mspe.server.service.model.Cohort;
+import at.mspe.server.service.model.Gender;
 import at.mspe.server.service.model.GenericCohort;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
@@ -41,14 +42,18 @@ public class EventCohortHelper {
         if (entity instanceof GenericCohortEntity) {
             return factory.builder(GenericCohort.DataBuilder.class)
                     .key(entity.key.toString())
+                    .version(entity.version)
                     .name(entity.name)
+                    .gender(Gender.valueOf(entity.gender.toString()))
                     .build();
         } else if (entity instanceof BirthyearCohortEntity be) {
             return factory.builder(BirthyearCohort.DataBuilder.class)
                     .key(be.key.toString())
+                    .version(entity.version)
                     .max(be.max)
                     .min(be.min)
                     .name(be.name)
+                    .gender(Gender.valueOf(entity.gender.toString()))
                     .build();
         }
 

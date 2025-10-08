@@ -15,6 +15,8 @@ public interface Cohort {
 
 		public String name();
 
+		public Gender gender();
+
 	}
 
 	public interface DataBuilder extends Builder {
@@ -26,6 +28,8 @@ public interface Cohort {
 		public long version();
 
 		public Optional<String> name();
+
+		public Optional<Gender> gender();
 
 	}
 

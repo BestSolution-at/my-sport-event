@@ -7,6 +7,7 @@ import org.hibernate.StatelessSession;
 import org.junit.jupiter.api.BeforeEach;
 
 import at.mspe.server.service.jpa.model.CohortEntity;
+import at.mspe.server.service.jpa.model.Gender;
 import at.mspe.server.service.jpa.model.ParticipantEntity;
 import at.mspe.server.service.jpa.model.SportEventEntity;
 import at.mspe.server.service.jpa.model.cohort.BirthyearCohortEntity;
@@ -66,6 +67,7 @@ public class BaseTest {
                     .firstname("John")
                     .lastname("Doe")
                     .sportEvent(event)
+                    .gender(Gender.MALE)
                     .build();
             em.persist(participant);
             this.FullEvent_ParticpantKey = participant.key.toString();
@@ -78,6 +80,7 @@ public class BaseTest {
                     .key(UUID.randomUUID())
                     .name("Generic Cohort - not referenced")
                     .sportEvent(event)
+                    .gender(Gender.FEMALE)
                     .build();
             em.persist(cohort);
             this.FullEvent_GenericCohortNotReferencedKey = cohort.key.toString();
@@ -88,6 +91,7 @@ public class BaseTest {
                     .key(UUID.randomUUID())
                     .name("Generic Cohort")
                     .sportEvent(event)
+                    .gender(Gender.ALL)
                     .build();
             em.persist(cohort);
             this.FullEvent_GenericCohortKey = cohort.key.toString();
@@ -100,6 +104,7 @@ public class BaseTest {
                         .lastname("Dune")
                         .sportEvent(event)
                         .cohort(cohort)
+                        .gender(Gender.FEMALE)
                         .build();
                 em.persist(participant);
                 this.FullEvent_ParticpantWithGenericCohortKey = participant.key.toString();
@@ -114,6 +119,7 @@ public class BaseTest {
                     .min(1970)
                     .max(1980)
                     .sportEvent(event)
+                    .gender(Gender.MALE)
                     .build();
             em.persist(cohort);
             this.FullEvent_BirthyearCohortKey = cohort.key.toString();
@@ -126,6 +132,7 @@ public class BaseTest {
                         .lastname("Dome")
                         .sportEvent(event)
                         .cohort(cohort)
+                        .gender(Gender.MALE)
                         .build();
                 em.persist(participant);
                 this.FullEvent_ParticpantWithBirthyearCohortKey = participant.key.toString();

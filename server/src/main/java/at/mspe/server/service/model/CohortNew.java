@@ -9,6 +9,8 @@ public interface CohortNew {
 	public interface Data extends _Base.BaseData, CohortNew {
 		public String name();
 
+		public Gender gender();
+
 	}
 
 	public interface DataBuilder extends Builder {

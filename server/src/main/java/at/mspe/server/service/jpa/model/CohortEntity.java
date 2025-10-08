@@ -40,6 +40,9 @@ public class CohortEntity {
     @Column(name = "coh_name", length = 255)
     public String name;
 
+    @Column(name = "coh_gender")
+    public Gender gender;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "coh_fk_sportevent", foreignKey = @ForeignKey(name = "coh_fkey_sportevent"))
     public SportEventEntity sportEvent;

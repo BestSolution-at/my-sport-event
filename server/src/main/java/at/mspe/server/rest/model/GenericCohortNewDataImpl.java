@@ -5,6 +5,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
+import at.mspe.server.service.model.Gender;
 import at.mspe.server.service.model.GenericCohortNew;
 
 public class GenericCohortNewDataImpl extends _BaseDataImpl implements GenericCohortNew.Data {
@@ -14,6 +15,10 @@ public class GenericCohortNewDataImpl extends _BaseDataImpl implements GenericCo
 
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
+	}
+
+	public Gender gender() {
+		return _JsonUtils.mapLiteral(data, "gender", Gender::valueOf);
 	}
 
 	public static GenericCohortNew.Data of(JsonObject obj) {
@@ -36,6 +41,14 @@ public class GenericCohortNewDataImpl extends _BaseDataImpl implements GenericCo
 				return this;
 			}
 			$builder.add("name", name);
+			return this;
+		}
+
+		public GenericCohortNew.DataBuilder gender(Gender gender) {
+			if (gender == null) {
+				return this;
+			}
+			$builder.add("gender", gender.toString());
 			return this;
 		}
 

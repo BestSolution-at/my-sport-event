@@ -15,6 +15,7 @@
     create table Cohort (
         coh_type integer not null,
         coh_id bigint not null,
+        coh_gender smallint check (coh_gender between 0 and 2),
         coh_key uuid not null unique,
         coh_name varchar(255),
         coh_version bigint,
@@ -33,6 +34,7 @@
         par_competionnumber varchar(255),
         par_email varchar(255),
         par_firstname varchar(255) not null,
+        par_gender smallint not null check (par_gender between 0 and 2),
         par_key uuid not null,
         par_lastname varchar(255) not null,
         par_team varchar(255),

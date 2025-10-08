@@ -8,6 +8,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
+import at.mspe.server.service.model.Gender;
 import at.mspe.server.service.model.Participant;
 
 public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.Patch {
@@ -37,6 +38,10 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 
 	public Optional<LocalDate> birthday() {
 		return _JsonUtils.mapOptLocalDate(data, "birthday");
+	}
+
+	public Optional<Gender> gender() {
+		return _JsonUtils.mapOptLiteral(data, "gender", Gender::valueOf);
 	}
 
 	public static class PatchBuilderImpl implements Participant.PatchBuilder {
@@ -73,6 +78,12 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 		@Override
 		public Participant.PatchBuilder birthday(LocalDate birthday) {
 			$builder.add("birthday", birthday.toString());
+			return this;
+		}
+
+		@Override
+		public Participant.PatchBuilder gender(Gender gender) {
+			;
 			return this;
 		}
 

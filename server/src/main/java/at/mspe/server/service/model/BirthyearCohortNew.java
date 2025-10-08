@@ -9,6 +9,8 @@ public interface BirthyearCohortNew {
 	public interface Data extends _Base.BaseData, BirthyearCohortNew, CohortBaseMixin, BirthyearCohortBaseMixin, CohortNew.Data {
 		public String name();
 
+		public Gender gender();
+
 		public int min();
 
 		public int max();
@@ -17,6 +19,8 @@ public interface BirthyearCohortNew {
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<BirthyearCohortNew.Data>, CohortNew.DataBuilder {
 		public DataBuilder name(String name);
+
+		public DataBuilder gender(Gender gender);
 
 		public DataBuilder min(int min);
 

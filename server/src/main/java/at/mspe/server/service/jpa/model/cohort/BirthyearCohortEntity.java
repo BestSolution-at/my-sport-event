@@ -4,6 +4,7 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import at.mspe.server.service.jpa.model.CohortEntity;
+import at.mspe.server.service.jpa.model.Gender;
 import at.mspe.server.service.jpa.model.SportEventEntity;
 import at.mspe.server.service.InvalidDataException;
 import jakarta.persistence.Column;
@@ -44,7 +45,8 @@ public class BirthyearCohortEntity extends CohortEntity {
         private String name;
         private SportEventEntity sportEvent;
         private int min;
-        private Integer max;
+        private int max;
+        private Gender gender;
 
         public BirthyearCohortEntityBuilder key(UUID key) {
             this.key = key;
@@ -71,8 +73,13 @@ public class BirthyearCohortEntity extends CohortEntity {
             return this;
         }
 
-        public BirthyearCohortEntityBuilder max(Integer max) {
+        public BirthyearCohortEntityBuilder max(int max) {
             this.max = max;
+            return this;
+        }
+
+        public BirthyearCohortEntityBuilder gender(Gender gender) {
+            this.gender = gender;
             return this;
         }
 
@@ -83,6 +90,7 @@ public class BirthyearCohortEntity extends CohortEntity {
             entity.sportEvent = this.sportEvent;
             entity.min = this.min;
             entity.max = this.max;
+            entity.gender = this.gender;
             validate(entity);
             return entity;
         }
@@ -97,6 +105,9 @@ public class BirthyearCohortEntity extends CohortEntity {
         }
         if (entity.name == null || entity.name.isBlank()) {
             throw new InvalidDataException("Name must not be empty");
+        }
+        if (entity.gender == null) {
+            throw new InvalidDataException("Gender must not be empty");
         }
     }
 }

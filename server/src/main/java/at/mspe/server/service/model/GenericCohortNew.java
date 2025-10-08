@@ -8,10 +8,14 @@ public interface GenericCohortNew {
 	public interface Data extends _Base.BaseData, GenericCohortNew, CohortBaseMixin, CohortNew.Data {
 		public String name();
 
+		public Gender gender();
+
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<GenericCohortNew.Data>, CohortNew.DataBuilder {
 		public DataBuilder name(String name);
+
+		public DataBuilder gender(Gender gender);
 
 	}
 }

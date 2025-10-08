@@ -9,6 +9,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
 import at.mspe.server.service.model.BirthyearCohort;
+import at.mspe.server.service.model.Gender;
 
 public class BirthyearCohortPatchImpl extends _BaseDataImpl implements BirthyearCohort.Patch {
 	BirthyearCohortPatchImpl(JsonObject data) {
@@ -25,6 +26,10 @@ public class BirthyearCohortPatchImpl extends _BaseDataImpl implements Birthyear
 
 	public Optional<String> name() {
 		return _JsonUtils.mapOptString(data, "name");
+	}
+
+	public Optional<Gender> gender() {
+		return _JsonUtils.mapOptLiteral(data, "gender", Gender::valueOf);
 	}
 
 	public OptionalInt min() {
@@ -55,6 +60,12 @@ public class BirthyearCohortPatchImpl extends _BaseDataImpl implements Birthyear
 		@Override
 		public BirthyearCohort.PatchBuilder name(String name) {
 			$builder.add("name", name);
+			return this;
+		}
+
+		@Override
+		public BirthyearCohort.PatchBuilder gender(Gender gender) {
+			;
 			return this;
 		}
 

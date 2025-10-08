@@ -1,5 +1,8 @@
+enum Gender = MALE | FEMALE | ALL;
+
 mixin CohortBase {
     name: string
+    gender: Gender
 }
 
 mixin BirthyearCohortBase {
@@ -56,6 +59,7 @@ mixin ParticipantBase {
     lastname: string
     team: string
     birthday: local-date
+    gender: Gender
 }
 
 record ParticipantNew {

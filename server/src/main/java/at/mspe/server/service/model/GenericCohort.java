@@ -14,6 +14,8 @@ public interface GenericCohort {
 
 		public String name();
 
+		public Gender gender();
+
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<GenericCohort.Data>, Cohort.DataBuilder {
@@ -22,6 +24,8 @@ public interface GenericCohort {
 		public DataBuilder version(long version);
 
 		public DataBuilder name(String name);
+
+		public DataBuilder gender(Gender gender);
 
 	}
 
@@ -32,6 +36,8 @@ public interface GenericCohort {
 
 		public Optional<String> name();
 
+		public Optional<Gender> gender();
+
 	}
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<GenericCohort.Patch>, Cohort.PatchBuilder {
@@ -40,6 +46,8 @@ public interface GenericCohort {
 		public PatchBuilder version(long version);
 
 		public PatchBuilder name(String name);
+
+		public PatchBuilder gender(Gender gender);
 
 	}
 }

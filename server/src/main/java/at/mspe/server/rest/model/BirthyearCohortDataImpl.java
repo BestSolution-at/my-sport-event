@@ -6,6 +6,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
 import at.mspe.server.service.model.BirthyearCohort;
+import at.mspe.server.service.model.Gender;
 
 public class BirthyearCohortDataImpl extends _BaseDataImpl implements BirthyearCohort.Data {
 	BirthyearCohortDataImpl(JsonObject data) {
@@ -22,6 +23,10 @@ public class BirthyearCohortDataImpl extends _BaseDataImpl implements BirthyearC
 
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
+	}
+
+	public Gender gender() {
+		return _JsonUtils.mapLiteral(data, "gender", Gender::valueOf);
 	}
 
 	public int min() {
@@ -62,6 +67,14 @@ public class BirthyearCohortDataImpl extends _BaseDataImpl implements BirthyearC
 				return this;
 			}
 			$builder.add("name", name);
+			return this;
+		}
+
+		public BirthyearCohort.DataBuilder gender(Gender gender) {
+			if (gender == null) {
+				return this;
+			}
+			$builder.add("gender", gender.toString());
 			return this;
 		}
 

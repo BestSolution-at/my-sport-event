@@ -16,6 +16,8 @@ public interface BirthyearCohort {
 
 		public String name();
 
+		public Gender gender();
+
 		public int min();
 
 		public int max();
@@ -28,6 +30,8 @@ public interface BirthyearCohort {
 		public DataBuilder version(long version);
 
 		public DataBuilder name(String name);
+
+		public DataBuilder gender(Gender gender);
 
 		public DataBuilder min(int min);
 
@@ -42,6 +46,8 @@ public interface BirthyearCohort {
 
 		public Optional<String> name();
 
+		public Optional<Gender> gender();
+
 		public OptionalInt min();
 
 		public OptionalInt max();
@@ -54,6 +60,8 @@ public interface BirthyearCohort {
 		public PatchBuilder version(long version);
 
 		public PatchBuilder name(String name);
+
+		public PatchBuilder gender(Gender gender);
 
 		public PatchBuilder min(int min);
 
