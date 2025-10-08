@@ -51,16 +51,17 @@ import type { SportEvent } from './remote/model';
 import { EventView } from './views/EventView';
 import { CohortView } from './views/CohortView';
 import { ParticipantView } from './views/ParticipantView';
+import { useMessageFormat } from './useMessageFormat';
 
-const client = createSportEventService({ baseUrl: '' });
+const service = createSportEventService({ baseUrl: '' });
 
 function App() {
-	const [listLoadingCounter, setListLoadingCounter] = useState(0);
+	const [refreshCounter, setRefreshCounter] = useState(0);
 
 	const [result] = useLoadRemoteData(
 		useMemo(() => {
-			return { key: `list-${listLoadingCounter}`, block: client.list.bind(client), parameters: [] } as const;
-		}, [listLoadingCounter])
+			return { key: `list-${refreshCounter}`, block: service.list.bind(service), parameters: [] } as const;
+		}, [refreshCounter])
 	);
 
 	let events: readonly SportEvent[] = [];
@@ -78,7 +79,7 @@ function App() {
 		<>
 			<SidebarLayout
 				navbar={<AppNavBar />}
-				sidebar={<AppSideBar events={events} refresh={() => setListLoadingCounter(v => v + 1)} />}
+				sidebar={<AppSideBar events={events} refresh={() => setRefreshCounter(v => v + 1)} />}
 			>
 				<Routes>
 					<Route index element={<HomeView events={events} />} />
@@ -108,10 +109,10 @@ function NewEventDialog(props: { open: boolean; onClose: (state: 'OK' | 'CANCEL'
 
 	const [remoteError, setRemoteError] = useState<StatusRSDError | NativeRSDError | InvalidDataError | null>(null);
 
-	const message = useLocalizedStringFormatter(messages);
+	const m = useMessageFormat(messages);
 	const validateName = () => {
 		if (name.trim().length === 0) {
-			setNameError(message.format('NewEventDialog_RequiredField'));
+			setNameError(m('NewEventDialog_RequiredField'));
 		} else {
 			setNameError('');
 		}
@@ -119,7 +120,7 @@ function NewEventDialog(props: { open: boolean; onClose: (state: 'OK' | 'CANCEL'
 
 	const validateDate = () => {
 		if (date.trim().length === 0) {
-			setDateError(message.format('NewEventDialog_RequiredField'));
+			setDateError(m('NewEventDialog_RequiredField'));
 		} else {
 			setDateError('');
 		}
@@ -127,7 +128,7 @@ function NewEventDialog(props: { open: boolean; onClose: (state: 'OK' | 'CANCEL'
 
 	const validateTime = () => {
 		if (time.trim().length === 0) {
-			setTimeError(message.format('NewEventDialog_RequiredField'));
+			setTimeError(m('NewEventDialog_RequiredField'));
 		} else {
 			setTimeError('');
 		}
@@ -138,7 +139,7 @@ function NewEventDialog(props: { open: boolean; onClose: (state: 'OK' | 'CANCEL'
 		validateDate();
 		validateTime();
 		if (nameError === '' && dateError === '' && timeError === '') {
-			const [, err] = await client.create({ name, date: new Date(`${date}T${time}:00`).toISOString() });
+			const [, err] = await service.create({ name, date: new Date(`${date}T${time}:00`).toISOString() });
 			if (err) {
 				setRemoteError(err);
 			} else {
@@ -149,19 +150,19 @@ function NewEventDialog(props: { open: boolean; onClose: (state: 'OK' | 'CANCEL'
 	return (
 		<>
 			<Alert open={remoteError !== null} onClose={() => setRemoteError(null)}>
-				<AlertTitle>{message.format('NewEventDialog_RemoteError_Title')}</AlertTitle>
+				<AlertTitle>{m('NewEventDialog_RemoteError_Title')}</AlertTitle>
 				<AlertDescription>
-					<p>{message.format('NewEventDialog_RemoteError_Description')}</p>
+					<p>{m('NewEventDialog_RemoteError_Description')}</p>
 					<p>{remoteError?.message}</p>
 				</AlertDescription>
 			</Alert>
 			<Dialog open={props.open} onClose={() => {}}>
-				<DialogTitle>{message.format('NewEventDialog_Title')}</DialogTitle>
-				<DialogDescription>{message.format('NewEventDialog_Description')}</DialogDescription>
+				<DialogTitle>{m('NewEventDialog_Title')}</DialogTitle>
+				<DialogDescription>{m('NewEventDialog_Description')}</DialogDescription>
 				<DialogBody>
 					<FieldGroup>
 						<Field>
-							<Label>{message.format('NewEventDialog_Name')}</Label>
+							<Label>{m('NewEventDialog_Name')}</Label>
 							<Input
 								required
 								autoFocus
@@ -174,7 +175,7 @@ function NewEventDialog(props: { open: boolean; onClose: (state: 'OK' | 'CANCEL'
 							{nameError && <ErrorMessage>{nameError}</ErrorMessage>}
 						</Field>
 						<Field>
-							<Label>{message.format('NewEventDialog_Date')}</Label>
+							<Label>{m('NewEventDialog_Date')}</Label>
 							<Input
 								type="date"
 								required
@@ -185,7 +186,7 @@ function NewEventDialog(props: { open: boolean; onClose: (state: 'OK' | 'CANCEL'
 							{dateError && <ErrorMessage>{dateError}</ErrorMessage>}
 						</Field>
 						<Field>
-							<Label>{message.format('NewEventDialog_Time')}</Label>
+							<Label>{m('NewEventDialog_Time')}</Label>
 							<Input
 								type="time"
 								required
@@ -199,9 +200,9 @@ function NewEventDialog(props: { open: boolean; onClose: (state: 'OK' | 'CANCEL'
 				</DialogBody>
 				<DialogActions>
 					<Button plain onClick={() => props.onClose('CANCEL')}>
-						{message.format('NewEventDialog_Cancel')}
+						{m('NewEventDialog_Cancel')}
 					</Button>
-					<Button onClick={createEvent}>{message.format('NewEventDialog_Create')}</Button>
+					<Button onClick={createEvent}>{m('NewEventDialog_Create')}</Button>
 				</DialogActions>
 			</Dialog>
 		</>

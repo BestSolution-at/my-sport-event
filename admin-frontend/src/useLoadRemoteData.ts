@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import objectHash from 'object-hash';
 import type { Result } from './remote/_result-utils';
 
-export type LoadingData<T> = [T | null, boolean];
+export type LoadingData<T> = [T, false] | [null, true];
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type RemoteConfig<T extends (...params: any[]) => Promise<Result<any, any>>> = {

@@ -1,4 +1,9 @@
 const en = {
+	Generic_Required_Field: 'This field is required.',
+	Generic_Number_Invalid: 'The value is not a number',
+	Generic_Number_Positive: 'The value must be positive',
+	Generic_Number_LargerEqual: 'The value must be larger than/equal to {otherValue}',
+
 	App_RecentEvents: 'Recent events',
 	App_NewEvent: 'New Event',
 
@@ -25,6 +30,11 @@ const en = {
 };
 
 const de = {
+	Generic_Required_Field: 'Dieses Feld muss ausgefüllt werden.',
+	Generic_Number_Invalid: 'Der Wert ist keine Zahl',
+	Generic_Number_Positive: 'Der Wert muss positiv sein',
+	Generic_Number_LargerEqual: 'Der Wert muss größer/gleich {otherValue} sein',
+
 	App_RecentEvents: 'Letzte Events',
 	App_NewEvent: 'Neues Sport-Event',
 
