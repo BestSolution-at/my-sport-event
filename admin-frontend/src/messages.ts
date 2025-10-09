@@ -1,3 +1,5 @@
+import type { Message, MessageKeys } from './views/utils/utils';
+
 const en = {
 	Generic_Required_Field: 'This field is required.',
 	Generic_Number_Invalid: 'The value is not a number',
@@ -67,3 +69,6 @@ export const messages = {
 	'de-DE': de,
 	'de-CH': de,
 };
+
+export type AllMessageKeys = MessageKeys<typeof messages>;
+export type AllMessages = Message<AllMessageKeys>;
