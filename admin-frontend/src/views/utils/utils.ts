@@ -1,21 +1,27 @@
-import { computed, signal, type ReadonlySignal, type Signal } from '@preact/signals';
+import { Signal, signal, type ReadonlySignal } from '@preact/signals';
 import { useEffect, useRef, useState } from 'react';
+import type { Result } from '../../remote/_result-utils';
+import type { AllMessageKeys } from '../../messages';
 
 export function parseFormattedInteger(text: string): number {
 	return parseInt(text.replaceAll(/\\D/g, ''));
 }
 
-export function compare(x: unknown, y: unknown): 0 | 1 | -1 {
+export function compare(x: unknown, y: unknown): number {
 	if (x === y) {
 		return 0;
 	}
 	if (typeof x === 'number' && typeof y === 'number') {
 		return x > y ? 1 : -1;
 	}
-	return String(x) > String(y) ? 1 : -1;
+	return String(x).localeCompare(String(y));
 }
 
-export function compareProps<T extends Record<string, unknown>>(a: T, b: T, props: (keyof T)[]): 0 | 1 | -1 {
+export function validateRequired(v: string, l10n: (key: AllMessageKeys) => string) {
+	return v.trim().length === 0 ? l10n('Generic_Required_Field') : '';
+}
+
+export function compareProps<T extends Record<string, unknown>>(a: T, b: T, props: (keyof T)[]): number {
 	for (const p of props) {
 		const result = compare(a[p], b[p]);
 		if (result !== 0) {
@@ -44,6 +50,21 @@ export function useSignalValue<T>(signal: ReadonlySignal<T>): T {
 	return value;
 }
 
+export function useValue<T>(signal: ReadonlySignal<T> | T): T {
+	const [value, setValue] = useState(isReadonlySignal(signal) ? signal.value : signal);
+	useEffect(() => {
+		if (isReadonlySignal(signal)) {
+			const sub = signal.subscribe(setValue);
+			return () => {
+				sub();
+			};
+		} else {
+			setValue(signal);
+		}
+	}, [signal]);
+	return value;
+}
+
 export function useSignal<T>(signal: Signal<T>): [T, (v: T) => void] {
 	const [value, setValue] = useState(signal.value);
 	useEffect(() => {
@@ -59,15 +80,19 @@ export function useSignal<T>(signal: Signal<T>): [T, (v: T) => void] {
 export type Message<K> = (key: K, variables?: Record<string, unknown>) => string;
 export type MessageKeys<T extends { [lang: string]: Record<string, string> }> = keyof T[keyof T];
 
+export type ReadonlyValueSignal<T> = T | ReadonlySignal<T>;
+
 export type FormField<T> = {
-	readonly label: ReadonlySignal<string>;
+	readonly label: ReadonlyValueSignal<string>;
 	readonly validationError: ReadonlySignal<string>;
 	readonly value: Signal<T>;
+	readonly disabled: ReadonlyValueSignal<boolean>;
 	validate(): boolean;
 };
 
 export type FormFieldProps<T> = {
-	readonly label: string | ReadonlySignal<string>;
+	readonly label: ReadonlyValueSignal<string>;
+	readonly disabled?: ReadonlyValueSignal<boolean>;
 	readonly initialValue: T;
 	readonly validation: (v: T) => string;
 };
@@ -76,31 +101,81 @@ export type TextFormField = FormField<string>;
 export type TextFormFieldProps = FormFieldProps<string>;
 
 export type Item<T> = {
+	readonly key?: string;
 	readonly value: T;
 	readonly label: string;
 };
 
 export type SelectFormField<T> = FormField<T> & {
-	readonly items: Signal<readonly Item<T>[]>;
+	readonly items: ReadonlyValueSignal<readonly Item<T>[]>;
+	computeItemKey(item: Item<T>): string;
 };
 
-function toReadonlySignal(value: string | ReadonlySignal<string>): ReadonlySignal<string> {
-	if (typeof value === 'string') {
-		return computed(() => value);
+export type SelectFormFieldProps<T> = FormFieldProps<T> & {
+	readonly items: ReadonlyValueSignal<readonly Item<T>[]>;
+};
+
+let counter = 0;
+
+function createKey(prefix: string) {
+	return `${prefix}-${counter++}`;
+}
+
+class SelectFormFieldImpl<T> implements SelectFormField<T> {
+	public readonly label: ReadonlyValueSignal<string>;
+	public readonly items: Signal<readonly Item<T>[]>;
+	public readonly value: Signal<T>;
+	public readonly validationError: Signal<string>;
+	public readonly disabled: ReadonlyValueSignal<boolean>;
+
+	private readonly validation: (v: T) => string;
+
+	private readonly key = createKey('SelectFormFieldImpl');
+
+	constructor(props: SelectFormFieldProps<T>) {
+		this.label = props.label;
+		this.disabled = props.disabled ?? false;
+		this.value = signal(props.initialValue);
+		this.items = isReadonlySignal(props.items) ? props.items : signal(props.items);
+
+		this.validationError = signal('');
+		this.validation = props.validation;
 	}
-	return value;
+
+	computeItemKey(item: Item<T>): string {
+		if (item.key !== undefined) {
+			return `${this.key}-${item.key}`;
+		}
+		return `${this.key}-${String(item.value)}`;
+	}
+
+	validate() {
+		this.validationError.value = this.validation(this.value.value);
+		return this.validationError.value.length === 0;
+	}
+}
+
+export function createSelectFormField<T>(props: SelectFormFieldProps<T>) {
+	return new SelectFormFieldImpl<T>(props);
+}
+
+function isReadonlySignal<T>(value: unknown): value is ReadonlySignal<T> {
+	return value instanceof Signal;
 }
 
 class TextFormFieldImpl implements TextFormField {
-	public readonly label: ReadonlySignal<string>;
+	public readonly label: ReadonlyValueSignal<string>;
 	public readonly value: Signal<string>;
 	public readonly validationError: Signal<string>;
+	public readonly disabled: ReadonlyValueSignal<boolean>;
 
 	private readonly validation: (v: string) => string;
 
 	constructor(props: TextFormFieldProps) {
-		this.label = toReadonlySignal(props.label);
+		this.label = props.label;
+		this.disabled = props.disabled ?? false;
 		this.value = signal(props.initialValue);
+
 		this.validationError = signal('');
 		this.validation = props.validation;
 	}
@@ -113,4 +188,23 @@ class TextFormFieldImpl implements TextFormField {
 
 export function createTextField(props: TextFormFieldProps): TextFormField {
 	return new TextFormFieldImpl(props);
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function createRemoteFunction<T extends (...params: any[]) => Promise<Result<any, any>>>(
+	fn: T,
+	resultHandler: (result: Awaited<ReturnType<T>>) => void
+) {
+	let invocationCount = 0;
+	return (...parameters: Parameters<T>) => {
+		async function invoke() {
+			const cur = (invocationCount += 1);
+			const result = await fn(...parameters);
+			if (cur === invocationCount) {
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				resultHandler(result as any);
+			}
+		}
+		invoke();
+	};
 }

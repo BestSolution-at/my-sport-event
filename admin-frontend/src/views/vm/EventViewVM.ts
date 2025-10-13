@@ -1,9 +1,10 @@
-import { computed, effect, signal, type ReadonlySignal } from '@preact/signals';
+import { batch, computed, effect, signal, type ReadonlySignal } from '@preact/signals';
 import type { SportEvent, SportEventPatch } from '../../remote/model';
 import { createSportEventService } from '../../remote';
-import { createTextField } from '../utils/utils';
-import { messages, type AllMessageKeys, type AllMessages } from '../../messages';
+import { createRemoteFunction, createTextField, validateRequired } from '../utils/utils';
+import { messages, type AllMessages } from '../../messages';
 import { BaseViewVM } from './BaseViewVM';
+import type { SportEventService } from '../../remote/SportEventService';
 
 export class EventViewVM extends BaseViewVM {
 	public readonly eventId = signal('');
@@ -17,21 +18,26 @@ export class EventViewVM extends BaseViewVM {
 	});
 	private readonly eventService = createSportEventService({ baseUrl: '' });
 
+	private readonly eventServiceGet = createRemoteFunction(
+		this.eventService.get.bind(this),
+		this.handleGetResult.bind(this)
+	);
+
 	public readonly name = createTextField({
 		label: computed(() => this.l10n('NewEventDialog_Name')),
 		initialValue: '',
-		validation: v => (v.trim().length === 0 ? this.l10n('Generic_Required_Field') : ''),
+		validation: v => validateRequired(v, this.l10n),
 	});
 
 	public readonly date = createTextField({
 		label: messages['en-US'].NewEventDialog_Date,
 		initialValue: '',
-		validation: v => (v.trim().length === 0 ? this.l10n('Generic_Required_Field') : ''),
+		validation: v => validateRequired(v, this.l10n),
 	});
 	public readonly time = createTextField({
 		label: messages['en-US'].NewEventDialog_Time,
 		initialValue: '',
-		validation: v => (v.trim().length === 0 ? this.l10n('Generic_Required_Field') : ''),
+		validation: v => validateRequired(v, this.l10n),
 	});
 
 	constructor(messages: ReadonlySignal<AllMessages>) {
@@ -50,27 +56,32 @@ export class EventViewVM extends BaseViewVM {
 		});
 	}
 
-	private l10n(key: AllMessageKeys) {
-		return this.messages.value(key);
-	}
-
-	private async fetchData() {
+	private fetchData() {
 		if (this.eventId.value) {
-			const [result, err] = await this.eventService.get(this.eventId.value);
-			if (result) {
-				this.dto.value = result;
-			} else {
-				console.log('====> FAILURE', err);
-			}
+			this.eventServiceGet(this.eventId.value);
 		}
 	}
 
-	public async persist() {
-		let valide = this.name.validate();
-		valide &&= this.date.validate();
-		valide &&= this.time.validate();
+	private handleGetResult(result: Awaited<ReturnType<SportEventService['get']>>) {
+		const [data, err] = result;
+		if (data) {
+			this.dto.value = data;
+		} else {
+			console.error('====> FAILURE', err);
+		}
+	}
 
-		if (valide && this.dto.value) {
+	public validate() {
+		return batch(() => {
+			let valide = this.name.validate();
+			valide &&= this.date.validate();
+			valide &&= this.time.validate();
+			return valide;
+		});
+	}
+
+	public async persist() {
+		if (this.validate() && this.dto.value) {
 			const name = this.name.value.value;
 			const date = this.date.value.value;
 			const time = this.time.value.value;

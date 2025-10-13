@@ -30,7 +30,8 @@ public class SportEventResource {
 	private final SportEventResourceResponseBuilder responseBuilder;
 
 	@Inject
-	public SportEventResource(SportEventService service, SportEventResourceResponseBuilder responseBuilder, RestBuilderFactory builderFactory) {
+	public SportEventResource(SportEventService service, SportEventResourceResponseBuilder responseBuilder,
+			RestBuilderFactory builderFactory) {
 		this.builderFactory = builderFactory;
 		this.service = service;
 		this.responseBuilder = responseBuilder;

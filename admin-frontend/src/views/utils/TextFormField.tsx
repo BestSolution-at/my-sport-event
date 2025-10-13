@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Label } from '../../components/fieldset';
 import { Input } from '../../components/input';
-import { useSignal, useSignalValue, type TextFormField } from './utils';
+import { useSignal, useValue, type TextFormField } from './utils';
 
 export function TextFormField(props: {
 	vm: TextFormField;
@@ -19,9 +19,9 @@ export function TextFormField(props: {
 		| 'week';
 	className?: string;
 }) {
-	const label = useSignalValue(props.vm.label);
+	const label = useValue(props.vm.label);
 	const [value, setValue] = useSignal(props.vm.value);
-	const error = useSignalValue(props.vm.validationError);
+	const error = useValue(props.vm.validationError);
 
 	return (
 		<Field className={props.className}>
