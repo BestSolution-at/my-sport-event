@@ -8,8 +8,9 @@ import { EventViewVM } from './vm/EventViewVM';
 import { TextFormField } from './utils/TextFormField';
 import { useMessageFormatSignal } from '../useMessageFormat';
 import { messages } from '../messages';
+import type { AppVM } from '../AppVM';
 
-export function EventView() {
+export function EventView(props: { appVM: AppVM }) {
 	const m = useMessageFormatSignal(messages);
 	const vm = useVM(() => new EventViewVM(m));
 	const title = useSignalValue(vm.title);
@@ -23,10 +24,15 @@ export function EventView() {
 		return <div>Loading ...</div>;
 	}
 
+	const onPersist = async () => {
+		await vm.persist();
+		props.appVM.refresh();
+	};
+
 	return (
 		<div className="mx-auto mx-w6xl">
 			<ViewHeader title={title}>
-				<Button onClick={vm.persist.bind(vm)}>Speichern</Button>
+				<Button onClick={onPersist}>Speichern</Button>
 			</ViewHeader>
 			<Fieldset className="mt-10">
 				<Legend>Event Details</Legend>

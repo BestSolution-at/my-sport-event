@@ -61,7 +61,7 @@ function App() {
 				<Routes>
 					<Route index element={<HomeView />} />
 					<Route element={<SearchView />} path="search" />
-					<Route element={<EventView />} path="/events/:eventId"></Route>
+					<Route element={<EventView appVM={vm} />} path="/events/:eventId"></Route>
 					<Route element={<CohortView />} path="/events/:eventId/cohorts"></Route>
 					<Route element={<ParticipantView />} path="/events/:eventId/participants"></Route>
 				</Routes>
