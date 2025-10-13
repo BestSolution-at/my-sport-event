@@ -2,7 +2,7 @@ import { batch, computed, effect, signal, type ReadonlySignal } from '@preact/si
 import type { SportEvent, SportEventPatch } from '../../remote/model';
 import { createSportEventService } from '../../remote';
 import { createRemoteFunction, createTextField, validateRequired } from '../utils/utils';
-import { messages, type AllMessages } from '../../messages';
+import { type AllMessages } from '../../messages';
 import { BaseViewVM } from './BaseViewVM';
 import type { SportEventService } from '../../remote/SportEventService';
 
@@ -30,12 +30,12 @@ export class EventViewVM extends BaseViewVM {
 	});
 
 	public readonly date = createTextField({
-		label: messages['en-US'].NewEventDialog_Date,
+		label: computed(() => this.l10n('NewEventDialog_Date')),
 		initialValue: '',
 		validation: v => validateRequired(v, this.l10n),
 	});
 	public readonly time = createTextField({
-		label: messages['en-US'].NewEventDialog_Time,
+		label: computed(() => this.l10n('NewEventDialog_Time')),
 		initialValue: '',
 		validation: v => validateRequired(v, this.l10n),
 	});
