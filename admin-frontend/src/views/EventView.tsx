@@ -26,7 +26,7 @@ export function EventView(props: { appVM: AppVM }) {
 
 	const onPersist = async () => {
 		await vm.persist();
-		props.appVM.refresh();
+		props.appVM.refresh(); // better would be to use some event-bus system
 	};
 
 	return (
