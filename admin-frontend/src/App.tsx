@@ -51,7 +51,6 @@ import { TextFormField } from './views/utils/TextFormField';
 function App() {
 	const m = useMessageFormatSignal(messages);
 	const vm = useVM(() => new AppVM(m));
-	const events = useValue(vm.events);
 
 	const navigate = useNavigate();
 	vm.navigateToEvent = newEventId => navigate(`/events/${newEventId}`);
@@ -60,7 +59,7 @@ function App() {
 		<>
 			<SidebarLayout navbar={<AppNavBar />} sidebar={<AppSideBar vm={vm} />}>
 				<Routes>
-					<Route index element={<HomeView events={events} />} />
+					<Route index element={<HomeView />} />
 					<Route element={<SearchView />} path="search" />
 					<Route element={<EventView />} path="/events/:eventId"></Route>
 					<Route element={<CohortView />} path="/events/:eventId/cohorts"></Route>
