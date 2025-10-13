@@ -4,6 +4,7 @@ import { checkOptProp, checkProp, isNumber, isRecord, isString, propValue } from
 export type SportEvent = {
 	readonly key: string;
 	readonly version: number;
+	readonly participantCount: number;
 	readonly name: string;
 	readonly date: string;
 };
@@ -12,6 +13,7 @@ export function isSportEvent(value: unknown): value is SportEvent {
 	return isRecord(value) &&
 		checkProp(value, 'key', isString) &&
 		checkProp(value, 'version', isNumber) &&
+		checkProp(value, 'participantCount', isNumber) &&
 		checkProp(value, 'name', isString) &&
 		checkProp(value, 'date', isString);
 }
@@ -19,11 +21,13 @@ export function isSportEvent(value: unknown): value is SportEvent {
 export function SportEventFromJSON($value: Record<string, unknown>): SportEvent {
 	const key = propValue('key', $value, isString);
 	const version = propValue('version', $value, isNumber);
+	const participantCount = propValue('participantCount', $value, isNumber);
 	const name = propValue('name', $value, isString);
 	const date = propValue('date', $value, isString);
 	return {
 		key,
 		version,
+		participantCount,
 		name,
 		date,
 	};
@@ -32,12 +36,14 @@ export function SportEventFromJSON($value: Record<string, unknown>): SportEvent 
 export function SportEventToJSON($value: SportEvent): Record<string, unknown> {
 	const key = $value.key;
 	const version = $value.version;
+	const participantCount = $value.participantCount;
 	const name = $value.name;
 	const date = $value.date;
 
 	return {
 		key,
 		version,
+		participantCount,
 		name,
 		date,
 	};

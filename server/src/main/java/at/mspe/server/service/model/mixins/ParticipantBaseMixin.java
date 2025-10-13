@@ -16,4 +16,6 @@ public interface ParticipantBaseMixin {
 
 	public Gender gender();
 
+	public String association();
+
 }

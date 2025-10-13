@@ -26,6 +26,8 @@ public interface Participant {
 
 		public Gender gender();
 
+		public String association();
+
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<Participant.Data> {
@@ -45,6 +47,8 @@ public interface Participant {
 
 		public DataBuilder gender(Gender gender);
 
+		public DataBuilder association(String association);
+
 	}
 
 	public interface Patch extends _Base.BaseData, Participant {
@@ -62,6 +66,8 @@ public interface Participant {
 
 		public Optional<Gender> gender();
 
+		public _Base.Nillable<String> association();
+
 	}
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<Participant.Patch> {
@@ -78,6 +84,8 @@ public interface Participant {
 		public PatchBuilder birthday(LocalDate birthday);
 
 		public PatchBuilder gender(Gender gender);
+
+		public PatchBuilder association(String association);
 
 	}
 }

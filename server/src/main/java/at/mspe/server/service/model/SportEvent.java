@@ -13,6 +13,8 @@ public interface SportEvent {
 
 		public long version();
 
+		public int participantCount();
+
 		public String name();
 
 		public ZonedDateTime date();
@@ -23,6 +25,8 @@ public interface SportEvent {
 		public DataBuilder key(String key);
 
 		public DataBuilder version(long version);
+
+		public DataBuilder participantCount(int participantCount);
 
 		public DataBuilder name(String name);
 

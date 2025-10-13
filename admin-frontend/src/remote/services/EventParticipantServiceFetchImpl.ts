@@ -2,9 +2,7 @@
 import { ifDefined, safeExecute, type ServiceProps } from './_fetch-type-utils.ts';
 import { api } from '../index.ts';
 
-export function createEventParticipantService(
-	props: ServiceProps<api.service.ErrorType>
-): api.service.EventParticipantService {
+export function createEventParticipantService(props: ServiceProps<api.service.ErrorType>): api.service.EventParticipantService {
 	return {
 		get: fnGet(props),
 		list: fnList(props),
@@ -210,3 +208,4 @@ function fnDelete(props: ServiceProps<api.service.ErrorType>): api.service.Event
 		}
 	};
 }
+

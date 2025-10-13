@@ -52,6 +52,9 @@ public class ParticipantEntity {
     @Column(name = "par_gender", nullable = false)
     public Gender gender;
 
+    @Column(name = "par_association", nullable = true)
+    public String association;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "par_fk_cohort", foreignKey = @ForeignKey(name = "par_fkey_cohort"))
     public CohortEntity cohort;

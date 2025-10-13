@@ -52,6 +52,7 @@ patchable record SportEvent {
     @rev version: long
 
     include SportEventBase
+    @readonly participantCount: int
 }
 
 mixin ParticipantBase {
@@ -60,6 +61,7 @@ mixin ParticipantBase {
     team: string
     birthday: local-date
     gender: Gender
+    association?: string
 }
 
 record ParticipantNew {

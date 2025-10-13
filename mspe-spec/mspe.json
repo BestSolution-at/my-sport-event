@@ -234,6 +234,17 @@
           "name": "version",
           "type": "long",
           "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "participantCount",
+          "array": false,
+          "readonly": true,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "int",
+          "doc": ""
         }
       ],
       "doc": ""
@@ -295,6 +306,17 @@
           "nullable": false,
           "variant": "enum",
           "type": "Gender",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "association",
+          "array": false,
+          "readonly": false,
+          "optional": true,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
           "doc": ""
         }
       ],

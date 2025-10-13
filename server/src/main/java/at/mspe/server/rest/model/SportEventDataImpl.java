@@ -22,6 +22,10 @@ public class SportEventDataImpl extends _BaseDataImpl implements SportEvent.Data
 		return _JsonUtils.mapLong(data, "version");
 	}
 
+	public int participantCount() {
+		return _JsonUtils.mapInt(data, "participantCount");
+	}
+
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
@@ -48,6 +52,11 @@ public class SportEventDataImpl extends _BaseDataImpl implements SportEvent.Data
 
 		public SportEvent.DataBuilder version(long version) {
 			$builder.add("version", version);
+			return this;
+		}
+
+		public SportEvent.DataBuilder participantCount(int participantCount) {
+			$builder.add("participantCount", participantCount);
 			return this;
 		}
 

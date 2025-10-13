@@ -8,6 +8,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
+import at.mspe.server.service.model._Base;
 import at.mspe.server.service.model.Gender;
 import at.mspe.server.service.model.Participant;
 
@@ -42,6 +43,10 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 
 	public Optional<Gender> gender() {
 		return _JsonUtils.mapOptLiteral(data, "gender", Gender::valueOf);
+	}
+
+	public _Base.Nillable<String> association() {
+		return _JsonUtils.mapNilString(data, "association");
 	}
 
 	public static class PatchBuilderImpl implements Participant.PatchBuilder {
@@ -84,6 +89,16 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 		@Override
 		public Participant.PatchBuilder gender(Gender gender) {
 			;
+			return this;
+		}
+
+		@Override
+		public Participant.PatchBuilder association(String association) {
+			if (association == null) {
+				$builder.addNull("association");
+				return this;
+			}
+			$builder.add("association", association);
 			return this;
 		}
 

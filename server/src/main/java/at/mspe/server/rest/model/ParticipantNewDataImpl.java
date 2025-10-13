@@ -35,6 +35,10 @@ public class ParticipantNewDataImpl extends _BaseDataImpl implements Participant
 		return _JsonUtils.mapLiteral(data, "gender", Gender::valueOf);
 	}
 
+	public String association() {
+		return _JsonUtils.mapString(data, "association", null);
+	}
+
 	public static ParticipantNew.Data of(JsonObject obj) {
 		return new ParticipantNewDataImpl(obj);
 	}
@@ -83,6 +87,14 @@ public class ParticipantNewDataImpl extends _BaseDataImpl implements Participant
 				return this;
 			}
 			$builder.add("gender", gender.toString());
+			return this;
+		}
+
+		public ParticipantNew.DataBuilder association(String association) {
+			if (association == null) {
+				return this;
+			}
+			$builder.add("association", association);
 			return this;
 		}
 

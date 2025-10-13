@@ -18,6 +18,8 @@ public interface ParticipantNew {
 
 		public Gender gender();
 
+		public String association();
+
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<ParticipantNew.Data> {
@@ -30,6 +32,8 @@ public interface ParticipantNew {
 		public DataBuilder birthday(LocalDate birthday);
 
 		public DataBuilder gender(Gender gender);
+
+		public DataBuilder association(String association);
 
 	}
 }
