@@ -1,4 +1,4 @@
-package at.mspe.server.service.jpa.eventparticipant;
+package at.mspe.server.service.jpa.participant;
 
 import at.mspe.server.service.jpa.BaseHandler;
 import at.mspe.server.service.jpa.model.Gender;
