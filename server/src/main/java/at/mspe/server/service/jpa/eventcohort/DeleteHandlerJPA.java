@@ -28,7 +28,7 @@ public class DeleteHandlerJPA extends BaseHandler implements EventCohortServiceI
         accept(em -> delete(em, _factory, eventKey, key, version));
     }
 
-    static void delete(EntityManager em, BuilderFactory factory, String eventKey, String key, Long version) {
+    private static void delete(EntityManager em, BuilderFactory factory, String eventKey, String key, Long version) {
         var entity = EventCohortHelper.findCohort(em, eventKey, key);
         if (version != null && !Objects.equals(version, entity.version)) {
             var message = Utils.createStaleMessage("Cohort", key, entity.version, version);

@@ -1,6 +1,5 @@
 package at.mspe.server.service.jpa.sportevent;
 
-import java.util.Map;
 import java.util.function.Function;
 import java.util.function.ToIntFunction;
 
@@ -17,16 +16,16 @@ public class SportEventHelper {
 
     public static SportEventEntity findSportEventByKey(EntityManager em, String key) {
         try {
-            var query = em.createQuery("""
+            return em.createQuery("""
                     SELECT
                         se
                     FROM
                         SportEvent se
                     WHERE
                         se.key = :key
-                    """, SportEventEntity.class);
-            query.setParameter("key", Utils.parseUUID(key, NOT_FOUND));
-            return query.getSingleResult();
+                    """, SportEventEntity.class)
+                    .setParameter("key", Utils.parseUUID(key, NOT_FOUND))
+                    .getSingleResult();
         } catch (NoResultException e) {
             throw new NotFoundException(NOT_FOUND.apply(key));
         }

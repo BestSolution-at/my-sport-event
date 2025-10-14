@@ -119,6 +119,22 @@ public class ParticipantEntity {
         this.competitionNumber = competitionNumber;
     }
 
+    public String association() {
+        return this.association;
+    }
+
+    public void association(String association) {
+        this.association = association;
+    }
+
+    public Gender gender() {
+        return this.gender;
+    }
+
+    public void gender(Gender gender) {
+        this.gender = gender;
+    }
+
     public CohortEntity cohort() {
         return this.cohort;
     }
@@ -146,6 +162,7 @@ public class ParticipantEntity {
         private CohortEntity cohort;
         private SportEventEntity sportEvent;
         private Gender gender;
+        private String association;
 
         public ParticipantEntityBuilder key(UUID key) {
             this.key = key;
@@ -199,6 +216,11 @@ public class ParticipantEntity {
 
         public ParticipantEntityBuilder gender(Gender gender) {
             this.gender = gender;
+            return this;
+        }
+
+        public ParticipantEntityBuilder association(String association) {
+            this.association = association;
             return this;
         }
 
