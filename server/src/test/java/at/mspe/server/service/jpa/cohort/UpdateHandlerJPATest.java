@@ -1,4 +1,4 @@
-package at.mspe.server.service.jpa.eventcohort;
+package at.mspe.server.service.jpa.cohort;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;

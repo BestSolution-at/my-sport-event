@@ -1,4 +1,4 @@
-package at.mspe.server.service.jpa.eventcohort;
+package at.mspe.server.service.jpa.cohort;
 
 import at.mspe.server.service.jpa.BaseHandler;
 import at.mspe.server.service.jpa.model.Gender;

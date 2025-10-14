@@ -1,4 +1,4 @@
-package at.mspe.server.service.jpa.eventcohort;
+package at.mspe.server.service.jpa.cohort;
 
 import at.mspe.server.service.jpa.Utils;
 import at.mspe.server.service.jpa.model.CohortEntity;
