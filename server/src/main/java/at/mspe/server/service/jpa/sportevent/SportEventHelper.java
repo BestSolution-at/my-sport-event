@@ -1,6 +1,8 @@
 package at.mspe.server.service.jpa.sportevent;
 
+import java.util.Map;
 import java.util.function.Function;
+import java.util.function.ToIntFunction;
 
 import at.mspe.server.service.jpa.Utils;
 import at.mspe.server.service.jpa.model.SportEventEntity;
@@ -30,12 +32,14 @@ public class SportEventHelper {
         }
     }
 
-    public static SportEvent.Data toData(SportEventEntity entity, BuilderFactory factory) {
+    public static SportEvent.Data toData(SportEventEntity entity, ToIntFunction<Long> participantCount,
+            BuilderFactory factory) {
         return factory.builder(SportEvent.DataBuilder.class)
                 .key(entity.key.toString())
                 .version(entity.version)
                 .name(entity.name)
                 .date(entity.date)
+                .participantCount(participantCount.applyAsInt(entity.id))
                 .build();
     }
 }

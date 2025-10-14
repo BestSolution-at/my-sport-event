@@ -39,5 +39,6 @@ public class ListHandlerJPATest extends SportEventHandlerTest<ListHandlerJPA> {
         var full = fullOpt.get();
         assertEquals("Simple Full Event", full.name());
         assertEquals(ZonedDateTime.parse("2000-01-02T10:00:00Z"), full.date());
+        assertEquals(3, full.participantCount());
     }
 }

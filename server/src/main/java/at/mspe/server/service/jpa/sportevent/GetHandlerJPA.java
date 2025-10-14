@@ -22,6 +22,16 @@ public class GetHandlerJPA extends BaseReadonlyHandler implements SportEventServ
 
     private static SportEvent.Data get(EntityManager em, BuilderFactory factory, String key) {
         var entity = SportEventHelper.findSportEventByKey(em, key);
-        return SportEventHelper.toData(entity, factory);
+        var participantCountQuery = em.createQuery("""
+                SELECT
+                    count(*)
+                FROM
+                   Participant par
+                WHERE
+                    par.sportEvent.id = :id
+                """, Number.class);
+        participantCountQuery.setParameter("id", entity.id);
+        var count = participantCountQuery.getSingleResult().intValue();
+        return SportEventHelper.toData(entity, (eventId) -> count, factory);
     }
 }

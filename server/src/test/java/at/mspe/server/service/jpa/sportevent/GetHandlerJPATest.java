@@ -29,6 +29,13 @@ public class GetHandlerJPATest extends SportEventHandlerTest<GetHandlerJPA> {
     }
 
     @Test
+    public void testCount() {
+        var dto = handler.get(builderFactory, FullEventKey);
+        assertNotNull(dto);
+        assertEquals(3, dto.participantCount());
+    }
+
+    @Test
     public void testUnknownKey() {
         assertThrows(NotFoundException.class, () -> handler.get(builderFactory, UUID.randomUUID().toString()));
     }

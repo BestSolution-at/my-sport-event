@@ -1,6 +1,7 @@
 package at.mspe.server.service.jpa.sportevent;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import at.mspe.server.service.jpa.BaseReadonlyHandler;
 import at.mspe.server.service.jpa.model.SportEventEntity;
@@ -31,6 +32,21 @@ public class ListHandlerJPA extends BaseReadonlyHandler implements SportEventSer
                     SportEvent se
                 """, SportEventEntity.class)
                 .getResultList();
-        return entities.stream().map(e -> SportEventHelper.toData(e, _factory)).toList();
+        var count = em.createQuery("""
+                        SELECT
+                            par.sportEvent.id,
+                            count(*)
+                        FROM
+                            Participant par
+                        GROUP BY
+                            par.sportEvent.id
+                """, Object[].class);
+        var countMap = count
+                .getResultList()
+                .stream()
+                .collect(Collectors.toMap(o -> (Long) o[0], o -> (Number) o[1]));
+        return entities.stream()
+                .map(e -> SportEventHelper.toData(e, (id) -> countMap.getOrDefault(id, 0).intValue(), _factory))
+                .toList();
     }
 }
