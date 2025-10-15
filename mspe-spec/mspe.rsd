@@ -58,10 +58,11 @@ patchable record SportEvent {
 mixin ParticipantBase {
     firstname: string
     lastname: string
-    team: string
-    birthday: local-date
+    team?: string
+    birthday?: local-date
     gender: Gender
     association?: string
+//    cohortKey?: string
 }
 
 record ParticipantNew {

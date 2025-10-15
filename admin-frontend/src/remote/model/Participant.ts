@@ -8,8 +8,8 @@ export type Participant = {
 	readonly teamMates: string[];
 	readonly firstname: string;
 	readonly lastname: string;
-	readonly team: string;
-	readonly birthday: string;
+	readonly team?: string;
+	readonly birthday?: string;
 	readonly gender: Gender;
 	readonly association?: string;
 };
@@ -21,8 +21,8 @@ export function isParticipant(value: unknown): value is Participant {
 		checkProp(value, 'teamMates', createTypedArrayGuard(isString)) &&
 		checkProp(value, 'firstname', isString) &&
 		checkProp(value, 'lastname', isString) &&
-		checkProp(value, 'team', isString) &&
-		checkProp(value, 'birthday', isString) &&
+		checkOptProp(value, 'team', isString) &&
+		checkOptProp(value, 'birthday', isString) &&
 		checkProp(value, 'gender', isGender) &&
 		checkOptProp(value, 'association', isString);
 }
@@ -33,8 +33,8 @@ export function ParticipantFromJSON($value: Record<string, unknown>): Participan
 	const teamMates = propListValue('teamMates', $value, isString);
 	const firstname = propValue('firstname', $value, isString);
 	const lastname = propValue('lastname', $value, isString);
-	const team = propValue('team', $value, isString);
-	const birthday = propValue('birthday', $value, isString);
+	const team = propValue('team', $value, isString, 'optional');
+	const birthday = propValue('birthday', $value, isString, 'optional');
 	const gender = propValue('gender', $value, isGender);
 	const association = propValue('association', $value, isString, 'optional');
 	return {
@@ -79,8 +79,8 @@ export type ParticipantPatch = {
 	readonly version: number;
 	readonly firstname?: string;
 	readonly lastname?: string;
-	readonly team?: string;
-	readonly birthday?: string;
+	readonly team?: string | null;
+	readonly birthday?: string | null;
 	readonly gender?: Gender;
 	readonly association?: string | null;
 };
@@ -91,8 +91,8 @@ export function isParticipantPatch(value: unknown): value is ParticipantPatch {
 		checkProp(value, 'version', isNumber) &&
 		checkOptProp(value, 'firstname', isString) &&
 		checkOptProp(value, 'lastname', isString) &&
-		checkOptProp(value, 'team', isString) &&
-		checkOptProp(value, 'birthday', isString) &&
+		(checkOptProp(value, 'team', isNull) || checkOptProp(value, 'team', isString)) &&
+		(checkOptProp(value, 'birthday', isNull) || checkOptProp(value, 'birthday', isString)) &&
 		checkOptProp(value, 'gender', isGender) &&
 		(checkOptProp(value, 'association', isNull) || checkOptProp(value, 'association', isString));
 }
@@ -102,8 +102,8 @@ export function ParticipantPatchFromJSON($value: Record<string, unknown>): Parti
 	const version = propValue('version', $value, isNumber);
 	const firstname = propValue('firstname', $value, isString, 'optional');
 	const lastname = propValue('lastname', $value, isString, 'optional');
-	const team = propValue('team', $value, isString, 'optional');
-	const birthday = propValue('birthday', $value, isString, 'optional');
+	const team = propValue('team', $value, isString, 'optional_null');
+	const birthday = propValue('birthday', $value, isString, 'optional_null');
 	const gender = propValue('gender', $value, isGender, 'optional');
 	const association = propValue('association', $value, isString, 'optional_null');
 	return {

@@ -44,11 +44,11 @@ public class UpdateHandlerJPA extends BaseHandler implements EventParticipantSer
         }
 
         participant.association().accept(entity::association);
-        participant.birthday().ifPresent(entity::birthday);
+        participant.birthday().accept(entity::birthday);
         participant.firstname().ifPresent(entity::firstName);
         participant.gender().map(g -> Gender.valueOf(g.name())).ifPresent(entity::gender);
         participant.lastname().ifPresent(entity::lastname);
-        participant.team().ifPresent(entity::team);
+        participant.team().accept(entity::team);
 
         em.persist(entity);
         em.flush();

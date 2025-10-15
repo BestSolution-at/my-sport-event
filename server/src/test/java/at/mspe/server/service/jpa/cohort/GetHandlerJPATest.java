@@ -42,6 +42,12 @@ public class GetHandlerJPATest extends CohortHandlerTest<GetHandlerJPA> {
     }
 
     @Test
+    public void testEventKeyMismatch() {
+        assertThrows(NotFoundException.class,
+                () -> handler.get(builderFactory, SimpleEmptyEventKey, FullEvent_BirthyearCohortKey));
+    }
+
+    @Test
     public void testUnknownEventKey() {
         assertThrows(NotFoundException.class,
                 () -> handler.get(builderFactory, UUID.randomUUID().toString(), FullEvent_BirthyearCohortKey));

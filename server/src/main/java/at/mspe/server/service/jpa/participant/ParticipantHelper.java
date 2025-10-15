@@ -26,7 +26,7 @@ public class ParticipantHelper {
                         FROM
                             Participant as p
                         WHERE
-                            p.sportEvent.eventKey = :eventKey
+                            p.sportEvent.key = :eventKey
                         AND p.key = :key
                     """, ParticipantEntity.class)
                     .setParameter("eventKey", eventKey)

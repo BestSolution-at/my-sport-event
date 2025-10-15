@@ -24,11 +24,11 @@ public class ParticipantNewDataImpl extends _BaseDataImpl implements Participant
 	}
 
 	public String team() {
-		return _JsonUtils.mapString(data, "team");
+		return _JsonUtils.mapString(data, "team", null);
 	}
 
 	public LocalDate birthday() {
-		return _JsonUtils.mapLocalDate(data, "birthday");
+		return _JsonUtils.mapLocalDate(data, "birthday", null);
 	}
 
 	public Gender gender() {

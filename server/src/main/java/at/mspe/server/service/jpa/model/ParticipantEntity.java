@@ -227,6 +227,7 @@ public class ParticipantEntity {
         public ParticipantEntity build() {
             var entity = new ParticipantEntity();
             entity.key = this.key;
+            entity.association = this.association;
             entity.firstname = this.firstname;
             entity.lastname = this.lastname;
             entity.team = this.team;
@@ -236,6 +237,7 @@ public class ParticipantEntity {
             entity.cohort = this.cohort;
             entity.sportEvent = this.sportEvent;
             entity.gender = gender;
+            validate(entity);
             return entity;
         }
     }

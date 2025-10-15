@@ -1,5 +1,6 @@
 package at.mspe.server;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -100,11 +101,14 @@ public class BaseTest {
             {
                 var participant = ParticipantEntity.builder()
                         .key(UUID.randomUUID())
+                        .association("Association")
+                        .birthday(LocalDate.of(1991, 10, 25))
                         .firstname("Jane")
                         .lastname("Dune")
                         .sportEvent(event)
                         .cohort(cohort)
                         .gender(Gender.FEMALE)
+                        .team("Team")
                         .build();
                 em.persist(participant);
                 this.FullEvent_ParticpantWithGenericCohortKey = participant.key.toString();
@@ -133,6 +137,7 @@ public class BaseTest {
                         .sportEvent(event)
                         .cohort(cohort)
                         .gender(Gender.MALE)
+                        .team("Team")
                         .build();
                 em.persist(participant);
                 this.FullEvent_ParticpantWithBirthyearCohortKey = participant.key.toString();

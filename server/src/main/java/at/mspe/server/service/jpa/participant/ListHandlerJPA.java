@@ -35,7 +35,7 @@ public class ListHandlerJPA extends BaseReadonlyHandler implements EventParticip
                 FROM
                     Participant p
                 WHERE
-                    p.sportEvent.key = :eventKey;
+                    p.sportEvent.key = :eventKey
                     """, ParticipantEntity.class)
                 .setParameter("eventKey", eventKey)
                 .getResultList();

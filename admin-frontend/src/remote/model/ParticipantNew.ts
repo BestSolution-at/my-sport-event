@@ -5,8 +5,8 @@ import { checkOptProp, checkProp, isRecord, isString, propValue } from '../_type
 export type ParticipantNew = {
 	readonly firstname: string;
 	readonly lastname: string;
-	readonly team: string;
-	readonly birthday: string;
+	readonly team?: string;
+	readonly birthday?: string;
 	readonly gender: Gender;
 	readonly association?: string;
 };
@@ -15,8 +15,8 @@ export function isParticipantNew(value: unknown): value is ParticipantNew {
 	return isRecord(value) &&
 		checkProp(value, 'firstname', isString) &&
 		checkProp(value, 'lastname', isString) &&
-		checkProp(value, 'team', isString) &&
-		checkProp(value, 'birthday', isString) &&
+		checkOptProp(value, 'team', isString) &&
+		checkOptProp(value, 'birthday', isString) &&
 		checkProp(value, 'gender', isGender) &&
 		checkOptProp(value, 'association', isString);
 }
@@ -24,8 +24,8 @@ export function isParticipantNew(value: unknown): value is ParticipantNew {
 export function ParticipantNewFromJSON($value: Record<string, unknown>): ParticipantNew {
 	const firstname = propValue('firstname', $value, isString);
 	const lastname = propValue('lastname', $value, isString);
-	const team = propValue('team', $value, isString);
-	const birthday = propValue('birthday', $value, isString);
+	const team = propValue('team', $value, isString, 'optional');
+	const birthday = propValue('birthday', $value, isString, 'optional');
 	const gender = propValue('gender', $value, isGender);
 	const association = propValue('association', $value, isString, 'optional');
 	return {

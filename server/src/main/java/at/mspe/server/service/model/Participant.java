@@ -60,9 +60,9 @@ public interface Participant {
 
 		public Optional<String> lastname();
 
-		public Optional<String> team();
+		public _Base.Nillable<String> team();
 
-		public Optional<LocalDate> birthday();
+		public _Base.Nillable<LocalDate> birthday();
 
 		public Optional<Gender> gender();
 

@@ -3,8 +3,11 @@ package at.mspe.server.service.jpa.sportevent;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.UUID;
+
 import org.junit.jupiter.api.Test;
 
+import at.mspe.server.service.NotFoundException;
 import at.mspe.server.service.StaleDataException;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -31,6 +34,16 @@ public class DeleteHandlerJPATest extends SportEventHandlerTest<DeleteHandlerJPA
     @Test
     public void deleteEmptyEvent_Stale() {
         assertThrows(StaleDataException.class, () -> handler.delete(builderFactory, SimpleEmptyEventKey, 1L));
+    }
+
+    @Test
+    public void deleteUnknownKey() {
+        assertThrows(NotFoundException.class, () -> handler.delete(builderFactory, UUID.randomUUID().toString(), 0L));
+    }
+
+    @Test
+    public void deleteInvalidKey() {
+        assertThrows(NotFoundException.class, () -> handler.delete(builderFactory, "abcd", 0L));
     }
 
     @Test

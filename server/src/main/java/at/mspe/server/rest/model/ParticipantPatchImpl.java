@@ -33,12 +33,12 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 		return _JsonUtils.mapOptString(data, "lastname");
 	}
 
-	public Optional<String> team() {
-		return _JsonUtils.mapOptString(data, "team");
+	public _Base.Nillable<String> team() {
+		return _JsonUtils.mapNilString(data, "team");
 	}
 
-	public Optional<LocalDate> birthday() {
-		return _JsonUtils.mapOptLocalDate(data, "birthday");
+	public _Base.Nillable<LocalDate> birthday() {
+		return _JsonUtils.mapNilLocalDate(data, "birthday");
 	}
 
 	public Optional<Gender> gender() {
@@ -76,12 +76,20 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 
 		@Override
 		public Participant.PatchBuilder team(String team) {
+			if (team == null) {
+				$builder.addNull("team");
+				return this;
+			}
 			$builder.add("team", team);
 			return this;
 		}
 
 		@Override
 		public Participant.PatchBuilder birthday(LocalDate birthday) {
+			if (birthday == null) {
+				$builder.addNull("birthday");
+				return this;
+			}
 			$builder.add("birthday", birthday.toString());
 			return this;
 		}

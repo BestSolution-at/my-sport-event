@@ -30,6 +30,7 @@ public class CreateHandlerJPA extends BaseHandler implements EventParticipantSer
             ParticipantNew.Data participant) {
         var sportEvent = SportEventHelper.findSportEventByKey(em, eventKey);
         var e = ParticipantEntity.builder()
+                .association(participant.association())
                 .birthday(participant.birthday())
                 // .cohort(null)
                 // .competitionNumber(null)
