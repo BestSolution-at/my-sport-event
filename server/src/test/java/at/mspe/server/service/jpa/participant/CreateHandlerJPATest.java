@@ -40,7 +40,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .team(team)
                 .cohortKey(FullEvent_GenericCohortKey)
                 .build();
-        var key = handler.create(builderFactory, FullEventKey, dto);
+        var key = handler.create(builderFactory, FullEventKey, dto, false);
         assertNotNull(key);
         var entity = getParticipantEntity(key);
         assertEquals(entity.key.toString(), key);
@@ -63,7 +63,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .gender(gender)
                 .lastname(lastname)
                 .build();
-        var key = handler.create(builderFactory, SimpleEmptyEventKey, dto);
+        var key = handler.create(builderFactory, SimpleEmptyEventKey, dto, false);
         assertNotNull(key);
         var entity = getParticipantEntity(key);
         assertEquals(entity.key.toString(), key);
@@ -84,7 +84,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .gender(gender)
                 .lastname(lastname)
                 .build();
-        assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto));
+        assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto, false));
     }
 
     @Test
@@ -96,7 +96,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .gender(gender)
                 .lastname("")
                 .build();
-        assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto));
+        assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto, false));
     }
 
     @Test
@@ -109,7 +109,8 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .gender(gender)
                 .lastname(lastname)
                 .build();
-        assertThrows(NotFoundException.class, () -> handler.create(builderFactory, UUID.randomUUID().toString(), dto));
+        assertThrows(NotFoundException.class,
+                () -> handler.create(builderFactory, UUID.randomUUID().toString(), dto, false));
     }
 
     @Test
@@ -122,6 +123,6 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .gender(gender)
                 .lastname(lastname)
                 .build();
-        assertThrows(NotFoundException.class, () -> handler.create(builderFactory, "abcd", dto));
+        assertThrows(NotFoundException.class, () -> handler.create(builderFactory, "abcd", dto, false));
     }
 }

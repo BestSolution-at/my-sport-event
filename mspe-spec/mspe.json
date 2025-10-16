@@ -1286,6 +1286,23 @@
               "variant": "record",
               "type": "ParticipantNew",
               "doc": ""
+            },
+            {
+              "@type": "Parameter",
+              "name": "autoAssignCohort",
+              "array": false,
+              "nullable": false,
+              "optional": true,
+              "patch": false,
+              "variant": "builtin",
+              "type": "boolean",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "autoAssignCohort",
+                  "source": "header"
+                }
+              }
             }
           ],
           "resultType": {
@@ -1376,6 +1393,23 @@
               "variant": "record",
               "type": "Participant",
               "doc": ""
+            },
+            {
+              "@type": "Parameter",
+              "name": "autoAssignCohort",
+              "array": false,
+              "nullable": false,
+              "optional": true,
+              "patch": false,
+              "variant": "builtin",
+              "type": "boolean",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "autoAssignCohort",
+                  "source": "header"
+                }
+              }
             }
           ],
           "resultType": {

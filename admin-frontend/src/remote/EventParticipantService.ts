@@ -8,7 +8,7 @@ import type { UpdateResult } from './model/UpdateResult.ts';
 export interface EventParticipantService {
 	get(eventKey: string, key: string): Promise<Result<Participant, NotFoundError | StatusRSDError | NativeRSDError>>;
 	list(eventKey: string): Promise<Result<Participant[], NotFoundError | StatusRSDError | NativeRSDError>>;
-	create(eventKey: string, participant: ParticipantNew): Promise<Result<string, NotFoundError | InvalidDataError | StatusRSDError | NativeRSDError>>;
-	update(eventKey: string, key: string, participant: ParticipantPatch): Promise<Result<UpdateResult, NotFoundError | InvalidDataError | StaleDataError | StatusRSDError | NativeRSDError>>;
+	create(eventKey: string, participant: ParticipantNew, autoAssignCohort?: boolean): Promise<Result<string, NotFoundError | InvalidDataError | StatusRSDError | NativeRSDError>>;
+	update(eventKey: string, key: string, participant: ParticipantPatch, autoAssignCohort?: boolean): Promise<Result<UpdateResult, NotFoundError | InvalidDataError | StaleDataError | StatusRSDError | NativeRSDError>>;
 	delete(eventKey: string, key: string, version?: number): Promise<Result<VoidType, NotFoundError | StaleDataError | StatusRSDError | NativeRSDError>>;
 }

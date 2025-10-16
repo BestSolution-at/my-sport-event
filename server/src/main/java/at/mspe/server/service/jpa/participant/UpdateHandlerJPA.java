@@ -28,12 +28,12 @@ public class UpdateHandlerJPA extends BaseHandler implements EventParticipantSer
     @Transactional
     @Override
     public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key,
-            Participant.Patch participant) {
-        return apply(em -> update(em, _factory, eventKey, key, participant));
+            Participant.Patch participant, Boolean autoAssignCohort) {
+        return apply(em -> update(em, _factory, eventKey, key, participant, autoAssignCohort));
     }
 
     private static UpdateResult.Data update(EntityManager em, BuilderFactory factory, String eventKey, String key,
-            Participant.Patch participant) {
+            Participant.Patch participant, Boolean autoAssignCohort) {
         if (!Objects.equals(key, participant.key())) {
             throw new InvalidDataException(
                     "key '%s' and participant.key '%s' have to be equal".formatted(key, participant.key()));

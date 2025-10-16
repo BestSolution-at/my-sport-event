@@ -14,11 +14,11 @@ public interface EventParticipantService {
 	public List<Participant.Data> list(BuilderFactory _factory, String eventKey)
 			throws NotFoundException;
 
-	public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant)
+	public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant, Boolean autoAssignCohort)
 			throws NotFoundException,
 			InvalidDataException;
 
-	public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant)
+	public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant, Boolean autoAssignCohort)
 			throws NotFoundException,
 			InvalidDataException,
 			StaleDataException;

@@ -2,9 +2,14 @@ package at.mspe.server.service.jpa.cohort;
 
 import at.mspe.server.service.jpa.Utils;
 import at.mspe.server.service.jpa.model.CohortEntity;
+import at.mspe.server.service.jpa.model.ParticipantEntity;
 import at.mspe.server.service.jpa.model.cohort.BirthyearCohortEntity;
 import at.mspe.server.service.jpa.model.cohort.GenericCohortEntity;
 import at.mspe.server.service.jpa.sportevent.SportEventHelper;
+
+import java.time.LocalDate;
+import java.util.Objects;
+
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.NotFoundException;
 import at.mspe.server.service.model.BirthyearCohort;
@@ -58,5 +63,43 @@ public class EventCohortHelper {
         }
 
         throw new IllegalStateException("Unknown type '%s'".formatted(entity.getClass()));
+    }
+
+    public static CohortEntity findMatchingCohort(EntityManager em, ParticipantEntity participant) {
+        var list = em.createQuery("""
+                    SELECT
+                        c
+                    FROM
+                        Cohort c
+                    WHERE
+                        c.sportEvent.id = :id
+                """, CohortEntity.class)
+                .setParameter("id", participant.sportEvent.id)
+                .getResultList();
+        CohortEntity result = null;
+
+        // try to find correct birthyear cohort
+        if (participant.birthday != null) {
+            var birthday = participant.birthday;
+            result = list.stream()
+                    .filter(c -> c.gender == participant.gender)
+                    .map(BirthyearCohortEntity.class::cast)
+                    .filter(Objects::nonNull)
+                    .filter(c -> containsDate(birthday, LocalDate.of(c.min, 1, 1), LocalDate.of(c.max, 12, 31)))
+                    .findFirst()
+                    .orElse(null);
+        }
+
+        if (result == null) {
+            result = list.stream()
+                    .filter(c -> c.gender == participant.gender)
+                    .findFirst()
+                    .orElse(null);
+        }
+        return result;
+    }
+
+    private static boolean containsDate(LocalDate date, LocalDate min, LocalDate max) {
+        return min.compareTo(date) <= 0 && max.compareTo(date) >= 0;
     }
 }

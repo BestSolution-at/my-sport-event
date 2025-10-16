@@ -55,7 +55,8 @@ resource EventCohort at '/api/sportevent/${eventKey}/cohorts' {
 }
 
 resource EventParticipant at '/api/sportevent/${eventKey}/participants' {
-    POST create at ''  => {
+    POST create at ''
+        header-param autoAssignCohort => {
         201
         422: InvalidData
     }
@@ -70,7 +71,8 @@ resource EventParticipant at '/api/sportevent/${eventKey}/participants' {
         404: NotFound
         412: StaleData
     }
-    PATCH update at '${key}' => {
+    PATCH update at '${key}' 
+        header-param autoAssignCohort => {
         200
         404: NotFound
         422: InvalidData

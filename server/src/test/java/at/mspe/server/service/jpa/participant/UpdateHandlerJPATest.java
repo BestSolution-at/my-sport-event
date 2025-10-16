@@ -37,7 +37,7 @@ public class UpdateHandlerJPATest extends ParticipantHandlerTest<UpdateHandlerJP
                 .team(team)
                 .cohortKey(null)
                 .build();
-        var result = handler.update(builderFactory, FullEventKey, FullEvent_ParticpantWithGenericCohortKey, dto);
+        var result = handler.update(builderFactory, FullEventKey, FullEvent_ParticpantWithGenericCohortKey, dto, false);
         assertEquals(FullEvent_ParticpantWithGenericCohortKey, result.key());
         assertEquals(1L, result.version());
         var entity = getParticipantEntity(FullEvent_ParticpantWithGenericCohortKey);
@@ -58,7 +58,7 @@ public class UpdateHandlerJPATest extends ParticipantHandlerTest<UpdateHandlerJP
                 .version(0)
                 .cohortKey(FullEvent_BirthyearCohortKey)
                 .build();
-        var result = handler.update(builderFactory, FullEventKey, FullEvent_ParticpantWithGenericCohortKey, dto);
+        var result = handler.update(builderFactory, FullEventKey, FullEvent_ParticpantWithGenericCohortKey, dto, false);
         assertEquals(FullEvent_ParticpantWithGenericCohortKey, result.key());
         assertEquals(1L, result.version());
         var entity = getParticipantEntity(FullEvent_ParticpantWithGenericCohortKey);

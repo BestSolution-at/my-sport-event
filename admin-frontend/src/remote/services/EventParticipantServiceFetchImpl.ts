@@ -85,11 +85,12 @@ function fnList(props: ServiceProps<api.service.ErrorType>): api.service.EventPa
 function fnCreate(props: ServiceProps<api.service.ErrorType>): api.service.EventParticipantService['create'] {
 	const { baseUrl, fetchAPI = fetch, lifecycleHandlers = {} } = props;
 	const { preFetch, onSuccess, onError, onCatch, final } = lifecycleHandlers;
-	return async (eventKey: string, participant: api.model.ParticipantNew) => {
+	return async (eventKey: string, participant: api.model.ParticipantNew, autoAssignCohort?: boolean) => {
 		try {
 			const $init = (await preFetch?.('create')) ?? {};
 			const $headers = new Headers($init.headers ?? {});
 			$headers.append('Content-Type', 'application/json');
+			ifDefined(autoAssignCohort, v => $headers.append('autoAssignCohort', `${v}`));
 			$init.headers = $headers;
 
 			const $path = `${baseUrl}/api/sportevent/${eventKey}/participants/`;
@@ -121,11 +122,12 @@ function fnCreate(props: ServiceProps<api.service.ErrorType>): api.service.Event
 function fnUpdate(props: ServiceProps<api.service.ErrorType>): api.service.EventParticipantService['update'] {
 	const { baseUrl, fetchAPI = fetch, lifecycleHandlers = {} } = props;
 	const { preFetch, onSuccess, onError, onCatch, final } = lifecycleHandlers;
-	return async (eventKey: string, key: string, participant: api.model.ParticipantPatch) => {
+	return async (eventKey: string, key: string, participant: api.model.ParticipantPatch, autoAssignCohort?: boolean) => {
 		try {
 			const $init = (await preFetch?.('update')) ?? {};
 			const $headers = new Headers($init.headers ?? {});
 			$headers.append('Content-Type', 'application/json');
+			ifDefined(autoAssignCohort, v => $headers.append('autoAssignCohort', `${v}`));
 			$init.headers = $headers;
 
 			const $path = `${baseUrl}/api/sportevent/${eventKey}/participants/${key}`;

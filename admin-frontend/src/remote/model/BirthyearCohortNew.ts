@@ -11,14 +11,12 @@ export type BirthyearCohortNew = {
 };
 
 export function isBirthyearCohortNew(value: unknown): value is BirthyearCohortNew {
-	return (
-		isRecord(value) &&
+	return isRecord(value) &&
 		checkProp(value, '@type', createIsStringTypeGuard('birthyear')) &&
 		checkProp(value, 'name', isString) &&
 		checkProp(value, 'gender', isGender) &&
 		checkProp(value, 'min', isNumber) &&
-		checkProp(value, 'max', isNumber)
-	);
+		checkProp(value, 'max', isNumber);
 }
 
 export function BirthyearCohortNewFromJSON($value: Record<string, unknown>): BirthyearCohortNew {
@@ -49,3 +47,4 @@ export function BirthyearCohortNewToJSON($value: BirthyearCohortNew): Record<str
 		max,
 	};
 }
+

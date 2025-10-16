@@ -43,18 +43,18 @@ public class EventParticipantServiceImpl implements EventParticipantService {
 	}
 
 	@Override
-	public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant)
+	public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant, Boolean autoAssignCohort)
 			throws NotFoundException,
 			InvalidDataException {
-		return createHandler.create(_factory, eventKey, participant);
+		return createHandler.create(_factory, eventKey, participant, autoAssignCohort);
 	}
 
 	@Override
-	public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant)
+	public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant, Boolean autoAssignCohort)
 			throws NotFoundException,
 			InvalidDataException,
 			StaleDataException {
-		return updateHandler.update(_factory, eventKey, key, participant);
+		return updateHandler.update(_factory, eventKey, key, participant, autoAssignCohort);
 	}
 
 	@Override
@@ -75,13 +75,13 @@ public class EventParticipantServiceImpl implements EventParticipantService {
 	}
 
 	public interface CreateHandler {
-		public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant)
+		public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant, Boolean autoAssignCohort)
 				throws NotFoundException,
 				InvalidDataException;
 	}
 
 	public interface UpdateHandler {
-		public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant)
+		public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant, Boolean autoAssignCohort)
 				throws NotFoundException,
 				InvalidDataException,
 				StaleDataException;

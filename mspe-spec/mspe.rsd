@@ -141,12 +141,12 @@ service EventParticipant {
         throws
             NotFound;
 
-    operation create(eventKey: string, participant: ParticipantNew): string
+    operation create(eventKey: string, participant: ParticipantNew, autoAssignCohort?: boolean): string
         throws
             NotFound
             InvalidData;
 
-    operation update(eventKey: string, key: string, @patch participant: Participant): UpdateResult
+    operation update(eventKey: string, key: string, @patch participant: Participant, autoAssignCohort?: boolean): UpdateResult
         throws
             NotFound
             InvalidData

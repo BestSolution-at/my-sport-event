@@ -22,11 +22,11 @@ public class EventParticipantResourceResponseBuilder {
 		return Response.status(200).entity(_JsonUtils.toJsonString($result, false));
 	}
 
-	public ResponseBuilder create(String $result, String eventKey, ParticipantNew.Data participant) {
+	public ResponseBuilder create(String $result, String eventKey, ParticipantNew.Data participant, Boolean autoAssignCohort) {
 		return Response.status(201).entity(_JsonUtils.encodeAsJsonString($result));
 	}
 
-	public ResponseBuilder update(UpdateResult.Data $result, String eventKey, String key, Participant.Patch participant) {
+	public ResponseBuilder update(UpdateResult.Data $result, String eventKey, String key, Participant.Patch participant, Boolean autoAssignCohort) {
 		return Response.status(200).entity(_JsonUtils.toJsonString($result, false));
 	}
 

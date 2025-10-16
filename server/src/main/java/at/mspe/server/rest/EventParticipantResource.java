@@ -61,12 +61,14 @@ public class EventParticipantResource {
 	@POST
 	public Response create(
 			@PathParam("eventKey") String _eventKey,
-			String _participant) {
+			String _participant,
+			@HeaderParam("autoAssignCohort") Boolean _autoAssignCohort) {
 		var eventKey = _eventKey;
 		var participant = builderFactory.of(ParticipantNew.Data.class, _participant);
+		var autoAssignCohort = _autoAssignCohort;
 		try {
-			var result = service.create(builderFactory, eventKey, participant);
-			return responseBuilder.create(result, eventKey, participant).build();
+			var result = service.create(builderFactory, eventKey, participant, autoAssignCohort);
+			return responseBuilder.create(result, eventKey, participant, autoAssignCohort).build();
 		} catch (InvalidDataException e) {
 			return _RestUtils.toResponse(422, e);
 		}
@@ -77,13 +79,15 @@ public class EventParticipantResource {
 	public Response update(
 			@PathParam("eventKey") String _eventKey,
 			@PathParam("key") String _key,
-			String _participant) {
+			String _participant,
+			@HeaderParam("autoAssignCohort") Boolean _autoAssignCohort) {
 		var eventKey = _eventKey;
 		var key = _key;
 		var participant = builderFactory.of(Participant.Patch.class, _participant);
+		var autoAssignCohort = _autoAssignCohort;
 		try {
-			var result = service.update(builderFactory, eventKey, key, participant);
-			return responseBuilder.update(result, eventKey, key, participant).build();
+			var result = service.update(builderFactory, eventKey, key, participant, autoAssignCohort);
+			return responseBuilder.update(result, eventKey, key, participant, autoAssignCohort).build();
 		} catch (NotFoundException e) {
 			return _RestUtils.toResponse(404, e);
 		} catch (InvalidDataException e) {
