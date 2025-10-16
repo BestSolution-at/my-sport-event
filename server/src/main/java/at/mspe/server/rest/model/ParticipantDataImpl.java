@@ -52,6 +52,10 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 		return _JsonUtils.mapString(data, "association", null);
 	}
 
+	public String cohortKey() {
+		return _JsonUtils.mapString(data, "cohortKey", null);
+	}
+
 	public static Participant.Data of(JsonObject obj) {
 		return new ParticipantDataImpl(obj);
 	}
@@ -126,6 +130,14 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 				return this;
 			}
 			$builder.add("association", association);
+			return this;
+		}
+
+		public Participant.DataBuilder cohortKey(String cohortKey) {
+			if (cohortKey == null) {
+				return this;
+			}
+			$builder.add("cohortKey", cohortKey);
 			return this;
 		}
 

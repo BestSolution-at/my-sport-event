@@ -2,6 +2,7 @@ package at.mspe.server.service.jpa.participant;
 
 import at.mspe.server.service.jpa.BaseHandler;
 import at.mspe.server.service.jpa.Utils;
+import at.mspe.server.service.jpa.cohort.EventCohortHelper;
 import at.mspe.server.service.jpa.model.Gender;
 
 import java.util.Objects;
@@ -49,6 +50,8 @@ public class UpdateHandlerJPA extends BaseHandler implements EventParticipantSer
         participant.gender().map(g -> Gender.valueOf(g.name())).ifPresent(entity::gender);
         participant.lastname().ifPresent(entity::lastname);
         participant.team().accept(entity::team);
+        participant.cohortKey()
+                .accept(k -> entity.cohort = k == null ? null : EventCohortHelper.findCohort(em, eventKey, k));
 
         em.persist(entity);
         em.flush();

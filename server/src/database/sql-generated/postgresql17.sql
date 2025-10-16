@@ -30,6 +30,7 @@
 
     create table Participant (
         par_id bigint not null,
+        par_association varchar(255),
         par_birthday date,
         par_competionnumber varchar(255),
         par_email varchar(255),

@@ -1,6 +1,7 @@
 package at.mspe.server.service.jpa.participant;
 
 import at.mspe.server.service.jpa.BaseHandler;
+import at.mspe.server.service.jpa.cohort.EventCohortHelper;
 import at.mspe.server.service.jpa.model.Gender;
 import at.mspe.server.service.jpa.model.ParticipantEntity;
 import at.mspe.server.service.jpa.sportevent.SportEventHelper;
@@ -32,7 +33,8 @@ public class CreateHandlerJPA extends BaseHandler implements EventParticipantSer
         var e = ParticipantEntity.builder()
                 .association(participant.association())
                 .birthday(participant.birthday())
-                // .cohort(null)
+                .cohort(participant.cohortKey() == null ? null
+                        : EventCohortHelper.findCohort(em, eventKey, participant.cohortKey()))
                 // .competitionNumber(null)
                 // .email(null)
                 .firstname(participant.firstname())

@@ -49,6 +49,10 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 		return _JsonUtils.mapNilString(data, "association");
 	}
 
+	public _Base.Nillable<String> cohortKey() {
+		return _JsonUtils.mapNilString(data, "cohortKey");
+	}
+
 	public static class PatchBuilderImpl implements Participant.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
@@ -107,6 +111,16 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 				return this;
 			}
 			$builder.add("association", association);
+			return this;
+		}
+
+		@Override
+		public Participant.PatchBuilder cohortKey(String cohortKey) {
+			if (cohortKey == null) {
+				$builder.addNull("cohortKey");
+				return this;
+			}
+			$builder.add("cohortKey", cohortKey);
 			return this;
 		}
 

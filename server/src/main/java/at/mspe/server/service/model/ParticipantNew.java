@@ -20,6 +20,8 @@ public interface ParticipantNew {
 
 		public String association();
 
+		public String cohortKey();
+
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<ParticipantNew.Data> {
@@ -34,6 +36,8 @@ public interface ParticipantNew {
 		public DataBuilder gender(Gender gender);
 
 		public DataBuilder association(String association);
+
+		public DataBuilder cohortKey(String cohortKey);
 
 	}
 }

@@ -38,8 +38,9 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .gender(gender)
                 .lastname(lastname)
                 .team(team)
+                .cohortKey(FullEvent_GenericCohortKey)
                 .build();
-        var key = handler.create(builderFactory, SimpleEmptyEventKey, dto);
+        var key = handler.create(builderFactory, FullEventKey, dto);
         assertNotNull(key);
         var entity = getParticipantEntity(key);
         assertEquals(entity.key.toString(), key);
@@ -49,6 +50,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
         assertEquals(gender, Gender.valueOf(entity.gender.toString()));
         assertEquals(lastname, entity.lastname);
         assertEquals(team, entity.team);
+        assertEquals(FullEvent_GenericCohortKey, entity.cohort.key.toString());
     }
 
     @Test

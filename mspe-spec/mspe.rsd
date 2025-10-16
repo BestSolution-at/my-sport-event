@@ -62,7 +62,7 @@ mixin ParticipantBase {
     birthday?: local-date
     gender: Gender
     association?: string
-//    cohortKey?: string
+    cohortKey?: string
 }
 
 record ParticipantNew {

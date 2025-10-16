@@ -9,6 +9,7 @@ export type ParticipantNew = {
 	readonly birthday?: string;
 	readonly gender: Gender;
 	readonly association?: string;
+	readonly cohortKey?: string;
 };
 
 export function isParticipantNew(value: unknown): value is ParticipantNew {
@@ -18,7 +19,8 @@ export function isParticipantNew(value: unknown): value is ParticipantNew {
 		checkOptProp(value, 'team', isString) &&
 		checkOptProp(value, 'birthday', isString) &&
 		checkProp(value, 'gender', isGender) &&
-		checkOptProp(value, 'association', isString);
+		checkOptProp(value, 'association', isString) &&
+		checkOptProp(value, 'cohortKey', isString);
 }
 
 export function ParticipantNewFromJSON($value: Record<string, unknown>): ParticipantNew {
@@ -28,6 +30,7 @@ export function ParticipantNewFromJSON($value: Record<string, unknown>): Partici
 	const birthday = propValue('birthday', $value, isString, 'optional');
 	const gender = propValue('gender', $value, isGender);
 	const association = propValue('association', $value, isString, 'optional');
+	const cohortKey = propValue('cohortKey', $value, isString, 'optional');
 	return {
 		firstname,
 		lastname,
@@ -35,6 +38,7 @@ export function ParticipantNewFromJSON($value: Record<string, unknown>): Partici
 		birthday,
 		gender,
 		association,
+		cohortKey,
 	};
 }
 
@@ -45,6 +49,7 @@ export function ParticipantNewToJSON($value: ParticipantNew): Record<string, unk
 	const birthday = $value.birthday;
 	const gender = $value.gender;
 	const association = $value.association;
+	const cohortKey = $value.cohortKey;
 
 	return {
 		firstname,
@@ -53,6 +58,7 @@ export function ParticipantNewToJSON($value: ParticipantNew): Record<string, unk
 		birthday,
 		gender,
 		association,
+		cohortKey,
 	};
 }
 

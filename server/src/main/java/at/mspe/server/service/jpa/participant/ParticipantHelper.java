@@ -44,6 +44,7 @@ public class ParticipantHelper {
                 .version(entity.version)
                 .association(entity.association)
                 .birthday(entity.birthday)
+                .cohortKey(entity.cohort() == null ? null : entity.cohort().key.toString())
                 .firstname(entity.firstname)
                 .gender(Gender.valueOf(entity.gender.name()))
                 .lastname(entity.lastname)

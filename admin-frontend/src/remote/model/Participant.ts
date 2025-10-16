@@ -12,6 +12,7 @@ export type Participant = {
 	readonly birthday?: string;
 	readonly gender: Gender;
 	readonly association?: string;
+	readonly cohortKey?: string;
 };
 
 export function isParticipant(value: unknown): value is Participant {
@@ -24,7 +25,8 @@ export function isParticipant(value: unknown): value is Participant {
 		checkOptProp(value, 'team', isString) &&
 		checkOptProp(value, 'birthday', isString) &&
 		checkProp(value, 'gender', isGender) &&
-		checkOptProp(value, 'association', isString);
+		checkOptProp(value, 'association', isString) &&
+		checkOptProp(value, 'cohortKey', isString);
 }
 
 export function ParticipantFromJSON($value: Record<string, unknown>): Participant {
@@ -37,6 +39,7 @@ export function ParticipantFromJSON($value: Record<string, unknown>): Participan
 	const birthday = propValue('birthday', $value, isString, 'optional');
 	const gender = propValue('gender', $value, isGender);
 	const association = propValue('association', $value, isString, 'optional');
+	const cohortKey = propValue('cohortKey', $value, isString, 'optional');
 	return {
 		key,
 		version,
@@ -47,6 +50,7 @@ export function ParticipantFromJSON($value: Record<string, unknown>): Participan
 		birthday,
 		gender,
 		association,
+		cohortKey,
 	};
 }
 
@@ -60,6 +64,7 @@ export function ParticipantToJSON($value: Participant): Record<string, unknown> 
 	const birthday = $value.birthday;
 	const gender = $value.gender;
 	const association = $value.association;
+	const cohortKey = $value.cohortKey;
 
 	return {
 		key,
@@ -71,6 +76,7 @@ export function ParticipantToJSON($value: Participant): Record<string, unknown> 
 		birthday,
 		gender,
 		association,
+		cohortKey,
 	};
 }
 
@@ -83,6 +89,7 @@ export type ParticipantPatch = {
 	readonly birthday?: string | null;
 	readonly gender?: Gender;
 	readonly association?: string | null;
+	readonly cohortKey?: string | null;
 };
 
 export function isParticipantPatch(value: unknown): value is ParticipantPatch {
@@ -94,7 +101,8 @@ export function isParticipantPatch(value: unknown): value is ParticipantPatch {
 		(checkOptProp(value, 'team', isNull) || checkOptProp(value, 'team', isString)) &&
 		(checkOptProp(value, 'birthday', isNull) || checkOptProp(value, 'birthday', isString)) &&
 		checkOptProp(value, 'gender', isGender) &&
-		(checkOptProp(value, 'association', isNull) || checkOptProp(value, 'association', isString));
+		(checkOptProp(value, 'association', isNull) || checkOptProp(value, 'association', isString)) &&
+		(checkOptProp(value, 'cohortKey', isNull) || checkOptProp(value, 'cohortKey', isString));
 }
 
 export function ParticipantPatchFromJSON($value: Record<string, unknown>): ParticipantPatch {
@@ -106,6 +114,7 @@ export function ParticipantPatchFromJSON($value: Record<string, unknown>): Parti
 	const birthday = propValue('birthday', $value, isString, 'optional_null');
 	const gender = propValue('gender', $value, isGender, 'optional');
 	const association = propValue('association', $value, isString, 'optional_null');
+	const cohortKey = propValue('cohortKey', $value, isString, 'optional_null');
 	return {
 		key,
 		version,
@@ -115,6 +124,7 @@ export function ParticipantPatchFromJSON($value: Record<string, unknown>): Parti
 		birthday,
 		gender,
 		association,
+		cohortKey,
 	};
 }
 
@@ -127,6 +137,7 @@ export function ParticipantPatchToJSON($value: ParticipantPatch): Record<string,
 	const birthday = $value.birthday;
 	const gender = $value.gender;
 	const association = $value.association;
+	const cohortKey = $value.cohortKey;
 
 	return {
 		key,
@@ -137,6 +148,7 @@ export function ParticipantPatchToJSON($value: ParticipantPatch): Record<string,
 		birthday,
 		gender,
 		association,
+		cohortKey,
 	};
 }
 

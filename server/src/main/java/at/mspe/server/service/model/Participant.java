@@ -28,6 +28,8 @@ public interface Participant {
 
 		public String association();
 
+		public String cohortKey();
+
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<Participant.Data> {
@@ -49,6 +51,8 @@ public interface Participant {
 
 		public DataBuilder association(String association);
 
+		public DataBuilder cohortKey(String cohortKey);
+
 	}
 
 	public interface Patch extends _Base.BaseData, Participant {
@@ -68,6 +72,8 @@ public interface Participant {
 
 		public _Base.Nillable<String> association();
 
+		public _Base.Nillable<String> cohortKey();
+
 	}
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<Participant.Patch> {
@@ -86,6 +92,8 @@ public interface Participant {
 		public PatchBuilder gender(Gender gender);
 
 		public PatchBuilder association(String association);
+
+		public PatchBuilder cohortKey(String cohortKey);
 
 	}
 }

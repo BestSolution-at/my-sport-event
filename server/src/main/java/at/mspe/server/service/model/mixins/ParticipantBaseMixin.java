@@ -18,4 +18,6 @@ public interface ParticipantBaseMixin {
 
 	public String association();
 
+	public String cohortKey();
+
 }

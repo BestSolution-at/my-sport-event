@@ -35,6 +35,7 @@ public class GetHandlerJPATest extends ParticipantHandlerTest<GetHandlerJPA> {
         assertNull(participant.team());
         assertNotNull(participant.teamMates());
         assertTrue(participant.teamMates().isEmpty());
+        assertNull(participant.cohortKey());
     }
 
     @Test
@@ -49,6 +50,7 @@ public class GetHandlerJPATest extends ParticipantHandlerTest<GetHandlerJPA> {
         assertEquals("Team", participant.team());
         assertNotNull(participant.teamMates());
         assertEquals(1, participant.teamMates().size());
+        assertEquals(FullEvent_ParticpantWithGenericCohortKey, participant.cohortKey());
     }
 
     @Test
