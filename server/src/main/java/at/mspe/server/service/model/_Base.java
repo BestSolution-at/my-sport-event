@@ -12,6 +12,10 @@ public interface _Base {
 		public void accept(Consumer<T> block);
 
 		public <R> Nillable<R> map(Function<T, R> mapper);
+
+		public boolean isUndefined();
+
+		public boolean isNull();
 	}
 
 	public interface BaseData {
@@ -27,6 +31,7 @@ public interface _Base {
 
 	public interface ListMergeAddRemove<A, R> {
 		public List<A> additions();
+
 		public List<R> removals();
 	}
 

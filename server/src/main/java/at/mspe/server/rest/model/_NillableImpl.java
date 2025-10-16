@@ -39,6 +39,16 @@ public class _NillableImpl<T> implements _Base.Nillable<T> {
 		return of(mapper.apply(value));
 	}
 
+	@Override
+	public boolean isUndefined() {
+		return this == UNDEFINED;
+	}
+
+	@Override 
+	public boolean isNull() {
+		return this == NULL;
+	}
+
 	@SuppressWarnings("unchecked")
 	public static <T> _Base.Nillable<T> undefined() {
 		return (_NillableImpl<T>) UNDEFINED;
