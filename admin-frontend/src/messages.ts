@@ -8,10 +8,13 @@ const en = {
 	Generic_Cancel: 'Cancel',
 	Generic_Save: 'Save',
 	Generic_Create: 'Create',
+	Generic_Edit: 'Edit',
+	Generic_Delete: 'Delete',
 
 	Generic_Male_Female: 'Male & Female',
 	Generic_Male: 'Male',
 	Generic_Female: 'Female',
+	Generic_NoData: 'No Data',
 
 	App_RecentEvents: 'Recent events',
 	App_NewEvent: 'New Event',
@@ -50,6 +53,30 @@ const en = {
 	CohortViewDialog_Gender: 'Gender',
 	CohortViewDialog_Type_MinYear: 'From Birthyear',
 	CohortViewDialog_Type_MaxYear: 'To Birthyear',
+
+	ParticipantView_Grouping: 'Group by',
+	ParticipantView_Lastname: 'Lastname',
+	ParticipantView_Firstname: 'Firstname',
+	ParticipantView_AgeGroup: 'Age group',
+	ParticipantView_Gender: 'Gender',
+	ParticipantView_Cohort: 'Cohort',
+	ParticipantView_Time: 'Time',
+	ParticipantView_NoParticipants: 'No participants',
+	ParticipantView_NotAssign: 'No Cohort Assignment',
+
+	ParticipantDialog_Firstname: 'Firstname',
+	ParticipantDialog_Lastname: 'Lastname',
+	ParticipantDialog_Gender: 'Gender',
+	ParticipantDialog_Birthday: 'Birthday',
+	ParticipantDialog_Cohort: 'Cohort',
+	ParticipantDialog_AutoCohort: 'auto. assign',
+	ParticipantDialog_Team: 'Team',
+	ParticipantDialog_Association: 'Association',
+
+	ParticipantDialog_NewTitle: 'New participant',
+	ParticipantDialog_UpdateTitle: 'Update participant',
+	ParticipantDialog_NewDescription: 'Create a new participant',
+	ParticipantDialog_UpdateDescription: 'Edit the data of the participant',
 };
 
 const de = {
@@ -60,10 +87,13 @@ const de = {
 	Generic_Cancel: 'Abbrechen',
 	Generic_Save: 'Speichern',
 	Generic_Create: 'Anlegen',
+	Generic_Edit: 'Bearbeiten',
+	Generic_Delete: 'Löschen',
 
 	Generic_Male_Female: 'Männlich & Weiblich',
 	Generic_Male: 'Männlich',
 	Generic_Female: 'Weiblich',
+	Generic_NoData: 'Keine Angabe',
 
 	App_RecentEvents: 'Letzte Events',
 	App_NewEvent: 'Neues Sport-Event',
@@ -94,7 +124,7 @@ const de = {
 
 	CohortViewDialog_NewTitle: 'Neue Klasse',
 	CohortViewDialog_UpdateTitle: 'Klasse bearbeiten',
-	CohortViewDialog_NewDescription: "Leg' eine neue Klasse an in die Teilnehmer eingeordnet werden können",
+	CohortViewDialog_NewDescription: "Leg' eine neue Klasse an in die Teilnehmer:innen eingeordnet werden können",
 	CohortViewDialog_UpdateDescription: 'Bearbeite die Klasse',
 	CohortViewDialog_Type: 'Typ',
 	CohortViewDialog_Type_Generic: 'Generisch',
@@ -103,6 +133,30 @@ const de = {
 	CohortViewDialog_Gender: 'Geschlecht',
 	CohortViewDialog_Type_MinYear: 'Ab Jahrgang',
 	CohortViewDialog_Type_MaxYear: 'Bis Jahrgang',
+
+	ParticipantView_Grouping: 'Gruppierung',
+	ParticipantView_Lastname: 'Nachname',
+	ParticipantView_Firstname: 'Vornahme',
+	ParticipantView_AgeGroup: 'Jahrgang',
+	ParticipantView_Gender: 'Geschlecht',
+	ParticipantView_Cohort: 'Klasse',
+	ParticipantView_Time: 'Zeit',
+	ParticipantView_NoParticipants: 'Keine Teilnehmer',
+	ParticipantView_NotAssign: 'Keine Klassenzuordnung',
+
+	ParticipantDialog_Firstname: 'Vorname',
+	ParticipantDialog_Lastname: 'Nachname',
+	ParticipantDialog_Gender: 'Geschlecht',
+	ParticipantDialog_Birthday: 'Geburtstag',
+	ParticipantDialog_Cohort: 'Klasse',
+	ParticipantDialog_AutoCohort: 'autom. Zuordnung',
+	ParticipantDialog_Team: 'Team',
+	ParticipantDialog_Association: 'Verein',
+
+	ParticipantDialog_NewTitle: 'Neuer Teilnehmer',
+	ParticipantDialog_UpdateTitle: 'Teilnehmer bearbeiten',
+	ParticipantDialog_NewDescription: "Leg' einen neuen Teilnehmer/eine neue Teilnehmerin an",
+	ParticipantDialog_UpdateDescription: 'Berabeite den/die Teilnehmer:in',
 };
 
 export const messages = {

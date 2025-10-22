@@ -83,6 +83,7 @@ public class EventCohortHelper {
             var birthday = participant.birthday;
             result = list.stream()
                     .filter(c -> c.gender == participant.gender)
+                    .filter(c -> c instanceof BirthyearCohortEntity)
                     .map(BirthyearCohortEntity.class::cast)
                     .filter(Objects::nonNull)
                     .filter(c -> containsDate(birthday, LocalDate.of(c.min, 1, 1), LocalDate.of(c.max, 12, 31)))

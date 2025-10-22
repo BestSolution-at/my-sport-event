@@ -178,18 +178,18 @@ function AppSideBar(props: { vm: AppVM }) {
 								<SidebarLabel>{message.format('EventView_Title')}</SidebarLabel>
 							</SidebarItem>
 							<SidebarItem
-								href={`/events/${event.key}/participants`}
-								current={location.pathname === `/events/${event.key}/participants`}
-							>
-								<FontAwesomeIcon icon={faList} data-slot="icon" />
-								<SidebarLabel>{message.format('ParticipantView_Title')}</SidebarLabel>
-							</SidebarItem>
-							<SidebarItem
 								href={`/events/${event.key}/cohorts`}
 								current={location.pathname === `/events/${event.key}/cohorts`}
 							>
 								<FontAwesomeIcon icon={faUsersBetweenLines} data-slot="icon" />
 								<SidebarLabel>{message.format('CohortView_Title')}</SidebarLabel>
+							</SidebarItem>
+							<SidebarItem
+								href={`/events/${event.key}/participants`}
+								current={location.pathname === `/events/${event.key}/participants`}
+							>
+								<FontAwesomeIcon icon={faList} data-slot="icon" />
+								<SidebarLabel>{message.format('ParticipantView_Title')}</SidebarLabel>
 							</SidebarItem>
 						</SidebarSection>
 					)}

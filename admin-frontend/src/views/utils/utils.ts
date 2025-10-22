@@ -2,6 +2,7 @@ import { Signal, signal, type ReadonlySignal } from '@preact/signals';
 import { useEffect, useRef, useState } from 'react';
 import type { Result } from '../../remote/_result-utils';
 import type { AllMessageKeys } from '../../messages';
+import { useParams } from 'react-router';
 
 export function parseFormattedInteger(text: string): number {
 	return parseInt(text.replaceAll(/\\D/g, ''));
@@ -68,13 +69,30 @@ export function useValue<T>(signal: ReadonlySignal<T> | T): T {
 export function useSignal<T>(signal: Signal<T>): [T, (v: T) => void] {
 	const [value, setValue] = useState(signal.value);
 	useEffect(() => {
-		signal.subscribe(console.log);
 		const sub = signal.subscribe(setValue);
 		return () => {
 			sub();
 		};
 	}, [signal]);
 	return [value, (v: T) => (signal.value = v)];
+}
+
+export function useParamSignal<T>(key: string, defaultValue: T, typeguard: (value: unknown) => value is T) {
+	const params = useParams();
+	const value = params[key];
+	const ref = useRef<Signal<T>>(null);
+	if (ref.current === null) {
+		ref.current = signal<T>(defaultValue);
+	}
+
+	if (typeguard(value)) {
+		ref.current.value = value;
+	}
+	return ref.current;
+}
+
+export function isString(value: unknown): value is string {
+	return typeof value === 'string';
 }
 
 export type Message<K> = (key: K, variables?: Record<string, unknown>) => string;
@@ -155,7 +173,7 @@ class SelectFormFieldImpl<T> implements SelectFormField<T> {
 	}
 }
 
-export function createSelectFormField<T>(props: SelectFormFieldProps<T>) {
+export function createSelectFormField<T>(props: SelectFormFieldProps<T>): SelectFormField<T> {
 	return new SelectFormFieldImpl<T>(props);
 }
 
@@ -190,6 +208,36 @@ export function createTextField(props: TextFormFieldProps): TextFormField {
 	return new TextFormFieldImpl(props);
 }
 
+export type CheckBoxFormField = FormField<boolean>;
+export type CheckBoxFormFieldProps = FormFieldProps<boolean>;
+
+class CheckBoxFormFieldImpl implements CheckBoxFormField {
+	public readonly label: ReadonlyValueSignal<string>;
+	public readonly value: Signal<boolean>;
+	public readonly validationError: Signal<string>;
+	public readonly disabled: ReadonlyValueSignal<boolean>;
+
+	private readonly validation: (v: boolean) => string;
+
+	constructor(props: CheckBoxFormFieldProps) {
+		this.label = props.label;
+		this.disabled = props.disabled ?? false;
+		this.value = signal(props.initialValue);
+
+		this.validationError = signal('');
+		this.validation = props.validation;
+	}
+
+	validate() {
+		this.validationError.value = this.validation(this.value.value);
+		return this.validationError.value.length === 0;
+	}
+}
+
+export function createCheckBoxField(props: CheckBoxFormFieldProps): CheckBoxFormField {
+	return new CheckBoxFormFieldImpl(props);
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function createRemoteFunction<T extends (...params: any[]) => Promise<Result<any, any>>>(
 	fn: T,
@@ -207,4 +255,12 @@ export function createRemoteFunction<T extends (...params: any[]) => Promise<Res
 		}
 		invoke();
 	};
+}
+
+export function emptyAsUndefined(value: string): string | undefined {
+	return value.trim().length === 0 ? undefined : value;
+}
+
+export function nullAsUndefined<T>(value: T | null): T | undefined {
+	return value === null ? undefined : value;
 }

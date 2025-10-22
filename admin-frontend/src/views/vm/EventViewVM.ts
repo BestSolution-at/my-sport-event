@@ -18,10 +18,7 @@ export class EventViewVM extends BaseViewVM {
 	});
 	private readonly eventService = createSportEventService({ baseUrl: '' });
 
-	private readonly eventServiceGet = createRemoteFunction(
-		this.eventService.get.bind(this),
-		this.handleGetResult.bind(this)
-	);
+	private readonly eventServiceGet = createRemoteFunction(this.eventService.get, this.handleGetResult.bind(this));
 
 	public readonly name = createTextField({
 		label: computed(() => this.l10n('NewEventDialog_Name')),

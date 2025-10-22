@@ -1,8 +1,7 @@
 import { useParams } from 'react-router';
 import { ViewHeader } from './utils/ViewHeader';
 import { messages } from '../messages';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/table';
-import { isBirthyearCohort } from '../remote/model';
+import { isBirthyearCohort, type Cohort } from '../remote/model';
 import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from '../components/dropdown';
 import { EllipsisHorizontalIcon } from '@heroicons/react/16/solid';
 import { Button } from '../components/button';
@@ -10,9 +9,10 @@ import { Dialog, DialogActions, DialogBody, DialogDescription, DialogTitle } fro
 import { FieldGroup } from '../components/fieldset';
 import { useSignalValue, useValue, useVM } from './utils/utils';
 import { useMessageFormat, useMessageFormatSignal } from '../useMessageFormat';
-import { CohortViewDialogVM, CohortViewVM, genderToString } from './vm/CohortViewVM';
+import { CohortViewDialogVM, CohortViewVM } from './vm/CohortViewVM';
 import { SelectFormField } from './utils/SelectFormField';
 import { TextFormField } from './utils/TextFormField';
+import { Card } from './utils/Card';
 
 export function CohortView() {
 	const m = useMessageFormatSignal(messages);
@@ -42,28 +42,50 @@ function CohortHeader(props: { vm: CohortViewVM }) {
 
 function CohortList(props: { vm: CohortViewVM }) {
 	const data = useValue(props.vm.cohorts);
+	const males = data.filter(c => c.gender === 'MALE');
+	const females = data.filter(c => c.gender === 'FEMALE');
+	const all = data.filter(c => c.gender === 'ALL');
+	const m = useMessageFormat(messages);
+
 	return (
-		<Table striped className="mt-12 [--gutter:--spacing(6)] sm:[--gutter:--spacing(8)]">
-			<TableHead>
-				<TableRow>
-					<TableHeader>Name</TableHeader>
-					<TableHeader>Typ</TableHeader>
-					<TableHeader>Geschlecht</TableHeader>
-					{/*<TableHeader>Teilnehmer</TableHeader>*/}
-					<TableHeader className="relative w-0">
-						<span className="sr-only">Actions</span>
-					</TableHeader>
-				</TableRow>
-			</TableHead>
-			<TableBody>
-				{[...data].map(e => {
-					return (
-						<TableRow key={e.key}>
-							<TableCell>{e.name}</TableCell>
-							<TableCell>{isBirthyearCohort(e) ? `Jahrgänge ${e.min}-${e.max}` : 'Generisch'}</TableCell>
-							<TableCell>{genderToString(e.gender)}</TableCell>
-							<TableCell>
-								<div className="-my-1.5">
+		<>
+			{females.length > 0 && <CohortTable vm={props.vm} data={females} label={m('Generic_Female')} />}
+			{males.length > 0 && <CohortTable vm={props.vm} data={males} label={m('Generic_Male')} />}
+			{all.length > 0 && <CohortTable vm={props.vm} data={all} label={m('Generic_Male_Female')} />}
+		</>
+	);
+}
+
+function CohortTable(props: { vm: CohortViewVM; data: readonly Cohort[]; label: string }) {
+	return (
+		<Card label={props.label}>
+			<table className="relative min-w-full divide-y divide-gray-300">
+				<thead className="bg-zinc-50">
+					<tr>
+						<th scope="col" className="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+							Name
+						</th>
+						<th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+							Typ
+						</th>
+						<th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+							Teilnehmer
+						</th>
+						<th scope="col" className="py-3.5 pr-4 pl-3 sm:pr-6">
+							<span className="sr-only">Actions</span>
+						</th>
+					</tr>
+				</thead>
+				<tbody className="divide-y divide-gray-200 bg-white">
+					{props.data.map(e => {
+						return (
+							<tr key={e.key}>
+								<td className="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-6">{e.name}</td>
+								<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
+									{isBirthyearCohort(e) ? `Jahrgänge ${e.min}-${e.max}` : 'Generisch'}
+								</td>
+								<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">TBD</td>
+								<td className="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
 									<Dropdown>
 										<DropdownButton plain aria-label="More options">
 											<EllipsisHorizontalIcon />
@@ -73,27 +95,27 @@ function CohortList(props: { vm: CohortViewVM }) {
 											<DropdownItem>Löschen</DropdownItem>
 										</DropdownMenu>
 									</Dropdown>
-								</div>
-							</TableCell>
-						</TableRow>
-					);
-				})}
-			</TableBody>
-		</Table>
+								</td>
+							</tr>
+						);
+					})}
+				</tbody>
+			</table>
+		</Card>
 	);
 }
 
 function CohortDialogContainer(props: { vm: CohortViewVM }) {
-	const dialog = useSignalValue(props.vm.cohortDialog);
+	const dialog = useValue(props.vm.cohortDialog);
 	return <>{dialog && <CohortDialog vm={dialog} />}</>;
 }
 
 function CohortDialog(props: { vm: CohortViewDialogVM }) {
 	const m = useMessageFormat(messages);
 
-	const title = useSignalValue(props.vm.title);
-	const description = useSignalValue(props.vm.description);
-	const persistButtonLabel = useSignalValue(props.vm.persistButtonLabel);
+	const title = useValue(props.vm.title);
+	const description = useValue(props.vm.description);
+	const persistButtonLabel = useValue(props.vm.persistButtonLabel);
 
 	const close = props.vm.close.bind(props.vm);
 

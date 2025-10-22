@@ -15,8 +15,6 @@ import {
 import type { AllMessages } from '../../messages';
 import { createEventCohortService, createSportEventService } from '../../remote';
 import {
-	compare,
-	compareProps,
 	createRemoteFunction,
 	createSelectFormField,
 	createTextField,
@@ -25,6 +23,7 @@ import {
 } from '../utils/utils';
 import type { EventCohortService } from '../../remote/EventCohortService';
 import type { SportEventService } from '../../remote/SportEventService';
+import { cohortSort } from './utils';
 
 export class CohortViewVM extends BaseViewVM {
 	public readonly eventId = signal('');
@@ -43,15 +42,9 @@ export class CohortViewVM extends BaseViewVM {
 	public readonly eventService = createSportEventService({ baseUrl: '' });
 	public readonly cohortService = createEventCohortService({ baseUrl: '' });
 
-	private readonly cohortServiceList = createRemoteFunction(
-		this.cohortService.list.bind(this.cohortService),
-		this.handleListResult.bind(this)
-	);
+	private readonly cohortServiceList = createRemoteFunction(this.cohortService.list, this.handleListResult.bind(this));
 
-	private readonly eventServiceGet = createRemoteFunction(
-		this.eventService.get.bind(this.eventService),
-		this.handleGetResult.bind(this)
-	);
+	private readonly eventServiceGet = createRemoteFunction(this.eventService.get, this.handleGetResult.bind(this));
 
 	constructor(messages: ReadonlySignal<AllMessages>) {
 		super(messages);
@@ -66,7 +59,7 @@ export class CohortViewVM extends BaseViewVM {
 	private handleListResult(result: Awaited<ReturnType<EventCohortService['list']>>) {
 		const [data, err] = result;
 		if (data) {
-			this.cohorts.value = [...data].sort(sort);
+			this.cohorts.value = [...data].sort(cohortSort);
 		} else {
 			console.error(err);
 		}
@@ -292,25 +285,6 @@ export class CohortViewDialogVM extends BaseViewVM {
 	}
 }
 
-function sort(a: Cohort, b: Cohort) {
-	const typeA = isBirthyearCohort(a) ? 0 : 1;
-	const typeB = isBirthyearCohort(b) ? 0 : 1;
-	const typeSort = compare(typeA, typeB);
-	if (typeSort !== 0) {
-		return typeSort;
-	}
-	const genderA = genderToString(a.gender);
-	const genderB = genderToString(b.gender);
-	const genderSort = compare(genderA, genderB);
-	if (genderSort !== 0) {
-		return genderSort;
-	}
-	if (isBirthyearCohort(a) && isBirthyearCohort(b)) {
-		return compareProps(a, b, ['min', 'max', 'name', 'key']);
-	}
-	return compareProps(a, b, ['name', 'key']);
-}
-
 function createBirthyearPatch(cur: BirthyearCohort, updated: BirthyearCohort): BirthyearCohortPatch | undefined {
 	const result: BirthyearCohortPatch = {
 		'@type': 'patch:birthyear',
@@ -338,13 +312,4 @@ function createGenericPatch(cur: GenericCohort, update: GenericCohort): GenericC
 		return result;
 	}
 	return undefined;
-}
-
-export function genderToString(gender: Gender) {
-	if (gender === 'ALL') {
-		return 'Männlich & Weiblich';
-	} else if (gender === 'FEMALE') {
-		return 'Weiblich';
-	}
-	return 'Männlich';
 }

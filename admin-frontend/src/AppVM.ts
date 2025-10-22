@@ -11,10 +11,7 @@ export class AppVM extends BaseViewVM {
 	public readonly newEventDialog = signal<NewEventDialogVM>();
 
 	public readonly eventService = createSportEventService({ baseUrl: '' });
-	public readonly eventServiceList = createRemoteFunction(
-		this.eventService.list.bind(this.eventService.list),
-		this.handleListResult.bind(this)
-	);
+	public readonly eventServiceList = createRemoteFunction(this.eventService.list, this.handleListResult.bind(this));
 
 	public navigateToEvent?: (eventId: string) => void;
 

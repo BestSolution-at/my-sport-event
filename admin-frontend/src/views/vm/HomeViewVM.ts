@@ -7,10 +7,7 @@ import type { SportEventService } from '../../remote/SportEventService';
 export class HomeViewVM {
 	public readonly events = signal<readonly SportEvent[]>([]);
 	public readonly eventService = createSportEventService({ baseUrl: '' });
-	public readonly eventServiceList = createRemoteFunction(
-		this.eventService.list.bind(this.eventService.list),
-		this.handleListResult.bind(this)
-	);
+	public readonly eventServiceList = createRemoteFunction(this.eventService.list, this.handleListResult);
 
 	constructor() {
 		this.eventServiceList();
