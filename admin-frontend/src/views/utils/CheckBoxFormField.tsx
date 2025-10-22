@@ -3,12 +3,13 @@ import { ErrorMessage, Label } from '../../components/fieldset';
 import { useSignal, useValue, type CheckBoxFormField } from './utils';
 
 export function CheckBoxFormField(props: { vm: CheckBoxFormField; className?: string }) {
-	const label = useValue(props.vm.label);
-	const [value, setValue] = useSignal(props.vm.value);
-	const error = useValue(props.vm.validationError);
+	const label = useValue(props.vm.$label);
+	const [value, setValue] = useSignal(props.vm.$value);
+	const error = useValue(props.vm.$validationError);
+	const disabled = useValue(props.vm.$disabled);
 
 	return (
-		<CheckboxField className={props.className}>
+		<CheckboxField className={props.className} disabled={disabled}>
 			<Checkbox checked={value} onChange={setValue} />
 			<Label>{label}</Label>
 			{error && <ErrorMessage>{error}</ErrorMessage>}

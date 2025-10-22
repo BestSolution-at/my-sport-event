@@ -119,7 +119,7 @@ function CohortDialog(props: { vm: CohortViewDialogVM }) {
 
 	const close = props.vm.close.bind(props.vm);
 
-	const cohortType = useValue(props.vm.cohortType.value);
+	const cohortType = useValue(props.vm.cohortType.$value);
 
 	return (
 		<Dialog open onClose={close}>

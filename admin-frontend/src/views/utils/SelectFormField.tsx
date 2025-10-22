@@ -3,10 +3,10 @@ import { Listbox, ListboxLabel, ListboxOption } from '../../components/listbox';
 import { useSignal, useValue, type SelectFormField } from './utils';
 
 export function SelectFormField<T>(props: { vm: SelectFormField<T>; className?: string }) {
-	const [value, setValue] = useSignal(props.vm.value);
-	const label = useValue(props.vm.label);
-	const disabled = useValue(props.vm.disabled);
-	const items = useValue(props.vm.items);
+	const [value, setValue] = useSignal(props.vm.$value);
+	const label = useValue(props.vm.$label);
+	const disabled = useValue(props.vm.$disabled);
+	const items = useValue(props.vm.$items);
 
 	return (
 		<Field className={props.className}>

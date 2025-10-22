@@ -19,9 +19,9 @@ export function TextFormField(props: {
 		| 'week';
 	className?: string;
 }) {
-	const label = useValue(props.vm.label);
-	const [value, setValue] = useSignal(props.vm.value);
-	const error = useValue(props.vm.validationError);
+	const label = useValue(props.vm.$label);
+	const [value, setValue] = useSignal(props.vm.$value);
+	const error = useValue(props.vm.$validationError);
 
 	return (
 		<Field className={props.className}>

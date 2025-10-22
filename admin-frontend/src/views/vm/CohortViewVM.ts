@@ -171,18 +171,18 @@ export class CohortViewDialogVM extends BaseViewVM {
 		);
 
 		if (dto) {
-			this.cohortType.value.value = dto['@type'];
-			this.name.value.value = dto.name;
-			this.gender.value.value = dto.gender;
+			this.cohortType.value = dto['@type'];
+			this.name.value = dto.name;
+			this.gender.value = dto.gender;
 			if (isBirthyearCohort(dto)) {
-				this.min.value.value = String(dto.min);
-				this.max.value.value = String(dto.max);
+				this.min.value = String(dto.min);
+				this.max.value = String(dto.max);
 			}
 		}
 	}
 
 	private validateMin(v: string) {
-		if (this.cohortType.value.value !== 'birthyear') {
+		if (this.cohortType.value !== 'birthyear') {
 			return '';
 		}
 
@@ -200,11 +200,11 @@ export class CohortViewDialogVM extends BaseViewVM {
 	}
 
 	private validateMax(v: string) {
-		if (this.cohortType.value.value !== 'birthyear') {
+		if (this.cohortType.value !== 'birthyear') {
 			return '';
 		}
 		const vMax = parseFormattedInteger(v);
-		const vMin = parseFormattedInteger(this.min.value.value);
+		const vMin = parseFormattedInteger(this.min.value);
 		if (Number.isNaN(vMax)) {
 			return this.l10n('Generic_Number_Invalid');
 		} else if (vMax < 0) {
@@ -229,10 +229,10 @@ export class CohortViewDialogVM extends BaseViewVM {
 	public async persist() {
 		if (this.validate()) {
 			if (this.dto) {
-				const min = this.min.value.value;
-				const max = this.max.value.value;
-				const name = this.name.value.value;
-				const gender = this.gender.value.value;
+				const min = this.min.value;
+				const max = this.max.value;
+				const name = this.name.value;
+				const gender = this.gender.value;
 				const patch: CohortPatch | undefined = isBirthyearCohort(this.dto)
 					? createBirthyearPatch(this.dto, {
 							...this.dto,
@@ -253,13 +253,13 @@ export class CohortViewDialogVM extends BaseViewVM {
 					}
 				}
 			} else {
-				const min = this.min.value.value;
-				const max = this.max.value.value;
-				const name = this.name.value.value;
-				const gender = this.gender.value.value;
+				const min = this.min.value;
+				const max = this.max.value;
+				const name = this.name.value;
+				const gender = this.gender.value;
 
 				const dto: CohortNew =
-					this.cohortType.value.value === 'birthyear'
+					this.cohortType.value === 'birthyear'
 						? {
 								'@type': 'birthyear',
 								name,

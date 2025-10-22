@@ -8,6 +8,7 @@ import {
 	createTextField,
 	emptyAsUndefined,
 	validateRequired,
+	type CheckBoxFormField,
 	type SelectFormField,
 } from '../utils/utils';
 import {
@@ -164,11 +165,7 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 		validation: () => '',
 	});
 
-	public readonly cohortAutoAssign = createCheckBoxField({
-		initialValue: true,
-		label: this.l10n('ParticipantDialog_AutoCohort'),
-		validation: () => '',
-	});
+	public readonly cohortAutoAssign: CheckBoxFormField;
 	public readonly cohort: SelectFormField<Cohort | null>;
 	public readonly team = createTextField({
 		label: this.l10n('ParticipantDialog_Team'),
@@ -217,34 +214,40 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 			];
 		});
 
+		this.cohortAutoAssign = createCheckBoxField({
+			initialValue: true,
+			label: this.l10n('ParticipantDialog_AutoCohort'),
+			validation: () => '',
+		});
+
 		this.cohort = createSelectFormField<Cohort | null>({
 			initialValue: null,
 			items,
 			label: this.l10n('ParticipantDialog_Cohort'),
 			validation: () => '',
-			disabled: this.cohortAutoAssign.value,
+			disabled: this.cohortAutoAssign.$value,
 		});
 
 		if (dto) {
-			this.lastname.value.value = dto.lastname;
-			this.firstname.value.value = dto.firstname;
-			this.gender.value.value = dto.gender;
-			this.birthday.value.value = dto.birthday ?? '';
-			this.cohort.value.value = cohorts.find(c => c.key === dto.cohortKey) ?? null;
-			this.team.value.value = dto.team ?? '';
-			this.association.value.value = dto.association ?? '';
+			this.lastname.value = dto.lastname;
+			this.firstname.value = dto.firstname;
+			this.gender.value = dto.gender;
+			this.birthday.value = dto.birthday ?? '';
+			this.cohort.value = cohorts.find(c => c.key === dto.cohortKey) ?? null;
+			this.team.value = dto.team ?? '';
+			this.association.value = dto.association ?? '';
 
-			let subscribing = true;
+			/*let subscribing = true;
 			const clearCohort = () => {
 				if (subscribing) {
 					return;
 				}
 
-				this.cohort.value.value = null;
+				this.cohort.value = null;
 			};
-			this.gender.value.subscribe(clearCohort);
-			this.birthday.value.subscribe(clearCohort);
-			subscribing = false;
+			this.gender.$value.subscribe(clearCohort);
+			this.birthday.$value.subscribe(clearCohort);
+			subscribing = false;*/
 		}
 	}
 
@@ -268,21 +271,18 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 		if (this.validate()) {
 			if (this.dto === undefined) {
 				const participant: ParticipantNew = {
-					firstname: this.firstname.value.value,
-					gender: this.gender.value.value,
-					lastname: this.lastname.value.value,
-					association: emptyAsUndefined(this.association.value.value),
-					birthday: emptyAsUndefined(this.birthday.value.value),
-					cohortKey:
-						this.cohort.value.value === null || this.cohortAutoAssign.value.value
-							? undefined
-							: this.cohort.value.value.key,
-					team: emptyAsUndefined(this.team.value.value),
+					firstname: this.firstname.value,
+					gender: this.gender.value,
+					lastname: this.lastname.value,
+					association: emptyAsUndefined(this.association.value),
+					birthday: emptyAsUndefined(this.birthday.value),
+					cohortKey: this.cohort.value === null || this.cohortAutoAssign.value ? undefined : this.cohort.value.key,
+					team: emptyAsUndefined(this.team.value),
 				};
 				const [, err] = await this.parent.participantService.create(
 					this.parent.eventId.value,
 					participant,
-					this.cohortAutoAssign.value.value ? true : undefined
+					this.cohortAutoAssign.value ? true : undefined
 				);
 				if (err) {
 					console.error(err);
@@ -294,26 +294,22 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 				const updated: Participant = {
 					key: this.dto.key,
 					version: this.dto.version,
-					firstname: this.firstname.value.value,
-					gender: this.gender.value.value,
-					lastname: this.lastname.value.value,
-					association: emptyAsUndefined(this.association.value.value),
-					birthday: emptyAsUndefined(this.birthday.value.value),
-					cohortKey: this.cohort.value.value === null ? undefined : this.cohort.value.value.key,
-					team: emptyAsUndefined(this.team.value.value),
+					firstname: this.firstname.value,
+					gender: this.gender.value,
+					lastname: this.lastname.value,
+					association: emptyAsUndefined(this.association.value),
+					birthday: emptyAsUndefined(this.birthday.value),
+					cohortKey: this.cohort.value === null ? undefined : this.cohort.value.key,
+					team: emptyAsUndefined(this.team.value),
 					teamMates: [],
 				};
 				const patch = createParticipantPatch(this.dto, updated);
 				if (patch) {
-					const autoAssign =
-						this.cohortAutoAssign.value.value &&
-						(patch.cohortKey === undefined || patch.cohortKey === null) &&
-						(patch.gender !== undefined || patch.birthday !== undefined);
 					const [, err] = await this.parent.participantService.update(
 						this.parent.eventId.value,
 						patch.key,
-						autoAssign ? { ...patch, cohortKey: undefined } : patch,
-						autoAssign
+						this.cohortAutoAssign.value ? { ...patch, cohortKey: undefined } : patch,
+						this.cohortAutoAssign.value && (patch.birthday !== undefined || patch.gender !== undefined)
 					);
 
 					if (err) {
@@ -322,6 +318,8 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 						this.parent.refreshParticipants();
 						this.parent.closeDialogs();
 					}
+				} else {
+					this.parent.closeDialogs();
 				}
 			}
 		}

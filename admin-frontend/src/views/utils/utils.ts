@@ -101,11 +101,15 @@ export type MessageKeys<T extends { [lang: string]: Record<string, string> }> = 
 export type ReadonlyValueSignal<T> = T | ReadonlySignal<T>;
 
 export type FormField<T> = {
-	readonly label: ReadonlyValueSignal<string>;
-	readonly validationError: ReadonlySignal<string>;
-	readonly value: Signal<T>;
-	readonly disabled: ReadonlyValueSignal<boolean>;
+	readonly $label: ReadonlyValueSignal<string>;
+	readonly $validationError: ReadonlySignal<string>;
+	readonly $value: Signal<T>;
+	readonly $disabled: ReadonlyValueSignal<boolean>;
+
 	validate(): boolean;
+
+	readonly disabled: boolean;
+	value: T;
 };
 
 export type FormFieldProps<T> = {
@@ -125,7 +129,7 @@ export type Item<T> = {
 };
 
 export type SelectFormField<T> = FormField<T> & {
-	readonly items: ReadonlyValueSignal<readonly Item<T>[]>;
+	readonly $items: ReadonlyValueSignal<readonly Item<T>[]>;
 	computeItemKey(item: Item<T>): string;
 };
 
@@ -139,25 +143,47 @@ function createKey(prefix: string) {
 	return `${prefix}-${counter++}`;
 }
 
-class SelectFormFieldImpl<T> implements SelectFormField<T> {
-	public readonly label: ReadonlyValueSignal<string>;
-	public readonly items: Signal<readonly Item<T>[]>;
-	public readonly value: Signal<T>;
-	public readonly validationError: Signal<string>;
-	public readonly disabled: ReadonlyValueSignal<boolean>;
+class FormFieldImpl<T> implements FormField<T> {
+	public readonly $label: ReadonlyValueSignal<string>;
+	public readonly $value: Signal<T>;
+	public readonly $validationError: Signal<string>;
+	public readonly $disabled: ReadonlyValueSignal<boolean>;
+	protected readonly validation: (v: T) => string;
 
-	private readonly validation: (v: T) => string;
+	constructor(props: FormFieldProps<T>) {
+		this.$label = props.label;
+		this.$disabled = props.disabled ?? false;
+		this.$value = signal(props.initialValue);
 
+		this.$validationError = signal('');
+		this.validation = props.validation;
+	}
+
+	validate() {
+		this.$validationError.value = this.validation(this.$value.value);
+		return this.$validationError.value.length === 0;
+	}
+
+	get disabled(): boolean {
+		return isReadonlySignal(this.$disabled) ? this.$disabled.value : this.$disabled;
+	}
+
+	get value(): T {
+		return this.$value.value;
+	}
+
+	set value(value: T) {
+		this.$value.value = value;
+	}
+}
+
+class SelectFormFieldImpl<T> extends FormFieldImpl<T> implements SelectFormField<T> {
+	public readonly $items: Signal<readonly Item<T>[]>;
 	private readonly key = createKey('SelectFormFieldImpl');
 
 	constructor(props: SelectFormFieldProps<T>) {
-		this.label = props.label;
-		this.disabled = props.disabled ?? false;
-		this.value = signal(props.initialValue);
-		this.items = isReadonlySignal(props.items) ? props.items : signal(props.items);
-
-		this.validationError = signal('');
-		this.validation = props.validation;
+		super(props);
+		this.$items = isReadonlySignal(props.items) ? props.items : signal(props.items);
 	}
 
 	computeItemKey(item: Item<T>): string {
@@ -165,11 +191,6 @@ class SelectFormFieldImpl<T> implements SelectFormField<T> {
 			return `${this.key}-${item.key}`;
 		}
 		return `${this.key}-${String(item.value)}`;
-	}
-
-	validate() {
-		this.validationError.value = this.validation(this.value.value);
-		return this.validationError.value.length === 0;
 	}
 }
 
@@ -181,26 +202,9 @@ function isReadonlySignal<T>(value: unknown): value is ReadonlySignal<T> {
 	return value instanceof Signal;
 }
 
-class TextFormFieldImpl implements TextFormField {
-	public readonly label: ReadonlyValueSignal<string>;
-	public readonly value: Signal<string>;
-	public readonly validationError: Signal<string>;
-	public readonly disabled: ReadonlyValueSignal<boolean>;
-
-	private readonly validation: (v: string) => string;
-
+class TextFormFieldImpl extends FormFieldImpl<string> implements TextFormField {
 	constructor(props: TextFormFieldProps) {
-		this.label = props.label;
-		this.disabled = props.disabled ?? false;
-		this.value = signal(props.initialValue);
-
-		this.validationError = signal('');
-		this.validation = props.validation;
-	}
-
-	validate() {
-		this.validationError.value = this.validation(this.value.value);
-		return this.validationError.value.length === 0;
+		super(props);
 	}
 }
 
@@ -211,26 +215,9 @@ export function createTextField(props: TextFormFieldProps): TextFormField {
 export type CheckBoxFormField = FormField<boolean>;
 export type CheckBoxFormFieldProps = FormFieldProps<boolean>;
 
-class CheckBoxFormFieldImpl implements CheckBoxFormField {
-	public readonly label: ReadonlyValueSignal<string>;
-	public readonly value: Signal<boolean>;
-	public readonly validationError: Signal<string>;
-	public readonly disabled: ReadonlyValueSignal<boolean>;
-
-	private readonly validation: (v: boolean) => string;
-
+class CheckBoxFormFieldImpl extends FormFieldImpl<boolean> implements CheckBoxFormField {
 	constructor(props: CheckBoxFormFieldProps) {
-		this.label = props.label;
-		this.disabled = props.disabled ?? false;
-		this.value = signal(props.initialValue);
-
-		this.validationError = signal('');
-		this.validation = props.validation;
-	}
-
-	validate() {
-		this.validationError.value = this.validation(this.value.value);
-		return this.validationError.value.length === 0;
+		super(props);
 	}
 }
 

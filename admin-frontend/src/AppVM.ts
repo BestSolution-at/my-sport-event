@@ -82,9 +82,9 @@ export class NewEventDialogVM extends BaseViewVM {
 
 	public async persist() {
 		if (this.validate()) {
-			const name = this.name.value.value;
-			const date = this.date.value.value;
-			const time = this.time.value.value;
+			const name = this.name.value;
+			const date = this.date.value;
+			const time = this.time.value;
 
 			const [eventId, err] = await this.parent.eventService.create({
 				name,

@@ -45,10 +45,10 @@ export class EventViewVM extends BaseViewVM {
 		});
 		effect(() => {
 			if (this.dto.value) {
-				this.name.value.value = this.dto.value.name;
+				this.name.value = this.dto.value.name;
 				const [isoDate, isoTime] = toLocaleDateTime(this.dto.value.date);
-				this.date.value.value = isoDate;
-				this.time.value.value = isoTime;
+				this.date.value = isoDate;
+				this.time.value = isoTime;
 			}
 		});
 	}
@@ -79,9 +79,9 @@ export class EventViewVM extends BaseViewVM {
 
 	public async persist() {
 		if (this.validate() && this.dto.value) {
-			const name = this.name.value.value;
-			const date = this.date.value.value;
-			const time = this.time.value.value;
+			const name = this.name.value;
+			const date = this.date.value;
+			const time = this.time.value;
 			const patch = createSportEventPatch(this.dto.value, {
 				...this.dto.value,
 				name,

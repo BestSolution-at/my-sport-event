@@ -88,7 +88,7 @@ function ParticipantDialog(props: { vm: ParticipantViewDialogVM }) {
 	const close = props.vm.close.bind(props.vm);
 
 	return (
-		<Dialog open onClose={close} size="2xl">
+		<Dialog open onClose={() => {}} size="2xl">
 			<DialogTitle>{title}</DialogTitle>
 			<DialogDescription>{description}</DialogDescription>
 			<DialogBody>
