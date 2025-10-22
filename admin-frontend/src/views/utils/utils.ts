@@ -108,11 +108,9 @@ export function useSearchParamSignal<T extends string>(
 		ref.current.subscribe(value => {
 			const x = {} as Record<string, string>;
 			x[key] = value;
-			console.log('====> SETTING: ', x);
 			setSearchParams(x);
 		});
 	}
-	console.log('====> ', value);
 	if (typeguard(value)) {
 		ref.current.value = value;
 	}

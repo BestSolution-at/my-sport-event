@@ -57,17 +57,9 @@ export class ParticipantViewVM extends BaseViewVM {
 
 	public readonly eventId: ReadonlySignal<string>;
 
-	public readonly grouping;
-
-	constructor(
-		messages: ReadonlySignal<AllMessages>,
-		eventId: ReadonlySignal<string>,
-		locale: ReadonlySignal<string>,
-		initialGroup?: 'none' | 'gender' | 'cohort'
-	) {
+	constructor(messages: ReadonlySignal<AllMessages>, eventId: ReadonlySignal<string>, locale: ReadonlySignal<string>) {
 		super(messages);
 		this.eventId = eventId;
-		this.grouping = signal<'none' | 'gender' | 'cohort'>(initialGroup ?? 'none');
 		const dateFormatter = computed(() => {
 			return new Intl.DateTimeFormat(locale.value, { day: '2-digit', month: '2-digit', year: 'numeric' });
 		});

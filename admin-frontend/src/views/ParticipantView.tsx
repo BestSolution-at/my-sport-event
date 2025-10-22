@@ -10,7 +10,7 @@ import { useLocaleSignal, useMessageFormat, useMessageFormatSignal } from '../us
 import { CheckBoxFormField } from './utils/CheckBoxFormField';
 import { SelectFormField } from './utils/SelectFormField';
 import { TextFormField } from './utils/TextFormField';
-import { isString, useParamSignal, useSignal, useSignalValue, useValue, useVM } from './utils/utils';
+import { isString, useParamSignal, useSignalValue, useValue, useVM } from './utils/utils';
 import { ViewHeader } from './utils/ViewHeader';
 import { ParticipantViewDialogVM, ParticipantViewVM, type ParticipantItem } from './vm/ParticipantViewVM';
 import { Listbox, ListboxLabel, ListboxOption } from '../components/listbox';
@@ -29,16 +29,13 @@ export function ParticipantView() {
 	const currentGrouping = searchParams.get('grouping');
 	const locale = useLocaleSignal();
 	const m = useMessageFormatSignal(messages);
-	const vm = useVM(
-		() => new ParticipantViewVM(m, eventId, locale, isGrouping(currentGrouping) ? currentGrouping : undefined)
-	);
-	vm.grouping.value = isGrouping(currentGrouping) ? currentGrouping : 'none';
+	const vm = useVM(() => new ParticipantViewVM(m, eventId, locale));
 
 	return (
 		<div className="mx-auto mx-w6xl">
 			<ParticipantDialogContainer vm={vm} />
 			<ParticipantHeader vm={vm} />
-			<Grouping vm={vm} />
+			<Grouping />
 			<div className="px-2">
 				{currentGrouping !== 'gender' && currentGrouping !== 'cohort' && <NameView vm={vm} />}
 				{currentGrouping === 'gender' && <GenderView vm={vm} />}
@@ -56,15 +53,16 @@ function ParticipantHeader(props: { vm: ParticipantViewVM }) {
 	);
 }
 
-function Grouping(props: { vm: ParticipantViewVM }) {
-	const [value, setValue] = useSignal(props.vm.grouping);
-	const [, setSearchParams] = useSearchParams();
+function Grouping() {
+	const [searchParams, setSearchParams] = useSearchParams();
 	const m = useMessageFormat(messages);
 
 	const updateValue = (v: 'none' | 'gender' | 'cohort') => {
-		setValue(v);
 		setSearchParams({ grouping: v });
 	};
+
+	const tmp = searchParams.get('grouping');
+	const value = isGrouping(tmp) ? tmp : 'none';
 
 	return (
 		<div className="flex items-end mt-12">
