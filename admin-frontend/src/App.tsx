@@ -47,6 +47,7 @@ import { useMessageFormat, useMessageFormatSignal } from './useMessageFormat';
 import { useValue, useVM } from './views/utils/utils';
 import { AppVM, NewEventDialogVM } from './AppVM';
 import { TextFormField } from './views/utils/TextFormField';
+import { useEffect, useState } from 'react';
 
 function App() {
 	const m = useMessageFormatSignal(messages);
@@ -80,11 +81,17 @@ function NewEventDialogContainer(props: { vm: AppVM }) {
 }
 
 function NewEventDialog(props: { vm: NewEventDialogVM }) {
-	const onClose = props.vm.close.bind(props.vm.close);
 	const m = useMessageFormat(messages);
+	const [open, setOpen] = useState(false);
 
+	useEffect(() => {
+		const timeout = setTimeout(() => setOpen(true));
+		return () => {
+			clearTimeout(timeout);
+		};
+	}, []);
 	return (
-		<Dialog open onClose={() => onClose}>
+		<Dialog open={open} onClose={() => {}}>
 			<DialogTitle>{m('NewEventDialog_Title')}</DialogTitle>
 			<DialogDescription>{m('NewEventDialog_Description')}</DialogDescription>
 			<DialogBody>

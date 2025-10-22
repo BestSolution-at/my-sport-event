@@ -13,6 +13,7 @@ import { CohortViewDialogVM, CohortViewVM } from './vm/CohortViewVM';
 import { SelectFormField } from './utils/SelectFormField';
 import { TextFormField } from './utils/TextFormField';
 import { Card } from './utils/Card';
+import { useEffect, useState } from 'react';
 
 export function CohortView() {
 	const m = useMessageFormatSignal(messages);
@@ -112,7 +113,14 @@ function CohortDialogContainer(props: { vm: CohortViewVM }) {
 
 function CohortDialog(props: { vm: CohortViewDialogVM }) {
 	const m = useMessageFormat(messages);
+	const [open, setOpen] = useState(false);
 
+	useEffect(() => {
+		const timeout = setTimeout(() => setOpen(true));
+		return () => {
+			clearTimeout(timeout);
+		};
+	}, []);
 	const title = useValue(props.vm.title);
 	const description = useValue(props.vm.description);
 	const persistButtonLabel = useValue(props.vm.persistButtonLabel);
@@ -122,7 +130,7 @@ function CohortDialog(props: { vm: CohortViewDialogVM }) {
 	const cohortType = useValue(props.vm.cohortType.$value);
 
 	return (
-		<Dialog open onClose={close}>
+		<Dialog open={open} onClose={close}>
 			<DialogTitle>{title}</DialogTitle>
 			<DialogDescription>{description}</DialogDescription>
 			<DialogBody>

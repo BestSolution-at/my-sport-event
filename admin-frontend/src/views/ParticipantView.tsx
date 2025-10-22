@@ -16,7 +16,7 @@ import { ParticipantViewDialogVM, ParticipantViewVM, type ParticipantItem } from
 import { Listbox, ListboxLabel, ListboxOption } from '../components/listbox';
 import type { Cohort } from '../remote/model';
 import { Card } from './utils/Card';
-import { useMemo, useState, type MouseEvent } from 'react';
+import { useEffect, useMemo, useState, type MouseEvent } from 'react';
 
 export function ParticipantView() {
 	const eventId = useParamSignal('eventId', '', isString);
@@ -80,6 +80,14 @@ function ParticipantDialogContainer(props: { vm: ParticipantViewVM }) {
 
 function ParticipantDialog(props: { vm: ParticipantViewDialogVM }) {
 	const m = useMessageFormat(messages);
+	const [open, setOpen] = useState(false);
+
+	useEffect(() => {
+		const timeout = setTimeout(() => setOpen(true));
+		return () => {
+			clearTimeout(timeout);
+		};
+	}, []);
 
 	const title = useValue(props.vm.title);
 	const description = useValue(props.vm.description);
@@ -88,7 +96,7 @@ function ParticipantDialog(props: { vm: ParticipantViewDialogVM }) {
 	const close = props.vm.close.bind(props.vm);
 
 	return (
-		<Dialog open onClose={() => {}} size="2xl">
+		<Dialog open={open} onClose={() => {}} size="2xl">
 			<DialogTitle>{title}</DialogTitle>
 			<DialogDescription>{description}</DialogDescription>
 			<DialogBody>
