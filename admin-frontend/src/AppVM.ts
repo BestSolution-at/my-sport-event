@@ -46,18 +46,18 @@ export class NewEventDialogVM extends BaseViewVM {
 	public readonly name = createTextField({
 		label: this.l10n('NewEventDialog_Name'),
 		initialValue: '',
-		validation: v => validateRequired(v, this.l10n),
+		validation: v => validateRequired(v, this.l10n.bind(this)),
 	});
 
 	public readonly date = createTextField({
 		label: this.l10n('NewEventDialog_Date'),
 		initialValue: '',
-		validation: v => validateRequired(v, this.l10n),
+		validation: v => validateRequired(v, this.l10n.bind(this)),
 	});
 	public readonly time = createTextField({
 		label: this.l10n('NewEventDialog_Time'),
 		initialValue: '',
-		validation: v => validateRequired(v, this.l10n),
+		validation: v => validateRequired(v, this.l10n.bind(this)),
 	});
 
 	private parent: AppVM;
@@ -74,8 +74,8 @@ export class NewEventDialogVM extends BaseViewVM {
 	public validate() {
 		return batch(() => {
 			let valide = this.name.validate();
-			valide &&= this.date.validate();
-			valide &&= this.time.validate();
+			valide = this.date.validate() && valide;
+			valide = this.time.validate() && valide;
 			return valide;
 		});
 	}

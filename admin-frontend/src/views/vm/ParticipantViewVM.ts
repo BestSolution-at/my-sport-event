@@ -128,13 +128,13 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 	public readonly firstname = createTextField({
 		label: this.l10n('ParticipantDialog_Firstname'),
 		initialValue: '',
-		validation: v => validateRequired(v, this.l10n),
+		validation: v => validateRequired(v, this.l10n.bind(this)),
 	});
 
 	public readonly lastname = createTextField({
 		label: this.l10n('ParticipantDialog_Lastname'),
 		initialValue: '',
-		validation: v => validateRequired(v, this.l10n),
+		validation: v => validateRequired(v, this.l10n.bind(this)),
 	});
 
 	public gender = createSelectFormField<Gender>({
@@ -255,13 +255,13 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 
 	public validate(): boolean {
 		let result = this.lastname.validate();
-		result &&= this.firstname.validate();
-		result &&= this.gender.validate();
-		result &&= this.birthday.validate();
-		result &&= this.cohort.validate();
-		result &&= this.cohortAutoAssign.validate();
-		result &&= this.team.validate();
-		result &&= this.association.validate();
+		result = this.firstname.validate() && result;
+		result = this.gender.validate() && result;
+		result = this.birthday.validate() && result;
+		result = this.cohort.validate() && result;
+		result = this.cohortAutoAssign.validate() && result;
+		result = this.team.validate() && result;
+		result = this.association.validate() && result;
 		return result;
 	}
 

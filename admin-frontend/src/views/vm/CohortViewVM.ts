@@ -118,7 +118,7 @@ export class CohortViewDialogVM extends BaseViewVM {
 	public name = createTextField({
 		label: this.messages.value('CohortViewDialog_Name'),
 		initialValue: '',
-		validation: v => validateRequired(v, this.l10n),
+		validation: v => validateRequired(v, this.l10n.bind(this)),
 	});
 	public gender = createSelectFormField<Gender>({
 		initialValue: 'ALL',
@@ -218,10 +218,10 @@ export class CohortViewDialogVM extends BaseViewVM {
 	public validate(): boolean {
 		return batch(() => {
 			let valid = this.cohortType.validate();
-			valid &&= this.name.validate();
-			valid &&= this.gender.validate();
-			valid &&= this.min.validate();
-			valid &&= this.max.validate();
+			valid = this.name.validate() && valid;
+			valid = this.gender.validate() && valid;
+			valid = this.min.validate() && valid;
+			valid = this.max.validate() && valid;
 			return valid;
 		});
 	}

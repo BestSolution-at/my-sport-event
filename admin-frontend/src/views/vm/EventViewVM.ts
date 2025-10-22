@@ -71,8 +71,8 @@ export class EventViewVM extends BaseViewVM {
 	public validate() {
 		return batch(() => {
 			let valide = this.name.validate();
-			valide &&= this.date.validate();
-			valide &&= this.time.validate();
+			valide = this.date.validate() && valide;
+			valide = this.time.validate() && valide;
 			return valide;
 		});
 	}
