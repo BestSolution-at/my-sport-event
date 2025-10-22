@@ -2,7 +2,7 @@ import { Signal, signal, type ReadonlySignal } from '@preact/signals';
 import { useEffect, useRef, useState } from 'react';
 import type { Result } from '../../remote/_result-utils';
 import type { AllMessageKeys } from '../../messages';
-import { useParams } from 'react-router';
+import { useParams, useSearchParams } from 'react-router';
 
 export function parseFormattedInteger(text: string): number {
 	return parseInt(text.replaceAll(/\\D/g, ''));
@@ -77,7 +77,11 @@ export function useSignal<T>(signal: Signal<T>): [T, (v: T) => void] {
 	return [value, (v: T) => (signal.value = v)];
 }
 
-export function useParamSignal<T>(key: string, defaultValue: T, typeguard: (value: unknown) => value is T) {
+export function useParamSignal<T extends string>(
+	key: string,
+	defaultValue: T,
+	typeguard: (value: unknown) => value is T
+): ReadonlySignal<T> {
 	const params = useParams();
 	const value = params[key];
 	const ref = useRef<Signal<T>>(null);
@@ -85,6 +89,30 @@ export function useParamSignal<T>(key: string, defaultValue: T, typeguard: (valu
 		ref.current = signal<T>(defaultValue);
 	}
 
+	if (typeguard(value)) {
+		ref.current.value = value;
+	}
+	return ref.current;
+}
+
+export function useSearchParamSignal<T extends string>(
+	key: string,
+	defaultValue: T,
+	typeguard: (value: unknown) => value is T
+): Signal<T> {
+	const [searchParams, setSearchParams] = useSearchParams();
+	const value = searchParams.get(key);
+	const ref = useRef<Signal<T>>(null);
+	if (ref.current === null) {
+		ref.current = signal<T>(defaultValue);
+		ref.current.subscribe(value => {
+			const x = {} as Record<string, string>;
+			x[key] = value;
+			console.log('====> SETTING: ', x);
+			setSearchParams(x);
+		});
+	}
+	console.log('====> ', value);
 	if (typeguard(value)) {
 		ref.current.value = value;
 	}

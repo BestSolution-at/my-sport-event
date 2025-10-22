@@ -17,13 +17,22 @@ import { Listbox, ListboxLabel, ListboxOption } from '../components/listbox';
 import type { Cohort } from '../remote/model';
 import { Card } from './utils/Card';
 import { useEffect, useMemo, useState, type MouseEvent } from 'react';
+import { useSearchParams } from 'react-router';
+
+function isGrouping(v: unknown): v is 'none' | 'gender' | 'cohort' {
+	return v === 'none' || v === 'gender' || v === 'cohort';
+}
 
 export function ParticipantView() {
 	const eventId = useParamSignal('eventId', '', isString);
+	const [searchParams] = useSearchParams();
+	const currentGrouping = searchParams.get('grouping');
 	const locale = useLocaleSignal();
 	const m = useMessageFormatSignal(messages);
-	const vm = useVM(() => new ParticipantViewVM(m, eventId, locale));
-	const grouping = useValue(vm.grouping);
+	const vm = useVM(
+		() => new ParticipantViewVM(m, eventId, locale, isGrouping(currentGrouping) ? currentGrouping : undefined)
+	);
+	vm.grouping.value = isGrouping(currentGrouping) ? currentGrouping : 'none';
 
 	return (
 		<div className="mx-auto mx-w6xl">
@@ -31,9 +40,9 @@ export function ParticipantView() {
 			<ParticipantHeader vm={vm} />
 			<Grouping vm={vm} />
 			<div className="px-2">
-				{grouping === 'none' && <NameView vm={vm} />}
-				{grouping === 'gender' && <GenderView vm={vm} />}
-				{grouping === 'cohort' && <CohortView vm={vm} />}
+				{currentGrouping !== 'gender' && currentGrouping !== 'cohort' && <NameView vm={vm} />}
+				{currentGrouping === 'gender' && <GenderView vm={vm} />}
+				{currentGrouping === 'cohort' && <CohortView vm={vm} />}
 			</div>
 		</div>
 	);
@@ -49,14 +58,20 @@ function ParticipantHeader(props: { vm: ParticipantViewVM }) {
 
 function Grouping(props: { vm: ParticipantViewVM }) {
 	const [value, setValue] = useSignal(props.vm.grouping);
+	const [, setSearchParams] = useSearchParams();
 	const m = useMessageFormat(messages);
+
+	const updateValue = (v: 'none' | 'gender' | 'cohort') => {
+		setValue(v);
+		setSearchParams({ grouping: v });
+	};
 
 	return (
 		<div className="flex items-end mt-12">
 			<Listbox
 				aria-label={m('ParticipantView_Grouping')}
 				value={value}
-				onChange={setValue}
+				onChange={updateValue}
 				className="max-w-xs ml-auto"
 			>
 				<ListboxOption value="none">
@@ -279,7 +294,7 @@ function CohortView(props: { vm: ParticipantViewVM }) {
 		<>
 			{participantItems.find(p => p.dto.cohortKey === undefined) && <CohortSection vm={props.vm} cohort={undefined} />}
 			{cohorts?.map(c => (
-				<CohortSection vm={props.vm} cohort={c} />
+				<CohortSection key={c.key} vm={props.vm} cohort={c} />
 			))}
 		</>
 	);
