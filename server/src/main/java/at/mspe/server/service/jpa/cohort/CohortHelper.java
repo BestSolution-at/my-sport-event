@@ -19,7 +19,7 @@ import at.mspe.server.service.model.GenericCohort;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 
-public class EventCohortHelper {
+public class CohortHelper {
     public static String NOT_FOUND = "Cohort with key '%s' for event '%s' not found.";
 
     public static CohortEntity findCohort(EntityManager em, String _eventKey, String _key) {

@@ -1,7 +1,7 @@
 package at.mspe.server.service.jpa.participant;
 
 import at.mspe.server.service.jpa.BaseHandler;
-import at.mspe.server.service.jpa.cohort.EventCohortHelper;
+import at.mspe.server.service.jpa.cohort.CohortHelper;
 import at.mspe.server.service.jpa.model.CohortEntity;
 import at.mspe.server.service.jpa.model.Gender;
 import at.mspe.server.service.jpa.model.ParticipantEntity;
@@ -37,7 +37,7 @@ public class CreateHandlerJPA extends BaseHandler implements EventParticipantSer
         CohortEntity cohort = null;
         if (participant.cohortKey() != null) {
             try {
-                cohort = EventCohortHelper.findCohort(em, eventKey, participant.cohortKey());
+                cohort = CohortHelper.findCohort(em, eventKey, participant.cohortKey());
             } catch (NotFoundException e) {
                 throw new InvalidDataException(
                         "Provided cohortKey '%s' is not known".formatted(participant.cohortKey()));
@@ -58,7 +58,7 @@ public class CreateHandlerJPA extends BaseHandler implements EventParticipantSer
                 .association(participant.association())
                 .build();
         if (e.cohort == null && Boolean.TRUE.equals(autoAssignCohort)) {
-            cohort = EventCohortHelper.findMatchingCohort(em, e);
+            cohort = CohortHelper.findMatchingCohort(em, e);
             e.cohort = cohort;
         }
         em.persist(e);

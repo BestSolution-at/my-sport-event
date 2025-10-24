@@ -22,8 +22,8 @@ public class GetHandlerJPA extends BaseReadonlyHandler implements EventCohortSer
     }
 
     private static Cohort.Data get(EntityManager em, BuilderFactory factory, String eventKey, String key) {
-        var e = EventCohortHelper.findCohort(em, eventKey, key);
-        return EventCohortHelper.toData(e, factory);
+        var e = CohortHelper.findCohort(em, eventKey, key);
+        return CohortHelper.toData(e, factory);
     }
 
 }

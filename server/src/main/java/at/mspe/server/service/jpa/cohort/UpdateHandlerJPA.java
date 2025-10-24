@@ -40,7 +40,7 @@ public class UpdateHandlerJPA extends BaseHandler implements EventCohortServiceI
                     "key '%s' and cohort.key '%s' have to be equal".formatted(key, cohort.key()));
         }
 
-        var entity = EventCohortHelper.findCohort(em, eventKey, key);
+        var entity = CohortHelper.findCohort(em, eventKey, key);
 
         if (!Objects.equals(cohort.version(), entity.version)) {
             var message = Utils.createStaleMessage("Cohort", key, entity.version, cohort.version());

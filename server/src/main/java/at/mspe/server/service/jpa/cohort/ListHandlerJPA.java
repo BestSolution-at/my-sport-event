@@ -41,7 +41,7 @@ public class ListHandlerJPA extends BaseReadonlyHandler implements EventCohortSe
         }
         return query.getResultList()
                 .stream()
-                .map(e -> EventCohortHelper.toData(e, factory))
+                .map(e -> CohortHelper.toData(e, factory))
                 .toList();
     }
 }

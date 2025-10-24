@@ -2,7 +2,7 @@ package at.mspe.server.service.jpa.participant;
 
 import at.mspe.server.service.jpa.BaseHandler;
 import at.mspe.server.service.jpa.Utils;
-import at.mspe.server.service.jpa.cohort.EventCohortHelper;
+import at.mspe.server.service.jpa.cohort.CohortHelper;
 import at.mspe.server.service.jpa.model.Gender;
 
 import java.util.Objects;
@@ -51,9 +51,9 @@ public class UpdateHandlerJPA extends BaseHandler implements EventParticipantSer
         participant.lastname().ifPresent(entity::lastname);
         participant.team().accept(entity::team);
         participant.cohortKey()
-                .accept(k -> entity.cohort = k == null ? null : EventCohortHelper.findCohort(em, eventKey, k));
+                .accept(k -> entity.cohort = k == null ? null : CohortHelper.findCohort(em, eventKey, k));
         if (participant.cohortKey().isUndefined() && Boolean.TRUE.equals(autoAssignCohort)) {
-            var cohort = EventCohortHelper.findMatchingCohort(em, entity);
+            var cohort = CohortHelper.findMatchingCohort(em, entity);
             if (cohort != null) {
                 entity.cohort = cohort;
             }
