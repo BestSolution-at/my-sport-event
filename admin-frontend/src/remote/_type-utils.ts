@@ -512,7 +512,7 @@ export function createListReplaceToJSON<T>(
 }
 
 // We need X because Typescript is not able to deduct the type correctly and would require a local variable
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
+ 
 export function createListMergeUpdateRemoveToJSON<A, U, R, X extends ListMergeAddUpdateRemove<A, U, R>>(
 	addMapper: (v: A) => Record<string, unknown>,
 	updateMapper: (v: U) => Record<string, unknown>,
