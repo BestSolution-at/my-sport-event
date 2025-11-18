@@ -76,6 +76,7 @@ patchable record Participant {
     include ParticipantBase
 
     @readonly teamMates: string[]
+    time?: long
 }
 
 record UpdateResult {

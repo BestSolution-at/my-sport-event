@@ -373,6 +373,17 @@
           "variant": "builtin",
           "type": "string",
           "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "time",
+          "array": false,
+          "readonly": false,
+          "optional": true,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "long",
+          "doc": ""
         }
       ],
       "doc": ""

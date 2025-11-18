@@ -39,6 +39,7 @@
         par_key uuid not null,
         par_lastname varchar(255) not null,
         par_team varchar(255),
+        par_time bigint,
         par_version bigint,
         par_fk_cohort bigint,
         par_fk_sportevent bigint not null,

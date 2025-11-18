@@ -16,6 +16,8 @@ public interface Participant {
 
 		public List<String> teamMates();
 
+		public long time();
+
 		public String firstname();
 
 		public String lastname();
@@ -39,6 +41,8 @@ public interface Participant {
 
 		public DataBuilder teamMates(List<String> teamMates);
 
+		public DataBuilder time(long time);
+
 		public DataBuilder firstname(String firstname);
 
 		public DataBuilder lastname(String lastname);
@@ -60,6 +64,8 @@ public interface Participant {
 
 		public long version();
 
+		public _Base.Nillable<Long> time();
+
 		public Optional<String> firstname();
 
 		public Optional<String> lastname();
@@ -80,6 +86,8 @@ public interface Participant {
 		public PatchBuilder key(String key);
 
 		public PatchBuilder version(long version);
+
+		public PatchBuilder time(Long time);
 
 		public PatchBuilder firstname(String firstname);
 

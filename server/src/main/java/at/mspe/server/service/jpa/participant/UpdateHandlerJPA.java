@@ -52,6 +52,7 @@ public class UpdateHandlerJPA extends BaseHandler implements EventParticipantSer
         participant.team().accept(entity::team);
         participant.cohortKey()
                 .accept(k -> entity.cohort = k == null ? null : CohortHelper.findCohort(em, eventKey, k));
+        participant.time().accept(entity::time);
         if (participant.cohortKey().isUndefined() && Boolean.TRUE.equals(autoAssignCohort)) {
             var cohort = CohortHelper.findMatchingCohort(em, entity);
             if (cohort != null) {

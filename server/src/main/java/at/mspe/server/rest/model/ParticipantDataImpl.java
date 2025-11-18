@@ -28,6 +28,10 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 		return _JsonUtils.mapStrings(data, "teamMates");
 	}
 
+	public long time() {
+		return _JsonUtils.mapLong(data, "time", 0);
+	}
+
 	public String firstname() {
 		return _JsonUtils.mapString(data, "firstname");
 	}
@@ -82,6 +86,11 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 				return this;
 			}
 			$builder.add("teamMates", _JsonUtils.toJsonStringArray(teamMates));
+			return this;
+		}
+
+		public Participant.DataBuilder time(long time) {
+			$builder.add("time", time);
 			return this;
 		}
 

@@ -25,6 +25,10 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 		return _JsonUtils.mapLong(data, "version");
 	}
 
+	public _Base.Nillable<Long> time() {
+		return _JsonUtils.mapNilLong(data, "time");
+	}
+
 	public Optional<String> firstname() {
 		return _JsonUtils.mapOptString(data, "firstname");
 	}
@@ -63,6 +67,16 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 
 		public Participant.PatchBuilder version(long version) {
 			$builder.add("version", version);
+			return this;
+		}
+
+		@Override
+		public Participant.PatchBuilder time(Long time) {
+			if (time == null) {
+				$builder.addNull("time");
+				return this;
+			}
+			$builder.add("time", time);
 			return this;
 		}
 

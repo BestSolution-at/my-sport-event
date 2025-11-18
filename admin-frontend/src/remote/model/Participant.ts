@@ -6,6 +6,7 @@ export type Participant = {
 	readonly key: string;
 	readonly version: number;
 	readonly teamMates: string[];
+	readonly time?: number;
 	readonly firstname: string;
 	readonly lastname: string;
 	readonly team?: string;
@@ -20,6 +21,7 @@ export function isParticipant(value: unknown): value is Participant {
 		checkProp(value, 'key', isString) &&
 		checkProp(value, 'version', isNumber) &&
 		checkProp(value, 'teamMates', createTypedArrayGuard(isString)) &&
+		checkOptProp(value, 'time', isNumber) &&
 		checkProp(value, 'firstname', isString) &&
 		checkProp(value, 'lastname', isString) &&
 		checkOptProp(value, 'team', isString) &&
@@ -33,6 +35,7 @@ export function ParticipantFromJSON($value: Record<string, unknown>): Participan
 	const key = propValue('key', $value, isString);
 	const version = propValue('version', $value, isNumber);
 	const teamMates = propListValue('teamMates', $value, isString);
+	const time = propValue('time', $value, isNumber, 'optional');
 	const firstname = propValue('firstname', $value, isString);
 	const lastname = propValue('lastname', $value, isString);
 	const team = propValue('team', $value, isString, 'optional');
@@ -44,6 +47,7 @@ export function ParticipantFromJSON($value: Record<string, unknown>): Participan
 		key,
 		version,
 		teamMates,
+		time,
 		firstname,
 		lastname,
 		team,
@@ -58,6 +62,7 @@ export function ParticipantToJSON($value: Participant): Record<string, unknown> 
 	const key = $value.key;
 	const version = $value.version;
 	const teamMates = $value.teamMates;
+	const time = $value.time;
 	const firstname = $value.firstname;
 	const lastname = $value.lastname;
 	const team = $value.team;
@@ -70,6 +75,7 @@ export function ParticipantToJSON($value: Participant): Record<string, unknown> 
 		key,
 		version,
 		teamMates,
+		time,
 		firstname,
 		lastname,
 		team,
@@ -83,6 +89,7 @@ export function ParticipantToJSON($value: Participant): Record<string, unknown> 
 export type ParticipantPatch = {
 	readonly key: string;
 	readonly version: number;
+	readonly time?: number | null;
 	readonly firstname?: string;
 	readonly lastname?: string;
 	readonly team?: string | null;
@@ -96,6 +103,7 @@ export function isParticipantPatch(value: unknown): value is ParticipantPatch {
 	return isRecord(value) &&
 		checkProp(value, 'key', isString) &&
 		checkProp(value, 'version', isNumber) &&
+		(checkOptProp(value, 'time', isNull) || checkOptProp(value, 'time', isNumber)) &&
 		checkOptProp(value, 'firstname', isString) &&
 		checkOptProp(value, 'lastname', isString) &&
 		(checkOptProp(value, 'team', isNull) || checkOptProp(value, 'team', isString)) &&
@@ -108,6 +116,7 @@ export function isParticipantPatch(value: unknown): value is ParticipantPatch {
 export function ParticipantPatchFromJSON($value: Record<string, unknown>): ParticipantPatch {
 	const key = propValue('key', $value, isString);
 	const version = propValue('version', $value, isNumber);
+	const time = propValue('time', $value, isNumber, 'optional_null');
 	const firstname = propValue('firstname', $value, isString, 'optional');
 	const lastname = propValue('lastname', $value, isString, 'optional');
 	const team = propValue('team', $value, isString, 'optional_null');
@@ -118,6 +127,7 @@ export function ParticipantPatchFromJSON($value: Record<string, unknown>): Parti
 	return {
 		key,
 		version,
+		time,
 		firstname,
 		lastname,
 		team,
@@ -131,6 +141,7 @@ export function ParticipantPatchFromJSON($value: Record<string, unknown>): Parti
 export function ParticipantPatchToJSON($value: ParticipantPatch): Record<string, unknown> {
 	const key = $value.key;
 	const version = $value.version;
+	const time = $value.time;
 	const firstname = $value.firstname;
 	const lastname = $value.lastname;
 	const team = $value.team;
@@ -142,6 +153,7 @@ export function ParticipantPatchToJSON($value: ParticipantPatch): Record<string,
 	return {
 		key,
 		version,
+		time,
 		firstname,
 		lastname,
 		team,

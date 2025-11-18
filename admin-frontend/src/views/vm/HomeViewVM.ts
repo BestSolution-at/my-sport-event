@@ -7,7 +7,7 @@ import type { SportEventService } from '../../remote/SportEventService';
 export class HomeViewVM {
 	public readonly events = signal<readonly SportEvent[]>([]);
 	public readonly eventService = createSportEventService({ baseUrl: '' });
-	public readonly eventServiceList = createRemoteFunction(this.eventService.list, this.handleListResult);
+	public readonly eventServiceList = createRemoteFunction(this.eventService.list, this.handleListResult.bind(this));
 
 	constructor() {
 		this.eventServiceList();
@@ -15,6 +15,7 @@ export class HomeViewVM {
 
 	private handleListResult(result: Awaited<ReturnType<SportEventService['list']>>) {
 		const [data, err] = result;
+		console.log('Fetched events:', data, err);
 		if (data) {
 			this.events.value = data;
 		} else {
