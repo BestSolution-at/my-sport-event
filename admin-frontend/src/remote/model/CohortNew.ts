@@ -5,17 +5,17 @@ import { isString } from '../_type-utils.ts';
 
 export type CohortNew = GenericCohortNew | BirthyearCohortNew;
 
-export function isCohortNew(value: unknown) {
+export function isCohortNew(value: unknown): value is CohortNew {
 	return isGenericCohortNew(value) || isBirthyearCohortNew(value);
 }
 
 export function CohortNewFromJSON(value: Record<string, unknown>): CohortNew {
 	const descriminator = value['@type'];
 
-	if(!isString(descriminator)) {
+	if (!isString(descriminator)) {
 		throw new Error('No valid descriminator found');
 	}
-	switch(descriminator) {
+	switch (descriminator) {
 		case 'generic':
 			return GenericCohortNewFromJSON(value);
 		case 'birthyear':
@@ -24,14 +24,14 @@ export function CohortNewFromJSON(value: Record<string, unknown>): CohortNew {
 			throw new Error(`Unknown descriminator "${descriminator}"`);
 	}
 }
+
 export function CohortNewToJSON(value: CohortNew): Record<string, unknown> {
 	const $desc = value['@type'];
-	switch($desc) {
+	switch ($desc) {
 		case 'generic':
 			return GenericCohortNewToJSON(value);
 		case 'birthyear':
 			return BirthyearCohortNewToJSON(value);
-		default:
-			throw new Error(`Unknown descriminator "${$desc}";`)
 	}
 }
+

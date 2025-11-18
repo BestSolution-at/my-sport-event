@@ -26,6 +26,9 @@ function fnGet(props: ServiceProps<api.service.ErrorType>): api.service.EventCoh
 
 			if ($response.status === 200) {
 				const $data = await $response.json();
+				if(!api.utils.isRecord($data)) {
+					throw new Error('Invalid result');
+				}
 				const $result = api.model.CohortFromJSON($data);
 				return safeExecute(api.result.OK($result), () => onSuccess?.('get', $result));
 			} else if ($response.status === 404) {
@@ -35,7 +38,7 @@ function fnGet(props: ServiceProps<api.service.ErrorType>): api.service.EventCoh
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('get', err));
 			}
-			const err = { _type: '_Status', message: $response.statusText, status: $response.status } as const;
+			const err = { _type: '_Status', message: await $response.text(), status: $response.status } as const;
 			return api.result.ERR(err);
 		} catch (e) {
 			onCatch?.('get', e);
@@ -63,7 +66,7 @@ function fnList(props: ServiceProps<api.service.ErrorType>): api.service.EventCo
 
 			if ($response.status === 200) {
 				const $data = await $response.json();
-				if (!api.utils.isArray) {
+				if (!api.utils.isTypedArray($data, api.model.isCohort)) {
 					throw new Error('Invalid result');
 				}
 				const $result = $data.map(api.model.CohortFromJSON);
@@ -75,7 +78,7 @@ function fnList(props: ServiceProps<api.service.ErrorType>): api.service.EventCo
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('list', err));
 			}
-			const err = { _type: '_Status', message: $response.statusText, status: $response.status } as const;
+			const err = { _type: '_Status', message: await $response.text(), status: $response.status } as const;
 			return api.result.ERR(err);
 		} catch (e) {
 			onCatch?.('list', e);
@@ -103,6 +106,9 @@ function fnCreate(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			const $response = await fetchAPI($path, { ...$init, method: 'POST', body: $body });
 			if ($response.status === 201) {
 				const $data = await $response.json();
+				if(!api.utils.isString($data)) {
+					throw new Error('Invalid result');
+				}
 				return safeExecute(api.result.OK($data), () => onSuccess?.('create', $data));
 			} else if ($response.status === 404) {
 				const err = {
@@ -117,7 +123,7 @@ function fnCreate(props: ServiceProps<api.service.ErrorType>): api.service.Event
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('create', err));
 			}
-			const err = { _type: '_Status', message: $response.statusText, status: $response.status } as const;
+			const err = { _type: '_Status', message: await $response.text(), status: $response.status } as const;
 			return api.result.ERR(err);
 		} catch (e) {
 			onCatch?.('create', e);
@@ -145,6 +151,9 @@ function fnUpdate(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			const $response = await fetchAPI($path, { ...$init, method: 'PATCH', body: $body });
 			if ($response.status === 200) {
 				const $data = await $response.json();
+				if(!api.utils.isRecord($data)) {
+					throw new Error('Invalid result');
+				}
 				const $result = api.model.UpdateResultFromJSON($data);
 				return safeExecute(api.result.OK($result), () => onSuccess?.('update', $result));
 			} else if ($response.status === 404) {
@@ -166,7 +175,7 @@ function fnUpdate(props: ServiceProps<api.service.ErrorType>): api.service.Event
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('update', err));
 			}
-			const err = { _type: '_Status', message: $response.statusText, status: $response.status } as const;
+			const err = { _type: '_Status', message: await $response.text(), status: $response.status } as const;
 			return api.result.ERR(err);
 		} catch (e) {
 			onCatch?.('update', e);
@@ -208,7 +217,7 @@ function fnDelete(props: ServiceProps<api.service.ErrorType>): api.service.Event
 				} as const;
 				return safeExecute(api.result.ERR(err), () => onError?.('delete', err));
 			}
-			const err = { _type: '_Status', message: $response.statusText, status: $response.status } as const;
+			const err = { _type: '_Status', message: await $response.text(), status: $response.status } as const;
 			return api.result.ERR(err);
 		} catch (e) {
 			onCatch?.('delete', e);
