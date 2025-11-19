@@ -6,12 +6,13 @@ import { Button } from '../components/button';
 import { useSignalValue, useVM } from './utils/utils';
 import { EventViewVM } from './vm/EventViewVM';
 import { TextFormField } from './utils/TextFormField';
-import { useMessageFormatSignal } from '../useMessageFormat';
+import { useMessageFormat, useMessageFormatSignal } from '../useMessageFormat';
 import { messages } from '../messages';
 import type { AppVM } from '../AppVM';
 
 export function EventView(props: { appVM: AppVM }) {
 	const m = useMessageFormatSignal(messages);
+	const msg = useMessageFormat(messages);
 	const vm = useVM(() => new EventViewVM(m));
 	const title = useSignalValue(vm.title);
 
@@ -32,11 +33,11 @@ export function EventView(props: { appVM: AppVM }) {
 	return (
 		<div className="mx-auto mx-w6xl">
 			<ViewHeader title={title}>
-				<Button onClick={onPersist}>Speichern</Button>
+				<Button onClick={onPersist}>{msg('Generic_Save')}</Button>
 			</ViewHeader>
 			<Fieldset className="mt-10">
-				<Legend>Event Details</Legend>
-				<Text>Bearbeite die Event-Details</Text>
+				<Legend>{msg('EventView_Title')}</Legend>
+				<Text>{msg('EventView_Description')}</Text>
 				<FieldGroup>
 					<TextFormField vm={vm.name} />
 					<div className="flex gap-4">

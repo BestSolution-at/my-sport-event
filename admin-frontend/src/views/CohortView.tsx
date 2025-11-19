@@ -58,19 +58,20 @@ function CohortList(props: { vm: CohortViewVM }) {
 }
 
 function CohortTable(props: { vm: CohortViewVM; data: readonly Cohort[]; label: string }) {
+	const m = useMessageFormat(messages);
 	return (
 		<Card label={props.label}>
 			<table className="relative min-w-full divide-y divide-gray-300">
 				<thead className="bg-zinc-50">
 					<tr>
 						<th scope="col" className="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-							Name
+							{m('CohortView_CohortTable_Name')}
 						</th>
 						<th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-							Typ
+							{m('CohortView_CohortTable_Type')}
 						</th>
 						<th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-							Teilnehmer
+							{m('CohortView_CohortTable_Participant')}
 						</th>
 						<th scope="col" className="py-3.5 pr-4 pl-3 sm:pr-6">
 							<span className="sr-only">Actions</span>
@@ -92,8 +93,10 @@ function CohortTable(props: { vm: CohortViewVM; data: readonly Cohort[]; label: 
 											<EllipsisHorizontalIcon />
 										</DropdownButton>
 										<DropdownMenu anchor="bottom end">
-											<DropdownItem onClick={() => props.vm.onOpenCohortEditDialog(e)}>Bearbeiten</DropdownItem>
-											<DropdownItem>Löschen</DropdownItem>
+											<DropdownItem onClick={() => props.vm.onOpenCohortEditDialog(e)}>
+												{m('Generic_Edit')}
+											</DropdownItem>
+											<DropdownItem>{m('Generic_Delete')}</DropdownItem>
 										</DropdownMenu>
 									</Dropdown>
 								</td>

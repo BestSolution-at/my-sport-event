@@ -19,9 +19,10 @@ const en = {
 	App_RecentEvents: 'Recent events',
 	App_NewEvent: 'New Event',
 
-	HomeView_Title: 'Overview',
-
-	SearchView_Title: 'Search',
+	App_HomeView_Label: 'Overview',
+	App_SearchView_Label: 'Search',
+	App_EventView_Label: 'Basics',
+	App_ParticipantView_Label: 'Participants',
 
 	NewEventDialog_Title: 'New sports event',
 	NewEventDialog_Description: 'Create a new sports event',
@@ -36,8 +37,8 @@ const en = {
 	NewEventDialog_RemoteError_Title: 'Failed to persist',
 	NewEventDialog_RemoteError_Description: 'Failure while saving the data. The error message was:',
 
-	EventView_Title: 'Basics',
-	ParticipantView_Title: 'Participants',
+	EventView_Title: 'Event Details',
+	EventView_Description: 'Edit the details of the event',
 
 	CohortView_Title: 'Cohorts',
 	CohortView_New: 'New cohort',
@@ -53,6 +54,9 @@ const en = {
 	CohortViewDialog_Gender: 'Gender',
 	CohortViewDialog_Type_MinYear: 'From Birthyear',
 	CohortViewDialog_Type_MaxYear: 'To Birthyear',
+	CohortView_CohortTable_Name: 'Name',
+	CohortView_CohortTable_Type: 'Type',
+	CohortView_CohortTable_Participant: 'Participant',
 
 	ParticipantView_Grouping: 'Group by',
 	ParticipantView_Lastname: 'Lastname',
@@ -97,10 +101,13 @@ const de = {
 
 	App_RecentEvents: 'Letzte Events',
 	App_NewEvent: 'Neues Sport-Event',
+	App_HomeView_Label: 'Übersicht',
+	App_SearchView_Label: 'Suche',
+	App_EventView_Label: 'Basisdaten',
+	App_ParticipantView_Label: 'Teilnehmerliste',
 
-	HomeView_Title: 'Übersicht',
-
-	SearchView_Title: 'Suche',
+	EventView_Title: 'Event-Details',
+	EventView_Description: 'Bearbeite die Details des Event',
 
 	NewEventDialog_Title: 'Neues Sport-Event',
 	NewEventDialog_Description: 'Lege ein neues Sport-Event an',
@@ -116,11 +123,11 @@ const de = {
 	NewEventDialog_RemoteError_Description:
 		'Beim Speichern des Datensatzes ist ein Fehler aufgetreten. Die Fehlermeldung war:',
 
-	EventView_Title: 'Basisdaten',
-	ParticipantView_Title: 'Teilnehmerliste',
-
 	CohortView_Title: 'Klassen',
 	CohortView_New: 'Neue Klasse',
+	CohortView_CohortTable_Name: 'Name',
+	CohortView_CohortTable_Type: 'Typ',
+	CohortView_CohortTable_Participant: 'Teilnehmer',
 
 	CohortViewDialog_NewTitle: 'Neue Klasse',
 	CohortViewDialog_UpdateTitle: 'Klasse bearbeiten',

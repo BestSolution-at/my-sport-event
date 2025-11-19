@@ -131,11 +131,11 @@ function AppSideBar(props: { vm: AppVM }) {
 						<DropdownMenu className="min-w-64" anchor="bottom end">
 							<DropdownItem href="/">
 								<FontAwesomeIcon icon={faHome} data-slot="icon" />
-								<DropdownLabel>{message.format('HomeView_Title')}</DropdownLabel>
+								<DropdownLabel>{message.format('App_HomeView_Label')}</DropdownLabel>
 							</DropdownItem>
 							<DropdownItem href="/search">
 								<FontAwesomeIcon icon={faSearch} data-slot="icon" />
-								<DropdownLabel>Suche</DropdownLabel>
+								<DropdownLabel>{message.format('App_SearchView_Label')}</DropdownLabel>
 							</DropdownItem>
 							{events.length > 0 && (
 								<>
@@ -169,11 +169,11 @@ function AppSideBar(props: { vm: AppVM }) {
 						<SidebarSection>
 							<SidebarItem href="/">
 								<FontAwesomeIcon icon={faHome} data-slot="icon" />
-								<SidebarLabel>{message.format('HomeView_Title')}</SidebarLabel>
+								<SidebarLabel>{message.format('App_HomeView_Label')}</SidebarLabel>
 							</SidebarItem>
 							<SidebarItem href="/search">
 								<FontAwesomeIcon icon={faSearch} data-slot="icon" />
-								<SidebarLabel>Suche</SidebarLabel>
+								<SidebarLabel>{message.format('App_SearchView_Label')}</SidebarLabel>
 							</SidebarItem>
 						</SidebarSection>
 					)}
@@ -182,7 +182,7 @@ function AppSideBar(props: { vm: AppVM }) {
 							<SidebarHeading>{event.name}</SidebarHeading>
 							<SidebarItem href={`/events/${event.key}`} current={location.pathname === `/events/${event.key}`}>
 								<FontAwesomeIcon icon={faPenToSquare} data-slot="icon" />
-								<SidebarLabel>{message.format('EventView_Title')}</SidebarLabel>
+								<SidebarLabel>{message.format('App_EventView_Label')}</SidebarLabel>
 							</SidebarItem>
 							<SidebarItem
 								href={`/events/${event.key}/cohorts`}
@@ -196,7 +196,7 @@ function AppSideBar(props: { vm: AppVM }) {
 								current={location.pathname === `/events/${event.key}/participants`}
 							>
 								<FontAwesomeIcon icon={faList} data-slot="icon" />
-								<SidebarLabel>{message.format('ParticipantView_Title')}</SidebarLabel>
+								<SidebarLabel>{message.format('App_ParticipantView_Label')}</SidebarLabel>
 							</SidebarItem>
 						</SidebarSection>
 					)}

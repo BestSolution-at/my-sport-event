@@ -15,7 +15,6 @@ export class HomeViewVM {
 
 	private handleListResult(result: Awaited<ReturnType<SportEventService['list']>>) {
 		const [data, err] = result;
-		console.log('Fetched events:', data, err);
 		if (data) {
 			this.events.value = data;
 		} else {
