@@ -1,0 +1,112 @@
+stages:
+  - build
+  - verify
+  - docker-build
+
+include:
+  - project: 'BestSolution.at/gitlab-pipelines'
+    ref: 1.21.0
+    file: 
+      - '/templates/workflow-MergeRequest-pipelines.yml'
+      - '/templates/maven-base.yml'
+      - '/jobs/maven/verify-dind.yml'
+      - '/templates/docker-build-template.yml'
+      - '/templates/docker-dind-service-template.yml'
+
+variables:
+  NODE_VERSION: 24
+
+.maven:
+  variables:
+    MAVEN_VERSION: 3.9
+    MAVEN_JAVA_VERSION: 21
+
+maven-verify:
+  stage: build
+  variables:
+    PARENT_POM_LOCATION: server
+  artifacts:
+    reports:
+      junit:
+        - ./**/target/surefire-reports/TEST-*.xml
+  needs: []
+  interruptible: true
+
+.npm:
+  image: nexus.ci.bestsolution.at:8084/node:${NODE_VERSION}
+  variables:
+    CI_NPM_ARGS: "--cache .npm --prefer-offline"
+    GIT_SUBMODULE_STRATEGY: recursive
+  before_script:
+    - cd ./admin-frontend/
+    - npm ci ${CI_NPM_ARGS}
+  cache:
+    key:
+      files:
+        - package-lock.json
+      prefix: npm
+    paths:
+      - .npm/
+    policy: pull
+
+webapp:
+  stage: build
+  extends: .npm
+  script:
+    - npm run build
+  cache:
+    policy: pull-push
+  artifacts:
+    paths:
+      - admin-frontend/dist/
+    expire_in: 1 day
+  needs: []
+  interruptible: true
+
+eslint:
+  stage: verify
+  extends: .npm
+  script:
+    - npm run lint
+  needs: []
+  interruptible: true
+
+docker:frontend:
+  extends:
+    - .docker-build
+    - .docker-dind-service
+  variables:
+    IMAGE_NAME: frontend
+    DOCKERFILE_LOCATION: admin-frontend/
+  needs:
+    - webapp
+
+docker:database:
+  extends:
+    - .docker-build
+    - .docker-dind-service
+  variables:
+    IMAGE_NAME: dbinit
+    DOCKERFILE_LOCATION: server/src/database
+  needs: []
+
+docker:db-demodata:
+  extends:
+    - .docker-build
+    - .docker-dind-service
+  variables:
+    IMAGE_NAME: dbdemodata
+    DOCKERFILE_LOCATION: server/src/database
+    DOCKER_BUILD_ARGUMENTS: -f server/src/database/Dockerfile.demodata
+  needs: []
+
+docker:quarkus:
+  extends:
+    - .docker-build
+    - .docker-dind-service
+  variables:
+    IMAGE_NAME: quarkus-server
+    DOCKERFILE_LOCATION: server
+    DOCKER_BUILD_ARGUMENTS: -f src/main/docker/Dockerfile.native
+  needs:
+    - maven-verify
