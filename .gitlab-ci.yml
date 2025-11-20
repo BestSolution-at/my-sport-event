@@ -88,7 +88,9 @@ docker:database:
   variables:
     IMAGE_NAME: dbinit
     DOCKERFILE_LOCATION: server/src/database
-  needs: []
+  needs:
+    - job: maven-verify
+      artifacts: false
 
 docker:db-demodata:
   extends:
@@ -98,7 +100,9 @@ docker:db-demodata:
     IMAGE_NAME: dbdemodata
     DOCKERFILE_LOCATION: server/src/database
     DOCKER_BUILD_ARGUMENTS: -f server/src/database/Dockerfile.demodata
-  needs: []
+  needs:
+    - job: maven-verify
+      artifacts: false
 
 docker:quarkus:
   extends:
