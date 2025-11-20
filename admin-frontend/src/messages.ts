@@ -37,6 +37,8 @@ const en = {
 	NewEventDialog_RemoteError_Title: 'Failed to persist',
 	NewEventDialog_RemoteError_Description: 'Failure while saving the data. The error message was:',
 
+	HomeView_Title: 'Overview',
+
 	EventView_Title: 'Event Details',
 	EventView_Description: 'Edit the details of the event',
 
@@ -105,6 +107,8 @@ const de = {
 	App_SearchView_Label: 'Suche',
 	App_EventView_Label: 'Basisdaten',
 	App_ParticipantView_Label: 'Teilnehmerliste',
+
+	HomeView_Title: 'Übersicht',
 
 	EventView_Title: 'Event-Details',
 	EventView_Description: 'Bearbeite die Details des Event',
