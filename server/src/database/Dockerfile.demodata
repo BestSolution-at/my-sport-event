@@ -1,0 +1,15 @@
+FROM docker.io/library/alpine:3
+
+RUN adduser -u 1000 -h /opt/mspe/ -G root -D demodata
+WORKDIR /opt/mspe/
+
+ARG POSTGRES_VERSION=17
+RUN apk add --no-cache postgresql${POSTGRES_VERSION}-client
+USER demodata
+
+ENV SETUP_SQL_DATA_DIR=/opt/mspe/sql/
+
+COPY load-demodata.sh demodata.sh
+COPY demoData/ ${SETUP_SQL_DATA_DIR}
+
+CMD [ "/opt/mspe/demodata.sh" ]
