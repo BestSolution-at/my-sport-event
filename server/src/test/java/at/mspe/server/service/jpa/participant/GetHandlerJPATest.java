@@ -50,7 +50,7 @@ public class GetHandlerJPATest extends ParticipantHandlerTest<GetHandlerJPA> {
         assertEquals("Team", participant.team());
         assertNotNull(participant.teamMates());
         assertEquals(1, participant.teamMates().size());
-        assertEquals(FullEvent_ParticpantWithGenericCohortKey, participant.cohortKey());
+        assertEquals(FullEvent_GenericCohortKey, participant.cohortKey());
     }
 
     @Test
