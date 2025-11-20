@@ -111,6 +111,6 @@ docker:quarkus:
   variables:
     IMAGE_NAME: quarkus-server
     DOCKERFILE_LOCATION: server
-    DOCKER_BUILD_ARGUMENTS: -f src/main/docker/Dockerfile.native
+    DOCKER_BUILD_ARGUMENTS: -f server/src/main/docker/Dockerfile.jvm
   needs:
     - maven-verify
