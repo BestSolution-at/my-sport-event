@@ -38,6 +38,7 @@ const en = {
 	NewEventDialog_RemoteError_Description: 'Failure while saving the data. The error message was:',
 
 	HomeView_Title: 'Overview',
+	SearchView_Title: 'Search',
 
 	EventView_Title: 'Event Details',
 	EventView_Description: 'Edit the details of the event',
@@ -109,6 +110,7 @@ const de = {
 	App_ParticipantView_Label: 'Teilnehmerliste',
 
 	HomeView_Title: 'Übersicht',
+	SearchView_Title: 'Suche',
 
 	EventView_Title: 'Event-Details',
 	EventView_Description: 'Bearbeite die Details des Event',
