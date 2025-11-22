@@ -8,13 +8,16 @@ const en = {
 	Generic_Cancel: 'Cancel',
 	Generic_Save: 'Save',
 	Generic_Create: 'Create',
+	Generic_View: 'View',
 	Generic_Edit: 'Edit',
 	Generic_Delete: 'Delete',
+	Generic_Actions: 'Actions',
 
 	Generic_Male_Female: 'Male & Female',
 	Generic_Male: 'Male',
 	Generic_Female: 'Female',
 	Generic_NoData: 'No Data',
+	Generic_MoreOptions: 'More options',
 
 	App_RecentEvents: 'Recent events',
 	App_NewEvent: 'New Event',
@@ -38,6 +41,10 @@ const en = {
 	NewEventDialog_RemoteError_Description: 'Failure while saving the data. The error message was:',
 
 	HomeView_Title: 'Overview',
+	HomeView_Name: 'Name',
+	HomeView_DateAndTime: 'Date, Time',
+	HomeView_Participants: 'Participants',
+
 	SearchView_Title: 'Search',
 
 	EventView_Title: 'Event Details',
@@ -61,6 +68,8 @@ const en = {
 	CohortView_CohortTable_Type: 'Type',
 	CohortView_CohortTable_Participant: 'Participant',
 
+	ParticipantView_Title: 'Participants',
+	ParticipantView_None: 'None',
 	ParticipantView_Grouping: 'Group by',
 	ParticipantView_Lastname: 'Lastname',
 	ParticipantView_Firstname: 'Firstname',
@@ -94,8 +103,11 @@ const de = {
 	Generic_Cancel: 'Abbrechen',
 	Generic_Save: 'Speichern',
 	Generic_Create: 'Anlegen',
+	Generic_View: 'Ansehen',
 	Generic_Edit: 'Bearbeiten',
 	Generic_Delete: 'Löschen',
+	Generic_MoreOptions: 'Weitere Optionen',
+	Generic_Actions: 'Aktionen',
 
 	Generic_Male_Female: 'Männlich & Weiblich',
 	Generic_Male: 'Männlich',
@@ -110,6 +122,10 @@ const de = {
 	App_ParticipantView_Label: 'Teilnehmerliste',
 
 	HomeView_Title: 'Übersicht',
+	HomeView_Name: 'Name',
+	HomeView_DateAndTime: 'Datum, Uhrzeit',
+	HomeView_Participants: 'Teilnehmer',
+
 	SearchView_Title: 'Suche',
 
 	EventView_Title: 'Event-Details',
@@ -147,9 +163,11 @@ const de = {
 	CohortViewDialog_Type_MinYear: 'Ab Jahrgang',
 	CohortViewDialog_Type_MaxYear: 'Bis Jahrgang',
 
+	ParticipantView_Title: 'Teilnehmer',
+	ParticipantView_None: 'Keine',
 	ParticipantView_Grouping: 'Gruppierung',
 	ParticipantView_Lastname: 'Nachname',
-	ParticipantView_Firstname: 'Vornahme',
+	ParticipantView_Firstname: 'Vorname',
 	ParticipantView_AgeGroup: 'Jahrgang',
 	ParticipantView_Gender: 'Geschlecht',
 	ParticipantView_Cohort: 'Klasse',

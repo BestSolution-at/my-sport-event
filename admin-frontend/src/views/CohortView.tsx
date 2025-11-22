@@ -89,7 +89,7 @@ function CohortTable(props: { vm: CohortViewVM; data: readonly Cohort[]; label: 
 								<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">TBD</td>
 								<td className="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
 									<Dropdown>
-										<DropdownButton plain aria-label="More options">
+										<DropdownButton plain aria-label={m('Generic_MoreOptions')}>
 											<EllipsisHorizontalIcon />
 										</DropdownButton>
 										<DropdownMenu anchor="bottom end">

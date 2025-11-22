@@ -46,8 +46,9 @@ export function ParticipantView() {
 }
 
 function ParticipantHeader(props: { vm: ParticipantViewVM }) {
+	const m = useMessageFormat(messages);
 	return (
-		<ViewHeader title="Teilnehmer">
+		<ViewHeader title={m('ParticipantView_Title')}>
 			<Button onClick={() => props.vm.openNewParticipantDialog()}>Neuer Teilnehmer</Button>
 		</ViewHeader>
 	);
@@ -73,13 +74,13 @@ function Grouping() {
 				className="max-w-xs ml-auto"
 			>
 				<ListboxOption value="none">
-					<ListboxLabel>Keine</ListboxLabel>
+					<ListboxLabel>{m('ParticipantView_None')}</ListboxLabel>
 				</ListboxOption>
 				<ListboxOption value="gender">
-					<ListboxLabel>Geschlecht</ListboxLabel>
+					<ListboxLabel>{m('ParticipantView_Gender')}</ListboxLabel>
 				</ListboxOption>
 				<ListboxOption value="cohort">
-					<ListboxLabel>Klasse</ListboxLabel>
+					<ListboxLabel>{m('ParticipantView_Cohort')}</ListboxLabel>
 				</ListboxOption>
 			</Listbox>
 		</div>
@@ -193,7 +194,7 @@ function NameView(props: { vm: ParticipantViewVM }) {
 						</th>
 						<th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
 							<a href="#" className="group inline-flex" onClick={evt => onClick(evt, 'birthday')}>
-								Jahrgang
+								{m('ParticipantView_AgeGroup')}
 								<span
 									className={
 										sortColumn === 'birthday'
@@ -266,7 +267,7 @@ function NameView(props: { vm: ParticipantViewVM }) {
 							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">0:00.00</td>
 							<td className="py-4 pr-4 pl-3 text-right text-sm whitespace-nowrap sm:pr-0">
 								<Dropdown>
-									<DropdownButton plain aria-label="More options">
+									<DropdownButton plain aria-label={m('Generic_MoreOptions')}>
 										<EllipsisHorizontalIcon />
 									</DropdownButton>
 									<DropdownMenu anchor="bottom end">
@@ -360,7 +361,7 @@ function CohortSection(props: { vm: ParticipantViewVM; cohort: Cohort | undefine
 						</th>
 						<th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
 							<a href="#" className="group inline-flex" onClick={evt => onClick(evt, 'birthday')}>
-								Jahrgang
+								{m('ParticipantView_AgeGroup')}
 								<span
 									className={
 										sortColumn === 'birthday'
@@ -377,10 +378,10 @@ function CohortSection(props: { vm: ParticipantViewVM; cohort: Cohort | undefine
 							</a>
 						</th>
 						<th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-							Zeit
+							{m('ParticipantView_Time')}
 						</th>
 						<th scope="col" className="py-3.5 pr-4 pl-3 sm:pr-6">
-							<span className="sr-only">Actions</span>
+							<span className="sr-only">{m('Generic_Actions')}</span>
 						</th>
 					</tr>
 				</thead>
@@ -395,7 +396,7 @@ function CohortSection(props: { vm: ParticipantViewVM; cohort: Cohort | undefine
 							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">0:00.00</td>
 							<td className="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
 								<Dropdown>
-									<DropdownButton plain aria-label="More options">
+									<DropdownButton plain aria-label={m('Generic_MoreOptions')}>
 										<EllipsisHorizontalIcon />
 									</DropdownButton>
 									<DropdownMenu anchor="bottom end">
@@ -458,7 +459,7 @@ function GenderSection(props: { vm: ParticipantViewVM; label: string; items: rea
 					<tr>
 						<th scope="col" className="py-3.5 pr-3 pl-4 text-left text-sm font-semibold text-gray-900 sm:pl-6">
 							<a href="#" className="group inline-flex" onClick={evt => onClick(evt, 'lastname')}>
-								Nachname
+								{m('ParticipantView_Lastname')}
 								<span
 									className={
 										sortColumn === 'lastname'
@@ -475,11 +476,11 @@ function GenderSection(props: { vm: ParticipantViewVM; label: string; items: rea
 							</a>
 						</th>
 						<th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-							Vorname
+							{m('ParticipantView_Firstname')}
 						</th>
 						<th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
 							<a href="#" className="group inline-flex" onClick={evt => onClick(evt, 'birthday')}>
-								Jahrgang
+								{m('ParticipantView_AgeGroup')}
 								<span
 									className={
 										sortColumn === 'birthday'
@@ -496,10 +497,10 @@ function GenderSection(props: { vm: ParticipantViewVM; label: string; items: rea
 							</a>
 						</th>
 						<th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-							Zeit
+							{m('ParticipantView_Time')}
 						</th>
 						<th scope="col" className="py-3.5 pr-4 pl-3 sm:pr-6">
-							<span className="sr-only">Actions</span>
+							<span className="sr-only">{m('Generic_Actions')}</span>
 						</th>
 					</tr>
 				</thead>
@@ -514,7 +515,7 @@ function GenderSection(props: { vm: ParticipantViewVM; label: string; items: rea
 							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">0:00.00</td>
 							<td className="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
 								<Dropdown>
-									<DropdownButton plain aria-label="More options">
+									<DropdownButton plain aria-label={m('Generic_MoreOptions')}>
 										<EllipsisHorizontalIcon />
 									</DropdownButton>
 									<DropdownMenu anchor="bottom end">

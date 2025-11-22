@@ -1,4 +1,4 @@
-import { useDateFormatter, useLocalizedStringFormatter } from '@react-aria/i18n';
+import { useDateFormatter } from '@react-aria/i18n';
 import { messages } from '../messages';
 import { ViewHeader } from './utils/ViewHeader';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/table';
@@ -6,27 +6,28 @@ import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from '../compone
 import { EllipsisHorizontalIcon } from '@heroicons/react/16/solid';
 import { useValue, useVM } from './utils/utils';
 import { HomeViewVM } from './vm/HomeViewVM';
+import { useMessageFormat } from '../useMessageFormat';
 
 export function HomeView() {
 	const vm = useVM(() => new HomeViewVM());
 	const events = useValue(vm.events);
 
-	const message = useLocalizedStringFormatter(messages);
+	const m = useMessageFormat(messages);
 	const dateFormat = useDateFormatter({ day: '2-digit', month: '2-digit', year: 'numeric' });
 	const timeFormat = useDateFormatter({ hour: '2-digit', minute: '2-digit' });
 
 	return (
 		<div className="mx-auto mx-w6xl">
-			<ViewHeader title={message.format('HomeView_Title')} />
+			<ViewHeader title={m('HomeView_Title')} />
 
 			<Table striped className="mt-12 [--gutter:--spacing(6)] sm:[--gutter:--spacing(8)]">
 				<TableHead>
 					<TableRow>
-						<TableHeader>Name</TableHeader>
-						<TableHeader>Datum, Uhrzeit</TableHeader>
-						{/*<TableHeader>Teilnehmer</TableHeader>*/}
+						<TableHeader>{m('HomeView_Name')}</TableHeader>
+						<TableHeader>{m('HomeView_DateAndTime')}</TableHeader>
+						{/*<TableHeader>{m('HomeView_Participants')}</TableHeader>*/}
 						<TableHeader className="relative w-0">
-							<span className="sr-only">Actions</span>
+							<span className="sr-only">{m('Generic_Actions')}</span>
 						</TableHeader>
 					</TableRow>
 				</TableHead>
@@ -46,13 +47,13 @@ export function HomeView() {
 								<TableCell>
 									<div className="-my-1.5">
 										<Dropdown>
-											<DropdownButton plain aria-label="More options">
+											<DropdownButton plain aria-label={m('Generic_MoreOptions')}>
 												<EllipsisHorizontalIcon />
 											</DropdownButton>
 											<DropdownMenu anchor="bottom end">
-												<DropdownItem>View</DropdownItem>
-												<DropdownItem>Edit</DropdownItem>
-												<DropdownItem>Delete</DropdownItem>
+												<DropdownItem>{m('Generic_View')}</DropdownItem>
+												<DropdownItem>{m('Generic_Edit')}</DropdownItem>
+												<DropdownItem>{m('Generic_Delete')}</DropdownItem>
 											</DropdownMenu>
 										</Dropdown>
 									</div>
