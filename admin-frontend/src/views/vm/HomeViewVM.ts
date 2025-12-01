@@ -1,15 +1,22 @@
-import { signal } from '@preact/signals';
+import { signal, type ReadonlySignal } from '@preact/signals';
 import type { SportEvent } from '../../remote/model';
 import { createSportEventService } from '../../remote';
 import { createRemoteFunction } from '../utils/utils';
 import type { SportEventService } from '../../remote/SportEventService';
+import type { AllMessages } from '../../messages';
+import { BaseViewVM } from './BaseViewVM';
+import type { StateInfo } from './utils';
 
-export class HomeViewVM {
+export class HomeViewVM extends BaseViewVM {
 	public readonly events = signal<readonly SportEvent[]>([]);
 	public readonly eventService = createSportEventService({ baseUrl: '' });
 	public readonly eventServiceList = createRemoteFunction(this.eventService.list, this.handleListResult.bind(this));
 
-	constructor() {
+	public stateInfo = signal<StateInfo>();
+	public askDeleteDialogOpen = signal('');
+
+	constructor(messages: ReadonlySignal<AllMessages>) {
+		super(messages);
 		this.eventServiceList();
 	}
 
@@ -20,5 +27,24 @@ export class HomeViewVM {
 		} else {
 			console.error(err);
 		}
+	}
+
+	public async deleteEvent(eventKey: string, deleteConfirmed: boolean) {
+		if (!deleteConfirmed) {
+			this.askDeleteDialogOpen.value = eventKey;
+			return;
+		}
+		this.askDeleteDialogOpen.value = '';
+		const [, error] = await this.eventService.delete(eventKey);
+		if (error) {
+			this.stateInfo.value = { type: 'error', message: this.l10n('HomeView_Delete_Error') };
+		} else {
+			this.stateInfo.value = { type: 'success', message: this.l10n('HomeView_Delete_Success') };
+			this.eventServiceList();
+		}
+	}
+
+	public clearStateInfo() {
+		this.stateInfo.value = undefined;
 	}
 }

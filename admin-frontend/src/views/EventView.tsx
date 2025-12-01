@@ -3,18 +3,21 @@ import { ViewHeader } from './utils/ViewHeader';
 import { FieldGroup, Fieldset, Legend } from '../components/fieldset';
 import { Text } from '../components/text';
 import { Button } from '../components/button';
-import { useSignalValue, useVM } from './utils/utils';
+import { useSignalValue, useValue, useVM } from './utils/utils';
 import { EventViewVM } from './vm/EventViewVM';
 import { TextFormField } from './utils/TextFormField';
 import { useMessageFormat, useMessageFormatSignal } from '../useMessageFormat';
 import { messages } from '../messages';
 import type { AppVM } from '../AppVM';
+import { SuccessInfo } from './utils/SuccessInfo';
+import { ErrorInfo } from './utils/ErrorInfo';
 
 export function EventView(props: { appVM: AppVM }) {
 	const m = useMessageFormatSignal(messages);
 	const msg = useMessageFormat(messages);
 	const vm = useVM(() => new EventViewVM(m));
 	const title = useSignalValue(vm.title);
+	const stateInfo = useValue(vm.stateInfo);
 
 	const params = useParams();
 	const eventId = params['eventId'] as string;
@@ -35,6 +38,26 @@ export function EventView(props: { appVM: AppVM }) {
 			<ViewHeader title={title}>
 				<Button onClick={onPersist}>{msg('Generic_Save')}</Button>
 			</ViewHeader>
+			{stateInfo?.type === 'success' && (
+				<div className="mt-6">
+					<SuccessInfo
+						title={msg('Generic_Success')}
+						message={stateInfo.message}
+						buttons={[]}
+						onDismiss={() => vm.clearStateInfo()}
+					/>
+				</div>
+			)}
+			{stateInfo?.type === 'error' && (
+				<div className="mt-6">
+					<ErrorInfo
+						title={msg('Generic_Error')}
+						message={stateInfo.message}
+						buttons={[]}
+						onDismiss={() => vm.clearStateInfo()}
+					/>
+				</div>
+			)}
 			<Fieldset className="mt-10">
 				<Legend>{msg('EventView_Title')}</Legend>
 				<Text>{msg('EventView_Description')}</Text>

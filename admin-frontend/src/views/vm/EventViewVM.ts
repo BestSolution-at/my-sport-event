@@ -5,6 +5,7 @@ import { createRemoteFunction, createTextField, validateRequired } from '../util
 import { type AllMessages } from '../../messages';
 import { BaseViewVM } from './BaseViewVM';
 import type { SportEventService } from '../../remote/SportEventService';
+import type { StateInfo } from './utils';
 
 export class EventViewVM extends BaseViewVM {
 	public readonly eventId = signal('');
@@ -16,6 +17,7 @@ export class EventViewVM extends BaseViewVM {
 			return this.dto.value.name;
 		}
 	});
+	public stateInfo = signal<StateInfo>();
 	private readonly eventService = createSportEventService({ baseUrl: '' });
 
 	private readonly eventServiceGet = createRemoteFunction(this.eventService.get, this.handleGetResult.bind(this));
@@ -63,8 +65,8 @@ export class EventViewVM extends BaseViewVM {
 		const [data, err] = result;
 		if (data) {
 			this.dto.value = data;
-		} else {
-			console.error('====> FAILURE', err);
+		} else if (err) {
+			this.stateInfo.value = { type: 'error', message: err.message };
 		}
 	}
 
@@ -90,12 +92,17 @@ export class EventViewVM extends BaseViewVM {
 			if (patch) {
 				const [result, err] = await this.eventService.update(this.eventId.value, patch);
 				if (result) {
+					this.stateInfo.value = { type: 'success', message: this.l10n('Generic_Success_Saved') };
 					this.fetchData();
 				} else {
 					console.error('Failure', err);
 				}
 			}
 		}
+	}
+
+	clearStateInfo() {
+		this.stateInfo.value = undefined;
 	}
 }
 

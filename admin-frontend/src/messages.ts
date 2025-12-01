@@ -12,6 +12,10 @@ const en = {
 	Generic_Edit: 'Edit',
 	Generic_Delete: 'Delete',
 	Generic_Actions: 'Actions',
+	Generic_Error: 'Error',
+	Generic_Success: 'Success',
+	Generic_Dismiss: 'Dismiss',
+	Generic_Success_Saved: 'Data saved successfully',
 
 	Generic_Male_Female: 'Male & Female',
 	Generic_Male: 'Male',
@@ -44,6 +48,10 @@ const en = {
 	HomeView_Name: 'Name',
 	HomeView_DateAndTime: 'Date, Time',
 	HomeView_Participants: 'Participants',
+	HomeView_Delete_Error: 'Failed to delete the event.',
+	HomeView_Delete_Success: 'Event deleted successfully.',
+	HomeView_Delete_Confirm_Title: 'Delete Event',
+	HomeView_Delete_Confirm_Message: 'Are you sure you want to delete this event? This action cannot be undone.',
 
 	SearchView_Title: 'Search',
 
@@ -108,6 +116,10 @@ const de = {
 	Generic_Delete: 'Löschen',
 	Generic_MoreOptions: 'Weitere Optionen',
 	Generic_Actions: 'Aktionen',
+	Generic_Success: 'Erfolg',
+	Generic_Error: 'Fehler',
+	Generic_Dismiss: 'Schließen',
+	Generic_Success_Saved: 'Daten erfolgreich gespeichert',
 
 	Generic_Male_Female: 'Männlich & Weiblich',
 	Generic_Male: 'Männlich',
@@ -125,6 +137,11 @@ const de = {
 	HomeView_Name: 'Name',
 	HomeView_DateAndTime: 'Datum, Uhrzeit',
 	HomeView_Participants: 'Teilnehmer',
+	HomeView_Delete_Error: 'Fehler beim Löschen des Events.',
+	HomeView_Delete_Success: 'Event erfolgreich gelöscht.',
+	HomeView_Delete_Confirm_Title: 'Event löschen',
+	HomeView_Delete_Confirm_Message:
+		'Sind Sie sicher, dass Sie dieses Event löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.',
 
 	SearchView_Title: 'Suche',
 

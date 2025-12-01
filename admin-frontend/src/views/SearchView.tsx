@@ -8,6 +8,7 @@ export function SearchView() {
 	return (
 		<div className="mx-auto mx-w6xl">
 			<ViewHeader title={message.format('SearchView_Title')} />
+			Aktuell in Entwicklung...
 		</div>
 	);
 }

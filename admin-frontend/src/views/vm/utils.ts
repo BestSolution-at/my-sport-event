@@ -2,6 +2,11 @@ import type { AllMessages } from '../../messages';
 import { isBirthyearCohort, type Cohort, type Gender } from '../../remote/model';
 import { compare, compareProps } from '../utils/utils';
 
+export type StateInfo = {
+	type: 'success' | 'error';
+	message: string;
+};
+
 export function cohortSort(a: Cohort, b: Cohort) {
 	const typeA = isBirthyearCohort(a) ? 0 : 1;
 	const typeB = isBirthyearCohort(b) ? 0 : 1;

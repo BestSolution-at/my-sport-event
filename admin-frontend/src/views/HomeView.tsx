@@ -6,11 +6,18 @@ import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from '../compone
 import { EllipsisHorizontalIcon } from '@heroicons/react/16/solid';
 import { useValue, useVM } from './utils/utils';
 import { HomeViewVM } from './vm/HomeViewVM';
-import { useMessageFormat } from '../useMessageFormat';
+import { useMessageFormat, useMessageFormatSignal } from '../useMessageFormat';
+import { SuccessInfo } from './utils/SuccessInfo';
+import { ErrorInfo } from './utils/ErrorInfo';
+import { ErrorDialog } from './utils/ErrorDialog';
+import { Link } from '../components/link';
 
 export function HomeView() {
-	const vm = useVM(() => new HomeViewVM());
+	const ms = useMessageFormatSignal(messages);
+	const vm = useVM(() => new HomeViewVM(ms));
 	const events = useValue(vm.events);
+	const stateInfo = useValue(vm.stateInfo);
+	const askDeleteDialogOpen = useValue(vm.askDeleteDialogOpen);
 
 	const m = useMessageFormat(messages);
 	const dateFormat = useDateFormatter({ day: '2-digit', month: '2-digit', year: 'numeric' });
@@ -18,8 +25,41 @@ export function HomeView() {
 
 	return (
 		<div className="mx-auto mx-w6xl">
+			<ErrorDialog
+				title={m('HomeView_Delete_Confirm_Title')}
+				message={m('HomeView_Delete_Confirm_Message')}
+				okButtonLabel={m('Generic_Delete')}
+				cancelButtonLabel={m('Generic_Cancel')}
+				open={askDeleteDialogOpen !== ''}
+				onClose={cancel => {
+					if (!cancel) {
+						vm.deleteEvent(askDeleteDialogOpen, true);
+					} else {
+						vm.askDeleteDialogOpen.value = '';
+					}
+				}}
+			/>
 			<ViewHeader title={m('HomeView_Title')} />
-
+			{stateInfo?.type === 'success' && (
+				<div className="mt-6">
+					<SuccessInfo
+						title={m('Generic_Success')}
+						message={stateInfo.message}
+						buttons={[]}
+						onDismiss={() => vm.clearStateInfo()}
+					/>
+				</div>
+			)}
+			{stateInfo?.type === 'error' && (
+				<div className="mt-6">
+					<ErrorInfo
+						title={m('Generic_Error')}
+						message={stateInfo.message}
+						buttons={[]}
+						onDismiss={() => vm.clearStateInfo()}
+					/>
+				</div>
+			)}
 			<Table striped className="mt-12 [--gutter:--spacing(6)] sm:[--gutter:--spacing(8)]">
 				<TableHead>
 					<TableRow>
@@ -36,7 +76,9 @@ export function HomeView() {
 						return (
 							<TableRow key={e.key}>
 								<TableCell>
-									<div className="px-1">{e.name}</div>
+									<div className="px-1">
+										<Link href={`events/${e.key}`}>{e.name}</Link>
+									</div>
 								</TableCell>
 								<TableCell>
 									<div className="px-1">
@@ -51,9 +93,8 @@ export function HomeView() {
 												<EllipsisHorizontalIcon />
 											</DropdownButton>
 											<DropdownMenu anchor="bottom end">
-												<DropdownItem>{m('Generic_View')}</DropdownItem>
-												<DropdownItem>{m('Generic_Edit')}</DropdownItem>
-												<DropdownItem>{m('Generic_Delete')}</DropdownItem>
+												<DropdownItem href={`events/${e.key}`}>{m('Generic_View')}</DropdownItem>
+												<DropdownItem onClick={() => vm.deleteEvent(e.key, false)}>{m('Generic_Delete')}</DropdownItem>
 											</DropdownMenu>
 										</Dropdown>
 									</div>
