@@ -87,6 +87,11 @@ const en = {
 	ParticipantView_Time: 'Time',
 	ParticipantView_NoParticipants: 'No participants',
 	ParticipantView_NotAssign: 'No Cohort Assignment',
+	ParticipantView_Delete_Error: 'Error deleting participant.',
+	ParticipantView_Delete_Success: 'Participant deleted successfully.',
+	ParticipantView_Delete_Confirm_Title: 'Delete Participant',
+	ParticipantView_Delete_Confirm_Message:
+		'Are you sure you want to delete this participant? This action cannot be undone.',
 
 	ParticipantDialog_Firstname: 'Firstname',
 	ParticipantDialog_Lastname: 'Lastname',
@@ -101,6 +106,7 @@ const en = {
 	ParticipantDialog_UpdateTitle: 'Update participant',
 	ParticipantDialog_NewDescription: 'Create a new participant',
 	ParticipantDialog_UpdateDescription: 'Edit the data of the participant',
+	ParticipantDialog_Update_Error: 'Error updating participant.',
 };
 
 const de = {
@@ -191,6 +197,11 @@ const de = {
 	ParticipantView_Time: 'Zeit',
 	ParticipantView_NoParticipants: 'Keine Teilnehmer',
 	ParticipantView_NotAssign: 'Keine Klassenzuordnung',
+	ParticipantView_Delete_Error: 'Fehler beim Löschen des Teilnehmers.',
+	ParticipantView_Delete_Success: 'Teilnehmer erfolgreich gelöscht.',
+	ParticipantView_Delete_Confirm_Title: 'Teilnehmer löschen',
+	ParticipantView_Delete_Confirm_Message:
+		'Sind Sie sicher, dass Sie diesen Teilnehmer löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.',
 
 	ParticipantDialog_Firstname: 'Vorname',
 	ParticipantDialog_Lastname: 'Nachname',
@@ -205,6 +216,7 @@ const de = {
 	ParticipantDialog_UpdateTitle: 'Teilnehmer bearbeiten',
 	ParticipantDialog_NewDescription: "Leg' einen neuen Teilnehmer/eine neue Teilnehmerin an",
 	ParticipantDialog_UpdateDescription: 'Berabeite den/die Teilnehmer:in',
+	ParticipantDialog_Update_Error: 'Fehler beim Aktualisieren der Daten des Teilnehmers.',
 };
 
 export const messages = {

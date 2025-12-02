@@ -48,7 +48,7 @@ export function ErrorInfo(props: { title: string; message: string; buttons: Butt
 							<button
 								type="button"
 								onClick={props.onDismiss}
-								className="inline-flex rounded-md bg-green-50 p-1.5 text-green-500 hover:bg-green-100 focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2 focus-visible:ring-offset-green-50 focus-visible:outline-hidden"
+								className="inline-flex rounded-md bg-red-50 p-1.5 text-red-500 hover:bg-red-100 focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2 focus-visible:ring-offset-red-50 focus-visible:outline-hidden"
 							>
 								<span className="sr-only">Dismiss</span>
 								<XMarkIcon aria-hidden="true" className="size-5" />

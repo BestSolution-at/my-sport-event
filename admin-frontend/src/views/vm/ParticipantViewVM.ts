@@ -22,7 +22,7 @@ import {
 import { createEventCohortService, createEventParticipantService } from '../../remote';
 import type { EventParticipantService } from '../../remote/EventParticipantService';
 import type { EventCohortService } from '../../remote/EventCohortService';
-import { cohortSort, translateGender } from './utils';
+import { cohortSort, translateGender, type StateInfo } from './utils';
 
 export type ParticipantItem = {
 	key: string;
@@ -56,6 +56,8 @@ export class ParticipantViewVM extends BaseViewVM {
 	);
 
 	public readonly eventId: ReadonlySignal<string>;
+	public readonly stateInfo = signal<StateInfo>();
+	public readonly askDeleteDialogOpen = signal('');
 
 	constructor(messages: ReadonlySignal<AllMessages>, eventId: ReadonlySignal<string>, locale: ReadonlySignal<string>) {
 		super(messages);
@@ -122,6 +124,31 @@ export class ParticipantViewVM extends BaseViewVM {
 	public refreshParticipants() {
 		this.participantServiceList(this.eventId.value);
 	}
+
+	public async deleteParticipant(participantKey: string, deleteConfirmed: boolean) {
+		if (!deleteConfirmed) {
+			this.askDeleteDialogOpen.value = participantKey;
+			return;
+		}
+		this.askDeleteDialogOpen.value = '';
+		const [, error] = await this.participantService.delete(this.eventId.value, participantKey);
+		if (error) {
+			this.stateInfo.value = { type: 'error', message: this.l10n('ParticipantView_Delete_Error') };
+		} else {
+			const state = { type: 'success', message: this.l10n('ParticipantView_Delete_Success') } as const;
+			setTimeout(() => {
+				if (this.stateInfo.value === state) {
+					this.stateInfo.value = undefined;
+				}
+			}, 5000);
+			this.stateInfo.value = state;
+			this.refreshParticipants();
+		}
+	}
+
+	public clearStateInfo() {
+		this.stateInfo.value = undefined;
+	}
 }
 
 export class ParticipantViewDialogVM extends BaseViewVM {
@@ -179,6 +206,7 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 	public readonly title: string;
 	public readonly description: string;
 	public readonly persistButtonLabel: string;
+	public readonly stateInfo = signal<StateInfo>();
 
 	private readonly parent: ParticipantViewVM;
 	private readonly dto?: Participant;
@@ -234,18 +262,6 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 			this.cohort.value = cohorts.find(c => c.key === dto.cohortKey) ?? null;
 			this.team.value = dto.team ?? '';
 			this.association.value = dto.association ?? '';
-
-			/*let subscribing = true;
-			const clearCohort = () => {
-				if (subscribing) {
-					return;
-				}
-
-				this.cohort.value = null;
-			};
-			this.gender.$value.subscribe(clearCohort);
-			this.birthday.$value.subscribe(clearCohort);
-			subscribing = false;*/
 		}
 	}
 
@@ -311,8 +327,22 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 					);
 
 					if (err) {
+						this.stateInfo.value = {
+							type: 'error',
+							message: this.l10n('ParticipantDialog_Update_Error'),
+						};
 						console.error(err);
 					} else {
+						const state = {
+							type: 'success',
+							message: this.l10n('Generic_Success_Saved'),
+						} as const;
+						setTimeout(() => {
+							if (this.parent.stateInfo.value === state) {
+								this.parent.stateInfo.value = undefined;
+							}
+						}, 5000);
+						this.parent.stateInfo.value = state;
 						this.parent.refreshParticipants();
 						this.parent.closeDialogs();
 					}
@@ -321,6 +351,10 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 				}
 			}
 		}
+	}
+
+	clearStateInfo() {
+		this.stateInfo.value = undefined;
 	}
 }
 

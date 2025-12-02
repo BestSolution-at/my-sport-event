@@ -12,8 +12,8 @@ export class HomeViewVM extends BaseViewVM {
 	public readonly eventService = createSportEventService({ baseUrl: '' });
 	public readonly eventServiceList = createRemoteFunction(this.eventService.list, this.handleListResult.bind(this));
 
-	public stateInfo = signal<StateInfo>();
-	public askDeleteDialogOpen = signal('');
+	public readonly stateInfo = signal<StateInfo>();
+	public readonly askDeleteDialogOpen = signal('');
 
 	constructor(messages: ReadonlySignal<AllMessages>) {
 		super(messages);
@@ -39,7 +39,13 @@ export class HomeViewVM extends BaseViewVM {
 		if (error) {
 			this.stateInfo.value = { type: 'error', message: this.l10n('HomeView_Delete_Error') };
 		} else {
-			this.stateInfo.value = { type: 'success', message: this.l10n('HomeView_Delete_Success') };
+			const state = { type: 'success', message: this.l10n('HomeView_Delete_Success') } as const;
+			setTimeout(() => {
+				if (this.stateInfo.value === state) {
+					this.stateInfo.value = undefined;
+				}
+			}, 5000);
+			this.stateInfo.value = state;
 			this.eventServiceList();
 		}
 	}

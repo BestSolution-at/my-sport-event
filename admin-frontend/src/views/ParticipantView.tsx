@@ -18,6 +18,9 @@ import type { Cohort } from '../remote/model';
 import { Card } from './utils/Card';
 import { useEffect, useMemo, useState, type MouseEvent } from 'react';
 import { useSearchParams } from 'react-router';
+import { ErrorDialog } from './utils/ErrorDialog';
+import { SuccessInfo } from './utils/SuccessInfo';
+import { ErrorInfo } from './utils/ErrorInfo';
 
 function isGrouping(v: unknown): v is 'none' | 'gender' | 'cohort' {
 	return v === 'none' || v === 'gender' || v === 'cohort';
@@ -30,12 +33,49 @@ export function ParticipantView() {
 	const locale = useLocaleSignal();
 	const m = useMessageFormatSignal(messages);
 	const vm = useVM(() => new ParticipantViewVM(m, eventId, locale));
+	const askDeleteDialogOpen = useValue(vm.askDeleteDialogOpen);
+	const stateInfo = useValue(vm.stateInfo);
+	const msg = useMessageFormat(messages);
 
 	return (
 		<div className="mx-auto mx-w6xl">
 			<ParticipantDialogContainer vm={vm} />
 			<ParticipantHeader vm={vm} />
 			<Grouping />
+			<ErrorDialog
+				title={msg('ParticipantView_Delete_Confirm_Title')}
+				message={msg('ParticipantView_Delete_Confirm_Message')}
+				okButtonLabel={msg('Generic_Delete')}
+				cancelButtonLabel={msg('Generic_Cancel')}
+				open={askDeleteDialogOpen !== ''}
+				onClose={cancel => {
+					if (!cancel) {
+						vm.deleteParticipant(askDeleteDialogOpen, true);
+					} else {
+						vm.askDeleteDialogOpen.value = '';
+					}
+				}}
+			/>
+			{stateInfo?.type === 'success' && (
+				<div className="mt-6">
+					<SuccessInfo
+						title={msg('Generic_Success')}
+						message={stateInfo.message}
+						buttons={[]}
+						onDismiss={() => vm.clearStateInfo()}
+					/>
+				</div>
+			)}
+			{stateInfo?.type === 'error' && (
+				<div className="mt-6">
+					<ErrorInfo
+						title={msg('Generic_Error')}
+						message={stateInfo.message}
+						buttons={[]}
+						onDismiss={() => vm.clearStateInfo()}
+					/>
+				</div>
+			)}
 			<div className="px-2">
 				{currentGrouping !== 'gender' && currentGrouping !== 'cohort' && <NameView vm={vm} />}
 				{currentGrouping === 'gender' && <GenderView vm={vm} />}
@@ -106,6 +146,7 @@ function ParticipantDialog(props: { vm: ParticipantViewDialogVM }) {
 	const title = useValue(props.vm.title);
 	const description = useValue(props.vm.description);
 	const persistButtonLabel = useValue(props.vm.persistButtonLabel);
+	const stateInfo = useValue(props.vm.stateInfo);
 
 	const close = props.vm.close.bind(props.vm);
 
@@ -114,6 +155,16 @@ function ParticipantDialog(props: { vm: ParticipantViewDialogVM }) {
 			<DialogTitle>{title}</DialogTitle>
 			<DialogDescription>{description}</DialogDescription>
 			<DialogBody>
+				{stateInfo?.type === 'error' && (
+					<div className="mt-6">
+						<ErrorInfo
+							title={m('Generic_Error')}
+							message={stateInfo.message}
+							buttons={[]}
+							onDismiss={() => props.vm.clearStateInfo()}
+						/>
+					</div>
+				)}
 				<FieldGroup>
 					<div className="flex gap-4 flex-wrap">
 						<TextFormField className="basis-32 flex-grow" vm={props.vm.lastname} />
@@ -274,7 +325,9 @@ function NameView(props: { vm: ParticipantViewVM }) {
 										<DropdownItem onClick={() => props.vm.openEditParticipantDialog(p)}>
 											{m('Generic_Edit')}
 										</DropdownItem>
-										<DropdownItem>{m('Generic_Delete')}</DropdownItem>
+										<DropdownItem onClick={() => props.vm.deleteParticipant(p.key, false)}>
+											{m('Generic_Delete')}
+										</DropdownItem>
 									</DropdownMenu>
 								</Dropdown>
 							</td>
@@ -403,7 +456,9 @@ function CohortSection(props: { vm: ParticipantViewVM; cohort: Cohort | undefine
 										<DropdownItem onClick={() => props.vm.openEditParticipantDialog(p)}>
 											{m('Generic_Edit')}
 										</DropdownItem>
-										<DropdownItem>{m('Generic_Delete')}</DropdownItem>
+										<DropdownItem onClick={() => props.vm.deleteParticipant(p.key, false)}>
+											{m('Generic_Delete')}
+										</DropdownItem>
 									</DropdownMenu>
 								</Dropdown>
 							</td>
@@ -522,7 +577,9 @@ function GenderSection(props: { vm: ParticipantViewVM; label: string; items: rea
 										<DropdownItem onClick={() => props.vm.openEditParticipantDialog(p)}>
 											{m('Generic_Edit')}
 										</DropdownItem>
-										<DropdownItem>{m('Generic_Delete')}</DropdownItem>
+										<DropdownItem onClick={() => props.vm.deleteParticipant(p.key, false)}>
+											{m('Generic_Delete')}
+										</DropdownItem>
 									</DropdownMenu>
 								</Dropdown>
 							</td>
