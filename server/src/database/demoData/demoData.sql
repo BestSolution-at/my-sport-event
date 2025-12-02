@@ -1,6 +1,6 @@
 INSERT INTO SportEvent (see_id, see_date, see_key, see_name, see_version) VALUES
 (nextval('sportevent_seq_id'), '2024-07-15 09:00:00+00', '8784ad6c-36f9-4bc9-9a53-f4a4807c7326', 'City Marathon 2024', 1),
-(nextval('sportevent_seq_id'), '2024-08-20 10:00:00+00', '7e81030d-2e62-4f35-a270-781a0a6b73b4', 'Ski Downhill 2024', 1);
+(nextval('sportevent_seq_id'), '2024-08-20 10:00:00+00', '019ada6d-6249-7e37-950a-2b944b61c186', 'Ski Downhill 2024', 1);
 
 -- Generic Male
 INSERT INTO Cohort 
