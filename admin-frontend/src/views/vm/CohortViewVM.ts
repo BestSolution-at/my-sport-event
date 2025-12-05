@@ -146,7 +146,7 @@ export class CohortViewDialogVM extends BaseViewVM {
 	});
 	public max = createTextField({
 		initialValue: '',
-		label: this.messages.value('CohortViewDialog_Type_MinYear'),
+		label: this.messages.value('CohortViewDialog_Type_MaxYear'),
 		validation: this.validateMax.bind(this),
 	});
 
