@@ -293,9 +293,15 @@ function createBirthyearPatch(cur: BirthyearCohort, updated: BirthyearCohort): B
 		name: cur.name !== updated.name ? updated.name : undefined,
 		min: cur.min !== updated.min ? updated.min : undefined,
 		max: cur.max !== updated.max ? updated.max : undefined,
+		gender: cur.gender !== updated.gender ? updated.gender : undefined,
 	};
 
-	if (result.min !== undefined || result.max !== undefined || result.name !== undefined) {
+	if (
+		result.min !== undefined ||
+		result.max !== undefined ||
+		result.name !== undefined ||
+		result.gender !== undefined
+	) {
 		return result;
 	}
 	return undefined;
