@@ -23,7 +23,7 @@ import {
 } from '../utils/utils';
 import type { EventCohortService } from '../../remote/EventCohortService';
 import type { SportEventService } from '../../remote/SportEventService';
-import { cohortSort } from './utils';
+import { cohortSort, type StateInfo } from './utils';
 
 export class CohortViewVM extends BaseViewVM {
 	public readonly eventId = signal('');
@@ -41,6 +41,8 @@ export class CohortViewVM extends BaseViewVM {
 
 	public readonly eventService = createSportEventService({ baseUrl: '' });
 	public readonly cohortService = createEventCohortService({ baseUrl: '' });
+	public readonly stateInfo = signal<StateInfo>();
+	public readonly askDeleteDialogOpen = signal('');
 
 	private readonly cohortServiceList = createRemoteFunction(this.cohortService.list, this.handleListResult.bind(this));
 
@@ -90,6 +92,31 @@ export class CohortViewVM extends BaseViewVM {
 		if (this.eventId.value) {
 			this.cohortServiceList(this.eventId.value);
 		}
+	}
+
+	public async deleteCohort(cohortKey: string, deleteConfirmed: boolean) {
+		if (!deleteConfirmed) {
+			this.askDeleteDialogOpen.value = cohortKey;
+			return;
+		}
+		this.askDeleteDialogOpen.value = '';
+		const [, error] = await this.cohortService.delete(this.eventId.value, cohortKey);
+		if (error) {
+			this.stateInfo.value = { type: 'error', message: this.l10n('HomeView_Delete_Error') };
+		} else {
+			const state = { type: 'success', message: this.l10n('HomeView_Delete_Success') } as const;
+			setTimeout(() => {
+				if (this.stateInfo.value === state) {
+					this.stateInfo.value = undefined;
+				}
+			}, 5000);
+			this.stateInfo.value = state;
+			this.refreshList();
+		}
+	}
+
+	public clearStateInfo() {
+		this.stateInfo.value = undefined;
 	}
 }
 
@@ -152,6 +179,7 @@ export class CohortViewDialogVM extends BaseViewVM {
 
 	public readonly persistButtonLabel: ReadonlySignal<string>;
 	private readonly dto?: Cohort;
+	public readonly stateInfo = signal<StateInfo>();
 
 	constructor(parent: CohortViewVM, dto?: Cohort) {
 		super(parent.messages);
@@ -245,10 +273,23 @@ export class CohortViewDialogVM extends BaseViewVM {
 				if (patch) {
 					const [result, err] = await this.parent.cohortService.update(this.parent.eventId.value, patch.key, patch);
 					if (result) {
+						const state = {
+							type: 'success',
+							message: this.l10n('Generic_Success_Saved'),
+						} as const;
+						setTimeout(() => {
+							if (this.parent.stateInfo.value === state) {
+								this.parent.stateInfo.value = undefined;
+							}
+						}, 5000);
+						this.parent.stateInfo.value = state;
 						this.parent.refreshList();
 						this.parent.closeDialogs();
 					} else {
-						// TODO - Show error!!!
+						this.stateInfo.value = {
+							type: 'error',
+							message: this.l10n('ParticipantDialog_Update_Error'),
+						};
 						console.error(err);
 					}
 				}
@@ -270,10 +311,23 @@ export class CohortViewDialogVM extends BaseViewVM {
 						: { '@type': 'generic', name, gender };
 				const [result, err] = await this.parent.cohortService.create(this.parent.eventId.value, dto);
 				if (result) {
+					const state = {
+						type: 'success',
+						message: this.l10n('Generic_Success_Saved'),
+					} as const;
+					setTimeout(() => {
+						if (this.parent.stateInfo.value === state) {
+							this.parent.stateInfo.value = undefined;
+						}
+					}, 5000);
+					this.parent.stateInfo.value = state;
 					this.parent.refreshList();
 					this.parent.closeDialogs();
 				} else {
-					// TODO - Show error!!!
+					this.stateInfo.value = {
+						type: 'error',
+						message: this.l10n('ParticipantDialog_Update_Error'),
+					};
 					console.error(err);
 				}
 			}
@@ -282,6 +336,10 @@ export class CohortViewDialogVM extends BaseViewVM {
 
 	public close() {
 		this.parent.closeDialogs();
+	}
+
+	clearStateInfo() {
+		this.stateInfo.value = undefined;
 	}
 }
 

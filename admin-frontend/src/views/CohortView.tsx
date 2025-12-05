@@ -14,17 +14,58 @@ import { SelectFormField } from './utils/SelectFormField';
 import { TextFormField } from './utils/TextFormField';
 import { Card } from './utils/Card';
 import { useEffect, useState } from 'react';
+import { ErrorDialog } from './utils/ErrorDialog';
+import { SuccessInfo } from './utils/SuccessInfo';
+import { ErrorInfo } from './utils/ErrorInfo';
 
 export function CohortView() {
 	const m = useMessageFormatSignal(messages);
+	const msg = useMessageFormat(messages);
 	const vm = useVM(() => new CohortViewVM(m));
 	const params = useParams();
+	const stateInfo = useValue(vm.stateInfo);
+	const askDeleteDialogOpen = useValue(vm.askDeleteDialogOpen);
+
 	vm.eventId.value = params['eventId'] as string;
 
 	return (
 		<div className="mx-auto mx-w6xl">
 			<CohortDialogContainer vm={vm} />
+			<ErrorDialog
+				title={msg('CohortView_Delete_Confirm_Title')}
+				message={msg('CohortView_Delete_Confirm_Message')}
+				okButtonLabel={msg('Generic_Delete')}
+				cancelButtonLabel={msg('Generic_Cancel')}
+				open={askDeleteDialogOpen !== ''}
+				onClose={cancel => {
+					if (!cancel) {
+						vm.deleteCohort(askDeleteDialogOpen, true);
+					} else {
+						vm.askDeleteDialogOpen.value = '';
+					}
+				}}
+			/>
 			<CohortHeader vm={vm} />
+			{stateInfo?.type === 'success' && (
+				<div className="mt-6">
+					<SuccessInfo
+						title={msg('Generic_Success')}
+						message={stateInfo.message}
+						buttons={[]}
+						onDismiss={() => vm.clearStateInfo()}
+					/>
+				</div>
+			)}
+			{stateInfo?.type === 'error' && (
+				<div className="mt-6">
+					<ErrorInfo
+						title={msg('Generic_Error')}
+						message={stateInfo.message}
+						buttons={[]}
+						onDismiss={() => vm.clearStateInfo()}
+					/>
+				</div>
+			)}
 			<CohortList vm={vm} />
 		</div>
 	);
@@ -96,7 +137,9 @@ function CohortTable(props: { vm: CohortViewVM; data: readonly Cohort[]; label: 
 											<DropdownItem onClick={() => props.vm.onOpenCohortEditDialog(e)}>
 												{m('Generic_Edit')}
 											</DropdownItem>
-											<DropdownItem>{m('Generic_Delete')}</DropdownItem>
+											<DropdownItem onClick={() => props.vm.deleteCohort(e.key, false)}>
+												{m('Generic_Delete')}
+											</DropdownItem>
 										</DropdownMenu>
 									</Dropdown>
 								</td>
@@ -131,12 +174,24 @@ function CohortDialog(props: { vm: CohortViewDialogVM }) {
 	const close = props.vm.close.bind(props.vm);
 
 	const cohortType = useValue(props.vm.cohortType.$value);
+	const stateInfo = useValue(props.vm.stateInfo);
 
 	return (
-		<Dialog open={open} onClose={close}>
+		<Dialog open={open} onClose={() => {}}>
 			<DialogTitle>{title}</DialogTitle>
 			<DialogDescription>{description}</DialogDescription>
 			<DialogBody>
+				{stateInfo?.type === 'error' && (
+					<div className="mt-6">
+						<ErrorInfo
+							title={m('Generic_Error')}
+							message={stateInfo.message}
+							buttons={[]}
+							onDismiss={() => props.vm.clearStateInfo()}
+						/>
+					</div>
+				)}
+
 				<FieldGroup>
 					<SelectFormField vm={props.vm.cohortType} />
 					<TextFormField vm={props.vm.name} />

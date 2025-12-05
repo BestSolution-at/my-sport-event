@@ -60,6 +60,11 @@ const en = {
 
 	CohortView_Title: 'Cohorts',
 	CohortView_New: 'New cohort',
+	CohortView_CohortTable_Name: 'Name',
+	CohortView_CohortTable_Type: 'Type',
+	CohortView_CohortTable_Participant: 'Participant',
+	CohortView_Delete_Confirm_Title: 'Delete Cohort',
+	CohortView_Delete_Confirm_Message: 'Are you sure you want to delete this cohort? This action cannot be undone.',
 
 	CohortViewDialog_NewTitle: 'New cohort',
 	CohortViewDialog_UpdateTitle: 'Update cohort',
@@ -72,9 +77,6 @@ const en = {
 	CohortViewDialog_Gender: 'Gender',
 	CohortViewDialog_Type_MinYear: 'From Birthyear',
 	CohortViewDialog_Type_MaxYear: 'To Birthyear',
-	CohortView_CohortTable_Name: 'Name',
-	CohortView_CohortTable_Type: 'Type',
-	CohortView_CohortTable_Participant: 'Participant',
 
 	ParticipantView_Title: 'Participants',
 	ParticipantView_None: 'None',
@@ -173,6 +175,9 @@ const de = {
 	CohortView_CohortTable_Name: 'Name',
 	CohortView_CohortTable_Type: 'Typ',
 	CohortView_CohortTable_Participant: 'Teilnehmer',
+	CohortView_Delete_Confirm_Title: 'Klasse löschen',
+	CohortView_Delete_Confirm_Message:
+		'Sind Sie sicher, dass Sie diese Klasse löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.',
 
 	CohortViewDialog_NewTitle: 'Neue Klasse',
 	CohortViewDialog_UpdateTitle: 'Klasse bearbeiten',
