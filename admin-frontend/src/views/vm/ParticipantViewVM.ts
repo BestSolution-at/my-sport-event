@@ -24,7 +24,7 @@ import type { EventParticipantService } from '../../remote/EventParticipantServi
 import type { EventCohortService } from '../../remote/EventCohortService';
 import { cohortSort, translateGender, type StateInfo } from './utils';
 
-export type ParticipantItem = {
+export type ParticipantItem = Readonly<{
 	key: string;
 	lastname: string;
 	firstname: string;
@@ -33,7 +33,7 @@ export type ParticipantItem = {
 	cohortname?: string;
 	gender: string;
 	dto: Participant;
-};
+}>;
 
 export class ParticipantViewVM extends BaseViewVM {
 	public readonly participantDialog = signal<ParticipantViewDialogVM | undefined>();

@@ -1,7 +1,6 @@
 import { useParams } from 'react-router';
 import { ViewHeader } from './utils/ViewHeader';
 import { messages } from '../messages';
-import { isBirthyearCohort, type Cohort } from '../remote/model';
 import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from '../components/dropdown';
 import { EllipsisHorizontalIcon } from '@heroicons/react/16/solid';
 import { Button } from '../components/button';
@@ -9,7 +8,7 @@ import { Dialog, DialogActions, DialogBody, DialogDescription, DialogTitle } fro
 import { FieldGroup } from '../components/fieldset';
 import { useSignalValue, useValue, useVM } from './utils/utils';
 import { useMessageFormat, useMessageFormatSignal } from '../useMessageFormat';
-import { CohortViewDialogVM, CohortViewVM } from './vm/CohortViewVM';
+import { CohortViewDialogVM, CohortViewVM, type CohortItem } from './vm/CohortViewVM';
 import { SelectFormField } from './utils/SelectFormField';
 import { TextFormField } from './utils/TextFormField';
 import { Card } from './utils/Card';
@@ -98,7 +97,7 @@ function CohortList(props: { vm: CohortViewVM }) {
 	);
 }
 
-function CohortTable(props: { vm: CohortViewVM; data: readonly Cohort[]; label: string }) {
+function CohortTable(props: { vm: CohortViewVM; data: readonly CohortItem[]; label: string }) {
 	const m = useMessageFormat(messages);
 	return (
 		<Card label={props.label}>
@@ -124,17 +123,15 @@ function CohortTable(props: { vm: CohortViewVM; data: readonly Cohort[]; label: 
 						return (
 							<tr key={e.key}>
 								<td className="py-4 pr-3 pl-4 text-sm font-medium whitespace-nowrap text-gray-900 sm:pl-6">{e.name}</td>
-								<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">
-									{isBirthyearCohort(e) ? `Jahrgänge ${e.min}-${e.max}` : 'Generisch'}
-								</td>
-								<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">TBD</td>
+								<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{e.type}</td>
+								<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{e.count > 0 ? e.count : '-'}</td>
 								<td className="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
 									<Dropdown>
 										<DropdownButton plain aria-label={m('Generic_MoreOptions')}>
 											<EllipsisHorizontalIcon />
 										</DropdownButton>
 										<DropdownMenu anchor="bottom end">
-											<DropdownItem onClick={() => props.vm.onOpenCohortEditDialog(e)}>
+											<DropdownItem onClick={() => props.vm.onOpenCohortEditDialog(e.dto)}>
 												{m('Generic_Edit')}
 											</DropdownItem>
 											<DropdownItem onClick={() => props.vm.deleteCohort(e.key, false)}>

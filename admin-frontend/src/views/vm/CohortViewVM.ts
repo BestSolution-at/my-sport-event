@@ -25,6 +25,15 @@ import type { EventCohortService } from '../../remote/EventCohortService';
 import type { SportEventService } from '../../remote/SportEventService';
 import { cohortSort, type StateInfo } from './utils';
 
+export type CohortItem = Readonly<{
+	key: string;
+	name: string;
+	gender: Gender;
+	type: string;
+	count: number;
+	dto: Cohort;
+}>;
+
 export class CohortViewVM extends BaseViewVM {
 	public readonly eventId = signal('');
 
@@ -36,7 +45,7 @@ export class CohortViewVM extends BaseViewVM {
 		}
 		return `${this.messages.value('CohortView_Title')} Loading...`;
 	});
-	public readonly cohorts = signal<readonly Cohort[]>([]);
+	public readonly cohorts = signal<readonly CohortItem[]>([]);
 	public readonly cohortDialog = signal<CohortViewDialogVM>();
 
 	public readonly eventService = createSportEventService({ baseUrl: '' });
@@ -61,7 +70,18 @@ export class CohortViewVM extends BaseViewVM {
 	private handleListResult(result: Awaited<ReturnType<EventCohortService['list']>>) {
 		const [data, err] = result;
 		if (data) {
-			this.cohorts.value = [...data].sort(cohortSort);
+			this.cohorts.value = [...data].sort(cohortSort).map(c => {
+				return {
+					key: c.key,
+					name: c.name,
+					gender: c.gender,
+					type: isBirthyearCohort(c)
+						? `${this.l10n('CohortView_Type_Birthyear')} ${c.min}-${c.max}`
+						: this.l10n('CohortView_Type_Generic'),
+					count: c.participantCount,
+					dto: c,
+				};
+			});
 		} else {
 			console.error(err);
 		}

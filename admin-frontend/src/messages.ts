@@ -65,6 +65,8 @@ const en = {
 	CohortView_CohortTable_Participant: 'Participant',
 	CohortView_Delete_Confirm_Title: 'Delete Cohort',
 	CohortView_Delete_Confirm_Message: 'Are you sure you want to delete this cohort? This action cannot be undone.',
+	CohortView_Type_Generic: 'Generic',
+	CohortView_Type_Birthyear: 'Birthyears',
 
 	CohortViewDialog_NewTitle: 'New cohort',
 	CohortViewDialog_UpdateTitle: 'Update cohort',
@@ -178,6 +180,8 @@ const de = {
 	CohortView_Delete_Confirm_Title: 'Klasse löschen',
 	CohortView_Delete_Confirm_Message:
 		'Sind Sie sicher, dass Sie diese Klasse löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.',
+	CohortView_Type_Generic: 'Generisch',
+	CohortView_Type_Birthyear: 'Jahrgänge',
 
 	CohortViewDialog_NewTitle: 'Neue Klasse',
 	CohortViewDialog_UpdateTitle: 'Klasse bearbeiten',
