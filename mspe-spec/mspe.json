@@ -133,6 +133,17 @@
           "name": "version",
           "type": "long",
           "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "participantCount",
+          "array": false,
+          "readonly": true,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "int",
+          "doc": ""
         }
       ],
       "doc": ""
@@ -156,6 +167,17 @@
           "@type": "RevisionProperty",
           "name": "version",
           "type": "long",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "participantCount",
+          "array": false,
+          "readonly": true,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "int",
           "doc": ""
         }
       ],

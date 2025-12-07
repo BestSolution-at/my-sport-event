@@ -21,7 +21,7 @@ function fnGet(props: ServiceProps<api.service.ErrorType>): api.service.EventPar
 			$headers.append('Content-Type', 'application/json');
 			$init.headers = $headers;
 
-			const $path = `${baseUrl}/api/sportevent/${eventKey}/participants/${key}`;
+			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(eventKey)}/participants/${encodeURIComponent(key)}`;
 			const $response = await fetchAPI($path, { ...$init, method: 'GET' });
 
 			if ($response.status === 200) {
@@ -61,7 +61,7 @@ function fnList(props: ServiceProps<api.service.ErrorType>): api.service.EventPa
 			$headers.append('Content-Type', 'application/json');
 			$init.headers = $headers;
 
-			const $path = `${baseUrl}/api/sportevent/${eventKey}/participants/`;
+			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(eventKey)}/participants/`;
 			const $response = await fetchAPI($path, { ...$init, method: 'GET' });
 
 			if ($response.status == 200) {
@@ -96,7 +96,7 @@ function fnCreate(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			ifDefined(autoAssignCohort, v => $headers.append('autoAssignCohort', `${v}`));
 			$init.headers = $headers;
 
-			const $path = `${baseUrl}/api/sportevent/${eventKey}/participants/`;
+			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(eventKey)}/participants/`;
 			const $body = JSON.stringify(api.model.ParticipantNewToJSON(participant));
 			const $response = await fetchAPI($path, { ...$init, method: 'POST', body: $body });
 			if ($response.status === 201) {
@@ -136,7 +136,7 @@ function fnUpdate(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			ifDefined(autoAssignCohort, v => $headers.append('autoAssignCohort', `${v}`));
 			$init.headers = $headers;
 
-			const $path = `${baseUrl}/api/sportevent/${eventKey}/participants/${key}`;
+			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(eventKey)}/participants/${encodeURIComponent(key)}`;
 			const $body = JSON.stringify(api.model.ParticipantPatchToJSON(participant));
 			const $response = await fetchAPI($path, { ...$init, method: 'PATCH', body: $body });
 			if ($response.status === 200) {
@@ -189,7 +189,7 @@ function fnDelete(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			ifDefined(version, v => $headers.append('version', `${v}`));
 			$init.headers = $headers;
 
-			const $path = `${baseUrl}/api/sportevent/${eventKey}/participants/${key}`;
+			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(eventKey)}/participants/${encodeURIComponent(key)}`;
 			const $response = await fetchAPI($path, { ...$init, method: 'DELETE' });
 
 			if ($response.status === 200) {

@@ -13,6 +13,8 @@ public interface Cohort {
 
 		public long version();
 
+		public int participantCount();
+
 		public String name();
 
 		public Gender gender();

@@ -6,6 +6,7 @@ export type BirthyearCohort = {
 	'@type': 'birthyear';
 	readonly key: string;
 	readonly version: number;
+	readonly participantCount: number;
 	readonly name: string;
 	readonly gender: Gender;
 	readonly min: number;
@@ -17,6 +18,7 @@ export function isBirthyearCohort(value: unknown): value is BirthyearCohort {
 		checkProp(value, '@type', createIsStringTypeGuard('birthyear')) &&
 		checkProp(value, 'key', isString) &&
 		checkProp(value, 'version', isNumber) &&
+		checkProp(value, 'participantCount', isNumber) &&
 		checkProp(value, 'name', isString) &&
 		checkProp(value, 'gender', isGender) &&
 		checkProp(value, 'min', isNumber) &&
@@ -26,6 +28,7 @@ export function isBirthyearCohort(value: unknown): value is BirthyearCohort {
 export function BirthyearCohortFromJSON($value: Record<string, unknown>): BirthyearCohort {
 	const key = propValue('key', $value, isString);
 	const version = propValue('version', $value, isNumber);
+	const participantCount = propValue('participantCount', $value, isNumber);
 	const name = propValue('name', $value, isString);
 	const gender = propValue('gender', $value, isGender);
 	const min = propValue('min', $value, isNumber);
@@ -34,6 +37,7 @@ export function BirthyearCohortFromJSON($value: Record<string, unknown>): Birthy
 		'@type': 'birthyear',
 		key,
 		version,
+		participantCount,
 		name,
 		gender,
 		min,
@@ -44,6 +48,7 @@ export function BirthyearCohortFromJSON($value: Record<string, unknown>): Birthy
 export function BirthyearCohortToJSON($value: BirthyearCohort): Record<string, unknown> {
 	const key = $value.key;
 	const version = $value.version;
+	const participantCount = $value.participantCount;
 	const name = $value.name;
 	const gender = $value.gender;
 	const min = $value.min;
@@ -53,6 +58,7 @@ export function BirthyearCohortToJSON($value: BirthyearCohort): Record<string, u
 		'@type': 'birthyear',
 		key,
 		version,
+		participantCount,
 		name,
 		gender,
 		min,

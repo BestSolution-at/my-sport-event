@@ -14,6 +14,8 @@ public interface BirthyearCohort {
 
 		public long version();
 
+		public int participantCount();
+
 		public String name();
 
 		public Gender gender();
@@ -28,6 +30,8 @@ public interface BirthyearCohort {
 		public DataBuilder key(String key);
 
 		public DataBuilder version(long version);
+
+		public DataBuilder participantCount(int participantCount);
 
 		public DataBuilder name(String name);
 

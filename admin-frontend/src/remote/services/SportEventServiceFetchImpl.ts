@@ -21,7 +21,7 @@ function fnGet(props: ServiceProps<api.service.ErrorType>): api.service.SportEve
 			$headers.append('Content-Type', 'application/json');
 			$init.headers = $headers;
 
-			const $path = `${baseUrl}/api/sportevent/${key}`;
+			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(key)}`;
 			const $response = await fetchAPI($path, { ...$init, method: 'GET' });
 
 			if ($response.status === 200) {
@@ -134,7 +134,7 @@ function fnUpdate(props: ServiceProps<api.service.ErrorType>): api.service.Sport
 			$headers.append('Content-Type', 'application/json');
 			$init.headers = $headers;
 
-			const $path = `${baseUrl}/api/sportevent/${key}`;
+			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(key)}`;
 			const $body = JSON.stringify(api.model.SportEventPatchToJSON(event));
 			const $response = await fetchAPI($path, { ...$init, method: 'PATCH', body: $body });
 			if ($response.status === 200) {
@@ -187,7 +187,7 @@ function fnDelete(props: ServiceProps<api.service.ErrorType>): api.service.Sport
 			ifDefined(version, v => $headers.append('version', `${v}`));
 			$init.headers = $headers;
 
-			const $path = `${baseUrl}/api/sportevent/${key}`;
+			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(key)}`;
 			const $response = await fetchAPI($path, { ...$init, method: 'DELETE' });
 
 			if ($response.status === 200) {

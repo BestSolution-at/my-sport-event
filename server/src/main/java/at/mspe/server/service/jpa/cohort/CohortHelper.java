@@ -9,6 +9,9 @@ import at.mspe.server.service.jpa.sportevent.SportEventHelper;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.UUID;
+import java.util.function.IntFunction;
+import java.util.function.ToIntFunction;
 
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.NotFoundException;
@@ -43,13 +46,17 @@ public class CohortHelper {
         }
     }
 
-    public static Cohort.Data toData(CohortEntity entity, BuilderFactory factory) {
+    public static Cohort.Data toData(
+            CohortEntity entity,
+            BuilderFactory factory,
+            ToIntFunction<UUID> participantCountProvider) {
         if (entity instanceof GenericCohortEntity) {
             return factory.builder(GenericCohort.DataBuilder.class)
                     .key(entity.key.toString())
                     .version(entity.version)
                     .name(entity.name)
                     .gender(Gender.valueOf(entity.gender.toString()))
+                    .participantCount(participantCountProvider.applyAsInt(entity.key))
                     .build();
         } else if (entity instanceof BirthyearCohortEntity be) {
             return factory.builder(BirthyearCohort.DataBuilder.class)
@@ -59,6 +66,7 @@ public class CohortHelper {
                     .min(be.min)
                     .name(be.name)
                     .gender(Gender.valueOf(entity.gender.toString()))
+                    .participantCount(participantCountProvider.applyAsInt(entity.key))
                     .build();
         }
 

@@ -21,6 +21,10 @@ public class GenericCohortDataImpl extends _BaseDataImpl implements GenericCohor
 		return _JsonUtils.mapLong(data, "version");
 	}
 
+	public int participantCount() {
+		return _JsonUtils.mapInt(data, "participantCount");
+	}
+
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
@@ -51,6 +55,11 @@ public class GenericCohortDataImpl extends _BaseDataImpl implements GenericCohor
 
 		public GenericCohort.DataBuilder version(long version) {
 			$builder.add("version", version);
+			return this;
+		}
+
+		public GenericCohort.DataBuilder participantCount(int participantCount) {
+			$builder.add("participantCount", participantCount);
 			return this;
 		}
 

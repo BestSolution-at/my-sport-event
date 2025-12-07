@@ -1,6 +1,9 @@
 package at.mspe.server.service.jpa.cohort;
 
 import at.mspe.server.service.jpa.BaseReadonlyHandler;
+
+import java.util.UUID;
+
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.impl.EventCohortServiceImpl;
 import at.mspe.server.service.model.Cohort;
@@ -23,7 +26,18 @@ public class GetHandlerJPA extends BaseReadonlyHandler implements EventCohortSer
 
     private static Cohort.Data get(EntityManager em, BuilderFactory factory, String eventKey, String key) {
         var e = CohortHelper.findCohort(em, eventKey, key);
-        return CohortHelper.toData(e, factory);
+        return CohortHelper.toData(e, factory, cohortKey -> {
+            Long count = em.createQuery("""
+                    SELECT
+                        COUNT(p)
+                    FROM
+                        Participant p
+                    WHERE
+                        p.cohort.key = :cohortKey
+                    """, Long.class)
+                    .setParameter("cohortKey", cohortKey)
+                    .getSingleResult();
+            return count.intValue();
+        });
     }
-
 }

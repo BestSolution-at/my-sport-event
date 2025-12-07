@@ -8,6 +8,7 @@ mixin CohortBase {
 mixin BirthyearCohortBase {
     min: int
     max: int
+    
 }
 
 record GenericCohortNew {
@@ -26,6 +27,8 @@ patchable record GenericCohort {
     @rev version: long
 
     include CohortBase
+
+    @readonly participantCount: int
 }
 
 patchable record BirthyearCohort {
@@ -34,6 +37,8 @@ patchable record BirthyearCohort {
 
     include CohortBase
     include BirthyearCohortBase
+
+    @readonly participantCount: int
 }
 
 union Cohort = GenericCohort("generic") | BirthyearCohort("birthyear");

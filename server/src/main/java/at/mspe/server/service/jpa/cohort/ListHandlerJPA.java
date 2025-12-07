@@ -1,6 +1,9 @@
 package at.mspe.server.service.jpa.cohort;
 
 import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import at.mspe.server.service.jpa.BaseReadonlyHandler;
 import at.mspe.server.service.jpa.Utils;
@@ -39,9 +42,34 @@ public class ListHandlerJPA extends BaseReadonlyHandler implements EventCohortSe
         if (query.getResultList().isEmpty()) {
             SportEventHelper.findSportEventByKey(em, _eventKey);
         }
+        var cohortCounts = fetchCohortCounts(em, eventKey).stream()
+                .collect(Collectors.toMap(CohortCount::cohortKey, CohortCount::count));
         return query.getResultList()
                 .stream()
-                .map(e -> CohortHelper.toData(e, factory))
+                .map(e -> CohortHelper.toData(e, factory, cohortKey -> cohortCounts.getOrDefault(cohortKey, 0)))
                 .toList();
+    }
+
+    private static List<CohortCount> fetchCohortCounts(EntityManager em, UUID eventKey) {
+        var query = em.createQuery("""
+                SELECT
+                    p.cohort.key,
+                    COUNT(p)
+                FROM
+                    Participant p
+                WHERE
+                    p.cohort.sportEvent.key = :eventKey
+                GROUP BY
+                    p.cohort.key
+                """, Object[].class);
+        query.setParameter("eventKey", eventKey);
+        return query.getResultList()
+                .stream()
+                .map(r -> new CohortCount((UUID) r[0], ((Long) r[1]).intValue()))
+                .toList();
+    }
+
+    record CohortCount(UUID cohortKey, int count) {
+
     }
 }

@@ -21,6 +21,10 @@ public class BirthyearCohortDataImpl extends _BaseDataImpl implements BirthyearC
 		return _JsonUtils.mapLong(data, "version");
 	}
 
+	public int participantCount() {
+		return _JsonUtils.mapInt(data, "participantCount");
+	}
+
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
@@ -59,6 +63,11 @@ public class BirthyearCohortDataImpl extends _BaseDataImpl implements BirthyearC
 
 		public BirthyearCohort.DataBuilder version(long version) {
 			$builder.add("version", version);
+			return this;
+		}
+
+		public BirthyearCohort.DataBuilder participantCount(int participantCount) {
+			$builder.add("participantCount", participantCount);
 			return this;
 		}
 

@@ -6,6 +6,7 @@ export type GenericCohort = {
 	'@type': 'generic';
 	readonly key: string;
 	readonly version: number;
+	readonly participantCount: number;
 	readonly name: string;
 	readonly gender: Gender;
 };
@@ -15,6 +16,7 @@ export function isGenericCohort(value: unknown): value is GenericCohort {
 		checkProp(value, '@type', createIsStringTypeGuard('generic')) &&
 		checkProp(value, 'key', isString) &&
 		checkProp(value, 'version', isNumber) &&
+		checkProp(value, 'participantCount', isNumber) &&
 		checkProp(value, 'name', isString) &&
 		checkProp(value, 'gender', isGender);
 }
@@ -22,12 +24,14 @@ export function isGenericCohort(value: unknown): value is GenericCohort {
 export function GenericCohortFromJSON($value: Record<string, unknown>): GenericCohort {
 	const key = propValue('key', $value, isString);
 	const version = propValue('version', $value, isNumber);
+	const participantCount = propValue('participantCount', $value, isNumber);
 	const name = propValue('name', $value, isString);
 	const gender = propValue('gender', $value, isGender);
 	return {
 		'@type': 'generic',
 		key,
 		version,
+		participantCount,
 		name,
 		gender,
 	};
@@ -36,6 +40,7 @@ export function GenericCohortFromJSON($value: Record<string, unknown>): GenericC
 export function GenericCohortToJSON($value: GenericCohort): Record<string, unknown> {
 	const key = $value.key;
 	const version = $value.version;
+	const participantCount = $value.participantCount;
 	const name = $value.name;
 	const gender = $value.gender;
 
@@ -43,6 +48,7 @@ export function GenericCohortToJSON($value: GenericCohort): Record<string, unkno
 		'@type': 'generic',
 		key,
 		version,
+		participantCount,
 		name,
 		gender,
 	};
