@@ -23,13 +23,54 @@ variables:
 
 maven-verify:
   stage: build
+  image:
+    name: !reference [.maven, image]
+    docker:
+      user: "1000:0" # ensure fixed user to allow setting the same for the server native build
   variables:
     PARENT_POM_LOCATION: server
+    ADDITIONAL_MAVEN_OPTS: -Dnative -Dquarkus.native.sources-only=true -Dquarkus.native.container-build=true -Dquarkus.native.march=x86-64-v2
   artifacts:
     reports:
       junit:
         - ./**/target/surefire-reports/TEST-*.xml
   needs: []
+  interruptible: true
+
+prepare-graal-build:
+  stage: build
+  image: nexus.ci.bestsolution.at:8084/alpine:3
+  variables:
+    GIT_STRATEGY: none
+  script:
+    - echo "NATIVE_BUILDER_IMAGE=$(cat server/target/native-sources/native-builder.image)" >> native-build.env
+  artifacts:
+    reports:
+      dotenv: native-build.env
+  needs:
+    - maven-verify
+  interruptible: true
+
+server:native:
+  stage: build
+  image:
+    name: ${NATIVE_BUILDER_IMAGE}
+    entrypoint: [""]
+    docker:
+      user: "1000:0" # use same user as maven-verify to ensure artifacts can be written
+  script:
+    - cd server/target/native-sources
+    - native-image $(cat native-image.args)
+    - cp *-runner ../
+  artifacts:
+    paths:
+      - server/target/*-runner
+      - server/target/native-sources/*.json
+    when: always
+    expire_in: 1 day
+  needs:
+    - maven-verify
+    - prepare-graal-build
   interruptible: true
 
 .npm:
@@ -111,6 +152,6 @@ docker:quarkus:
   variables:
     IMAGE_NAME: quarkus-server
     DOCKERFILE_LOCATION: server
-    DOCKER_BUILD_ARGUMENTS: -f server/src/main/docker/Dockerfile.jvm
+    DOCKER_BUILD_ARGUMENTS: -f server/src/main/docker/Dockerfile.native-micro
   needs:
     - maven-verify
