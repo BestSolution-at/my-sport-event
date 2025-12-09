@@ -154,4 +154,4 @@ docker:quarkus:
     DOCKERFILE_LOCATION: server
     DOCKER_BUILD_ARGUMENTS: -f server/src/main/docker/Dockerfile.native-micro
   needs:
-    - maven-verify
+    - server:native
