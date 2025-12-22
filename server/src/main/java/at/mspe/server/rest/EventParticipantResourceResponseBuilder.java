@@ -10,6 +10,7 @@ import jakarta.ws.rs.core.Response.ResponseBuilder;
 import at.mspe.server.rest.model._JsonUtils;
 import at.mspe.server.service.model.Participant;
 import at.mspe.server.service.model.ParticipantNew;
+import at.mspe.server.service.model.RSDFile;
 import at.mspe.server.service.model.UpdateResult;
 
 @Singleton
@@ -32,6 +33,10 @@ public class EventParticipantResourceResponseBuilder {
 
 	public ResponseBuilder delete(String eventKey, String key, Long version) {
 		return Response.status(200);
+	}
+
+	public ResponseBuilder downloadCsv(RSDFile $result, String eventKey) {
+		return _RestUtils.toStreamResponse(200,$result);
 	}
 
 }

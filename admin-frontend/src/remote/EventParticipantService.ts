@@ -11,4 +11,5 @@ export interface EventParticipantService {
 	create(eventKey: string, participant: ParticipantNew, autoAssignCohort?: boolean): Promise<Result<string, NotFoundError | InvalidDataError | StatusRSDError | NativeRSDError>>;
 	update(eventKey: string, key: string, participant: ParticipantPatch, autoAssignCohort?: boolean): Promise<Result<UpdateResult, NotFoundError | InvalidDataError | StaleDataError | StatusRSDError | NativeRSDError>>;
 	delete(eventKey: string, key: string, version?: number): Promise<Result<VoidType, NotFoundError | StaleDataError | StatusRSDError | NativeRSDError>>;
+	downloadCsv(eventKey: string): Promise<Result<any, NotFoundError | StatusRSDError | NativeRSDError>>;
 }

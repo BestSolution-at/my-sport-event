@@ -196,7 +196,7 @@ function fnDelete(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			const $init = (await preFetch?.('delete')) ?? {};
 			const $headers = new Headers($init.headers ?? {});
 			$headers.append('Content-Type', 'application/json');
-			ifDefined(version, v => $headers.append('version', `${v}`));
+			ifDefined(version, v => $headers.append('version', String(v)));
 			$init.headers = $headers;
 
 			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(eventKey)}/cohorts/${encodeURIComponent(key)}`;

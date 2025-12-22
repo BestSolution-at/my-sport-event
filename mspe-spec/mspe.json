@@ -1590,6 +1590,62 @@
               ]
             }
           }
+        },
+        {
+          "@type": "Operation",
+          "name": "downloadCsv",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "eventKey",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "eventKey",
+                  "source": "path"
+                }
+              }
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "stream",
+            "type": "file",
+            "doc": ""
+          },
+          "errors": [
+            "NotFound"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            }
+          ],
+          "meta": {
+            "rest": {
+              "method": "GET",
+              "path": "export/csv",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                }
+              ]
+            }
+          }
         }
       ],
       "meta": {

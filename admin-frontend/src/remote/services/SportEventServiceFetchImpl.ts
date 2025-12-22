@@ -64,7 +64,7 @@ function fnList(props: ServiceProps<api.service.ErrorType>): api.service.SportEv
 			const $path = `${baseUrl}/api/sportevent/`;
 			const $response = await fetchAPI($path, { ...$init, method: 'GET' });
 
-			if ($response.status == 200) {
+			if ($response.status === 200) {
 				const $data = await $response.json();
 				if (!api.utils.isTypedArray($data, api.model.isSportEvent)) {
 					throw new Error('Invalid result');
@@ -184,7 +184,7 @@ function fnDelete(props: ServiceProps<api.service.ErrorType>): api.service.Sport
 			const $init = (await preFetch?.('delete')) ?? {};
 			const $headers = new Headers($init.headers ?? {});
 			$headers.append('Content-Type', 'application/json');
-			ifDefined(version, v => $headers.append('version', `${v}`));
+			ifDefined(version, v => $headers.append('version', String(v)));
 			$init.headers = $headers;
 
 			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(key)}`;

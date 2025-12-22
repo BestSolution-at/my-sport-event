@@ -10,6 +10,7 @@ import at.mspe.server.service.EventParticipantService;
 import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.model.Participant;
 import at.mspe.server.service.model.ParticipantNew;
+import at.mspe.server.service.model.RSDFile;
 import at.mspe.server.service.model.UpdateResult;
 import at.mspe.server.service.NotFoundException;
 import at.mspe.server.service.StaleDataException;
@@ -21,13 +22,15 @@ public class EventParticipantServiceImpl implements EventParticipantService {
 	private final CreateHandler createHandler;
 	private final UpdateHandler updateHandler;
 	private final DeleteHandler deleteHandler;
+	private final DownloadCsvHandler downloadCsvHandler;
 
-	public EventParticipantServiceImpl(GetHandler getHandler, ListHandler listHandler, CreateHandler createHandler, UpdateHandler updateHandler, DeleteHandler deleteHandler) {
+	public EventParticipantServiceImpl(GetHandler getHandler, ListHandler listHandler, CreateHandler createHandler, UpdateHandler updateHandler, DeleteHandler deleteHandler, DownloadCsvHandler downloadCsvHandler) {
 		this.getHandler = getHandler;
 		this.listHandler = listHandler;
 		this.createHandler = createHandler;
 		this.updateHandler = updateHandler;
 		this.deleteHandler = deleteHandler;
+		this.downloadCsvHandler = downloadCsvHandler;
 	}
 
 	@Override
@@ -64,6 +67,12 @@ public class EventParticipantServiceImpl implements EventParticipantService {
 		deleteHandler.delete(_factory, eventKey, key, version);
 	}
 
+	@Override
+	public RSDFile downloadCsv(BuilderFactory _factory, String eventKey)
+			throws NotFoundException {
+		return downloadCsvHandler.downloadCsv(_factory, eventKey);
+	}
+
 	public interface GetHandler {
 		public Participant.Data get(BuilderFactory _factory, String eventKey, String key)
 				throws NotFoundException;
@@ -91,6 +100,11 @@ public class EventParticipantServiceImpl implements EventParticipantService {
 		public void delete(BuilderFactory _factory, String eventKey, String key, Long version)
 				throws NotFoundException,
 				StaleDataException;
+	}
+
+	public interface DownloadCsvHandler {
+		public RSDFile downloadCsv(BuilderFactory _factory, String eventKey)
+				throws NotFoundException;
 	}
 
 }

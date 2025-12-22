@@ -9,6 +9,7 @@ export function createEventParticipantService(props: ServiceProps<api.service.Er
 		create: fnCreate(props),
 		update: fnUpdate(props),
 		delete: fnDelete(props),
+		downloadCsv: fnDownloadCsv(props),
 	};
 }
 function fnGet(props: ServiceProps<api.service.ErrorType>): api.service.EventParticipantService['get'] {
@@ -64,7 +65,7 @@ function fnList(props: ServiceProps<api.service.ErrorType>): api.service.EventPa
 			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(eventKey)}/participants/`;
 			const $response = await fetchAPI($path, { ...$init, method: 'GET' });
 
-			if ($response.status == 200) {
+			if ($response.status === 200) {
 				const $data = await $response.json();
 				if (!api.utils.isTypedArray($data, api.model.isParticipant)) {
 					throw new Error('Invalid result');
@@ -93,7 +94,7 @@ function fnCreate(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			const $init = (await preFetch?.('create')) ?? {};
 			const $headers = new Headers($init.headers ?? {});
 			$headers.append('Content-Type', 'application/json');
-			ifDefined(autoAssignCohort, v => $headers.append('autoAssignCohort', `${v}`));
+			ifDefined(autoAssignCohort, v => $headers.append('autoAssignCohort', String(v)));
 			$init.headers = $headers;
 
 			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(eventKey)}/participants/`;
@@ -133,7 +134,7 @@ function fnUpdate(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			const $init = (await preFetch?.('update')) ?? {};
 			const $headers = new Headers($init.headers ?? {});
 			$headers.append('Content-Type', 'application/json');
-			ifDefined(autoAssignCohort, v => $headers.append('autoAssignCohort', `${v}`));
+			ifDefined(autoAssignCohort, v => $headers.append('autoAssignCohort', String(v)));
 			$init.headers = $headers;
 
 			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(eventKey)}/participants/${encodeURIComponent(key)}`;
@@ -186,7 +187,7 @@ function fnDelete(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			const $init = (await preFetch?.('delete')) ?? {};
 			const $headers = new Headers($init.headers ?? {});
 			$headers.append('Content-Type', 'application/json');
-			ifDefined(version, v => $headers.append('version', `${v}`));
+			ifDefined(version, v => $headers.append('version', String(v)));
 			$init.headers = $headers;
 
 			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(eventKey)}/participants/${encodeURIComponent(key)}`;
@@ -216,6 +217,46 @@ function fnDelete(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			return api.result.ERR(err);
 		} finally {
 			final?.('delete');
+		}
+	};
+}
+
+function fnDownloadCsv(props: ServiceProps<api.service.ErrorType>): api.service.EventParticipantService['downloadCsv'] {
+	const { baseUrl, fetchAPI = fetch, lifecycleHandlers = {} } = props;
+	const { preFetch, onSuccess, onError, onCatch, final } = lifecycleHandlers;
+	return async (eventKey: string) => {
+		try {
+			const $init = (await preFetch?.('downloadCsv')) ?? {};
+			const $headers = new Headers($init.headers ?? {});
+			$headers.append('Content-Type', 'application/json');
+			$init.headers = $headers;
+
+			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(eventKey)}/participants/export/csv`;
+			const $response = await fetchAPI($path, { ...$init, method: 'GET' });
+
+			if ($response.status === 200) {
+				const $data = await $response.json();
+				if(!api.utils.isRecord($data)) {
+					throw new Error('Invalid result');
+				}
+				const $result = api.model.fileFromJSON($data);
+				return safeExecute(api.result.OK($result), () => onSuccess?.('downloadCsv', $result));
+			} else if ($response.status === 404) {
+				const err = {
+					_type: 'NotFound',
+					message: await $response.text(),
+				} as const;
+				return safeExecute(api.result.ERR(err), () => onError?.('downloadCsv', err));
+			}
+			const err = { _type: '_Status', message: await $response.text(), status: $response.status } as const;
+			return api.result.ERR(err);
+		} catch (e) {
+			onCatch?.('downloadCsv', e);
+			const ee = e instanceof Error ? e : new Error('', { cause: e });
+			const err = { _type: '_Native', message: ee.message, error: ee } as const;
+			return api.result.ERR(err);
+		} finally {
+			final?.('downloadCsv');
 		}
 	};
 }
