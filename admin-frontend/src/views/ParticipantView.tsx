@@ -14,7 +14,7 @@ import { isString, useParamSignal, useSignalValue, useValue, useVM } from './uti
 import { ViewHeader } from './utils/ViewHeader';
 import { ParticipantViewDialogVM, ParticipantViewVM, type ParticipantItem } from './vm/ParticipantViewVM';
 import { Listbox, ListboxLabel, ListboxOption } from '../components/listbox';
-import type { Cohort } from '../remote/model';
+import { isBirthyearCohort, type Cohort } from '../remote/model';
 import { Card } from './utils/Card';
 import { useEffect, useMemo, useState, type MouseEvent } from 'react';
 import { useSearchParams } from 'react-router';
@@ -378,16 +378,16 @@ function CohortSection(props: { vm: ParticipantViewVM; cohort: Cohort | undefine
 		return false;
 	};
 
+	const label = props.cohort
+		? props.cohort.name + (isBirthyearCohort(props.cohort) ? ` (${props.cohort.min} - ${props.cohort.max})` : '')
+		: m('ParticipantView_NotAssign');
+
 	if (items.length === 0) {
-		return (
-			<Card
-				label={props.cohort?.name ?? m('ParticipantView_NotAssign')}
-				emptyText={m('ParticipantView_NoParticipants')}
-			></Card>
-		);
+		return <Card label={label} emptyText={m('ParticipantView_NoParticipants')}></Card>;
 	}
+
 	return (
-		<Card label={props.cohort?.name ?? m('ParticipantView_NotAssign')}>
+		<Card label={label}>
 			<table className="relative min-w-full divide-y divide-gray-300">
 				<thead className="bg-zinc-50">
 					<tr>
