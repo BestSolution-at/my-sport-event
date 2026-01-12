@@ -96,6 +96,10 @@ const en = {
 	ParticipantView_Delete_Confirm_Title: 'Delete Participant',
 	ParticipantView_Delete_Confirm_Message:
 		'Are you sure you want to delete this participant? This action cannot be undone.',
+	ParticipantView_Download_Error: 'Error downloading participant list.',
+	ParticipantView_NewParticipant: 'New participant',
+	ParticipantView_Download: 'Download starters',
+	ParticipantView_UploadResult: 'Upload results',
 
 	ParticipantDialog_Firstname: 'Firstname',
 	ParticipantDialog_Lastname: 'Lastname',
@@ -211,6 +215,10 @@ const de = {
 	ParticipantView_Delete_Confirm_Title: 'Teilnehmer löschen',
 	ParticipantView_Delete_Confirm_Message:
 		'Sind Sie sicher, dass Sie diesen Teilnehmer löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.',
+	ParticipantView_Download_Error: 'Fehler beim Herunterladen der Teilnehmerliste.',
+	ParticipantView_NewParticipant: 'Neuer Teilnehmer',
+	ParticipantView_Download: 'Download Startliste',
+	ParticipantView_UploadResult: 'Upload Ergebnissliste',
 
 	ParticipantDialog_Firstname: 'Vorname',
 	ParticipantDialog_Lastname: 'Nachname',

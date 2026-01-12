@@ -78,4 +78,8 @@ resource EventParticipant at '/api/sportevent/${eventKey}/participants' {
         422: InvalidData
         412: StaleData
     }
+    GET downloadCsv at 'export/csv' => {
+        200
+        404: NotFound
+    }
 }

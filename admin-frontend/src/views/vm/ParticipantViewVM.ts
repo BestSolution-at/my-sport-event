@@ -149,6 +149,23 @@ export class ParticipantViewVM extends BaseViewVM {
 	public clearStateInfo() {
 		this.stateInfo.value = undefined;
 	}
+
+	public async downloadCSV() {
+		const [result, error] = await this.participantService.downloadCsv(this.eventId.value);
+		if (error) {
+			this.stateInfo.value = { type: 'error', message: this.l10n('ParticipantView_Download_Error') };
+		} else {
+			if (result) {
+				const url = window.URL.createObjectURL(new Blob([result], { type: 'text/csv;charset=utf-8;' }));
+				const link = document.createElement('a');
+				link.href = url;
+				link.setAttribute('download', result.name ?? 'participants.csv');
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+			}
+		}
+	}
 }
 
 export class ParticipantViewDialogVM extends BaseViewVM {

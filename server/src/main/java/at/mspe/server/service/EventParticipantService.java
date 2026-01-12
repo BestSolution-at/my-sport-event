@@ -5,6 +5,7 @@ import java.util.List;
 
 import at.mspe.server.service.model.Participant;
 import at.mspe.server.service.model.ParticipantNew;
+import at.mspe.server.service.model.RSDFile;
 import at.mspe.server.service.model.UpdateResult;
 
 public interface EventParticipantService {
@@ -26,5 +27,8 @@ public interface EventParticipantService {
 	public void delete(BuilderFactory _factory, String eventKey, String key, Long version)
 			throws NotFoundException,
 			StaleDataException;
+
+	public RSDFile downloadCsv(BuilderFactory _factory, String eventKey)
+			throws NotFoundException;
 
 }

@@ -162,4 +162,8 @@ service EventParticipant {
         throws
             NotFound
             StaleData;
+
+    operation downloadCsv(eventKey: string): file
+        throws
+            NotFound;
 }
