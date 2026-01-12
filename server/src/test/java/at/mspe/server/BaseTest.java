@@ -69,6 +69,7 @@ public class BaseTest {
                     .lastname("Doe")
                     .sportEvent(event)
                     .gender(Gender.MALE)
+                    .publishName(true)
                     .build();
             em.persist(participant);
             this.FullEvent_ParticpantKey = participant.key.toString();
@@ -109,6 +110,7 @@ public class BaseTest {
                         .cohort(cohort)
                         .gender(Gender.FEMALE)
                         .team("Team")
+                        .publishName(true)
                         .build();
                 em.persist(participant);
                 this.FullEvent_ParticpantWithGenericCohortKey = participant.key.toString();
@@ -138,6 +140,7 @@ public class BaseTest {
                         .cohort(cohort)
                         .gender(Gender.MALE)
                         .team("Team")
+                        .publishName(true)
                         .build();
                 em.persist(participant);
                 this.FullEvent_ParticpantWithBirthyearCohortKey = participant.key.toString();

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -77,6 +78,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
         assertEquals(gender, Gender.valueOf(entity.gender.toString()));
         assertEquals(lastname, entity.lastname);
         assertNull(entity.team);
+        assertTrue(entity.publishName);
     }
 
     @Test
