@@ -1,9 +1,15 @@
 import { EllipsisHorizontalIcon } from '@heroicons/react/16/solid';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
+import {
+	ArrowDownTrayIcon,
+	ArrowUpTrayIcon,
+	ChevronDownIcon,
+	ChevronUpIcon,
+	PlusIcon,
+} from '@heroicons/react/20/solid';
 
 import { Button } from '../components/button';
 import { Dialog, DialogActions, DialogBody, DialogDescription, DialogTitle } from '../components/dialog';
-import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from '../components/dropdown';
+import { Dropdown, DropdownButton, DropdownDivider, DropdownItem, DropdownMenu } from '../components/dropdown';
 import { FieldGroup } from '../components/fieldset';
 import { messages } from '../messages';
 import { useLocaleSignal, useMessageFormat, useMessageFormatSignal } from '../useMessageFormat';
@@ -89,7 +95,27 @@ function ParticipantHeader(props: { vm: ParticipantViewVM }) {
 	const m = useMessageFormat(messages);
 	return (
 		<ViewHeader title={m('ParticipantView_Title')}>
-			<Button onClick={() => props.vm.openNewParticipantDialog()}>Neuer Teilnehmer</Button>
+			<Dropdown>
+				<DropdownButton plain aria-label={m('Generic_MoreOptions')}>
+					{m('Generic_Actions')}
+					<ChevronDownIcon />
+				</DropdownButton>
+				<DropdownMenu anchor="bottom end">
+					<DropdownItem onClick={() => props.vm.openNewParticipantDialog()}>
+						<PlusIcon data-slot="icon" />
+						{m('ParticipantView_NewParticipant')}
+					</DropdownItem>
+					<DropdownDivider />
+					<DropdownItem onClick={() => props.vm.downloadCSV()}>
+						<ArrowDownTrayIcon data-slot="icon" />
+						{m('ParticipantView_Download')}
+					</DropdownItem>
+					<DropdownItem onClick={() => {}} disabled={true}>
+						<ArrowUpTrayIcon data-slot="icon" />
+						{m('ParticipantView_UploadResult')}
+					</DropdownItem>
+				</DropdownMenu>
+			</Dropdown>
 		</ViewHeader>
 	);
 }

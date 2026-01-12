@@ -52,13 +52,13 @@ public class DownloadCsvHandlerJPA extends BaseReadonlyHandler
                 sb.append(e.lastname).append("\t");
                 sb.append(e.firstname).append("\t");
                 sb.append(e.birthday.getYear()).append("\t");
-                sb.append(e.key).append("\t");
+                sb.append(e.key);
                 return sb;
             }).toList();
             var file = Files.createTempFile("mspe", ".csv");
             Files.write(file, csvLines);
             var filename = "%s_participants.csv".formatted(event.name);
-            return _factory.createFile(null, _eventKey, filename);
+            return _factory.createFile(file, "text/csv;charset=utf-8;", filename);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
