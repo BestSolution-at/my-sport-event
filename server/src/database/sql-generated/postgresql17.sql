@@ -38,6 +38,7 @@
         par_gender smallint not null check (par_gender between 0 and 2),
         par_key uuid not null,
         par_lastname varchar(255) not null,
+        par_publish_name boolean not null,
         par_team varchar(255),
         par_time bigint,
         par_version bigint,

@@ -14,7 +14,7 @@ fi
 # the latest version)
 
 dbversion=$(psql -qtAc "SELECT version FROM meta_dbversion ORDER BY id DESC LIMIT 1")
-# if [ "$dbversion" -lt 2 ]; then
-#  echo "running DB upgrades for version 0.2.0..."
-#  psql -v ON_ERROR_STOP=1 --single-transaction -f ${DATA_DIR}/migrations/upgrade-0.2.0.sql
-# fi
+if [ "$dbversion" -lt 2 ]; then
+  echo "running DB upgrades for version 0.0.4..."
+  psql -v ON_ERROR_STOP=1 --single-transaction -f ${DATA_DIR}/migrations/upgrade-0.0.4.sql
+fi

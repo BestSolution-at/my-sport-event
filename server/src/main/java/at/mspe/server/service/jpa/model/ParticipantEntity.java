@@ -58,6 +58,9 @@ public class ParticipantEntity {
     @Column(name = "par_time", nullable = true)
     public Long time;
 
+    @Column(name = "par_publish_name", nullable = false)
+    public boolean publishName;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "par_fk_cohort", foreignKey = @ForeignKey(name = "par_fkey_cohort"))
     public CohortEntity cohort;
