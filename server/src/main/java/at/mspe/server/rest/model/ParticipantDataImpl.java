@@ -60,6 +60,10 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 		return _JsonUtils.mapString(data, "cohortKey", null);
 	}
 
+	public boolean publishName() {
+		return _JsonUtils.mapBoolean(data, "publishName");
+	}
+
 	public static Participant.Data of(JsonObject obj) {
 		return new ParticipantDataImpl(obj);
 	}
@@ -147,6 +151,11 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 				return this;
 			}
 			$builder.add("cohortKey", cohortKey);
+			return this;
+		}
+
+		public Participant.DataBuilder publishName(boolean publishName) {
+			$builder.add("publishName", publishName);
 			return this;
 		}
 

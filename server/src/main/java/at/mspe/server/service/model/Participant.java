@@ -32,6 +32,8 @@ public interface Participant {
 
 		public String cohortKey();
 
+		public boolean publishName();
+
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<Participant.Data> {
@@ -57,6 +59,8 @@ public interface Participant {
 
 		public DataBuilder cohortKey(String cohortKey);
 
+		public DataBuilder publishName(boolean publishName);
+
 	}
 
 	public interface Patch extends _Base.BaseData, Participant {
@@ -80,6 +84,8 @@ public interface Participant {
 
 		public _Base.Nillable<String> cohortKey();
 
+		public Optional<Boolean> publishName();
+
 	}
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<Participant.Patch> {
@@ -102,6 +108,8 @@ public interface Participant {
 		public PatchBuilder association(String association);
 
 		public PatchBuilder cohortKey(String cohortKey);
+
+		public PatchBuilder publishName(boolean publishName);
 
 	}
 }

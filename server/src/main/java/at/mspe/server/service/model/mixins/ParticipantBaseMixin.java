@@ -20,4 +20,6 @@ public interface ParticipantBaseMixin {
 
 	public String cohortKey();
 
+	public boolean publishName();
+
 }

@@ -192,9 +192,10 @@ function ParticipantDialog(props: { vm: ParticipantViewDialogVM }) {
 					</div>
 				)}
 				<FieldGroup>
-					<div className="flex gap-4 flex-wrap">
-						<TextFormField className="basis-32 flex-grow" vm={props.vm.lastname} />
-						<TextFormField className="basis-32 flex-grow" vm={props.vm.firstname} />
+					<div className="flex gap-4 flex-wrap items-end">
+						<TextFormField className="basis-64 flex-grow" vm={props.vm.lastname} />
+						<TextFormField className="basis-64 flex-grow" vm={props.vm.firstname} />
+						<CheckBoxFormField className="basis-64 flex-grow mb-2" vm={props.vm.publishName} />
 					</div>
 					<div className="flex gap-4 flex-wrap">
 						<SelectFormField className="basis-64 flex-grow" vm={props.vm.gender} />
@@ -202,7 +203,7 @@ function ParticipantDialog(props: { vm: ParticipantViewDialogVM }) {
 					</div>
 					<div className="flex gap-4 items-end flex-wrap">
 						<SelectFormField className="basis-64 flex-grow" vm={props.vm.cohort} />
-						<CheckBoxFormField className="basis-64 flex-grow" vm={props.vm.cohortAutoAssign} />
+						<CheckBoxFormField className="basis-64 flex-grow mb-2" vm={props.vm.cohortAutoAssign} />
 					</div>
 					<div className="flex gap-4 flex-wrap">
 						<TextFormField className="basis-64 flex-grow" vm={props.vm.team} />

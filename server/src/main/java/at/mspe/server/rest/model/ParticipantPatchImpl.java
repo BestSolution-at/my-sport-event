@@ -57,6 +57,10 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 		return _JsonUtils.mapNilString(data, "cohortKey");
 	}
 
+	public Optional<Boolean> publishName() {
+		return _JsonUtils.mapOptBoolean(data, "publishName");
+	}
+
 	public static class PatchBuilderImpl implements Participant.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
@@ -135,6 +139,12 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 				return this;
 			}
 			$builder.add("cohortKey", cohortKey);
+			return this;
+		}
+
+		@Override
+		public Participant.PatchBuilder publishName(boolean publishName) {
+			$builder.add("publishName", publishName);
 			return this;
 		}
 

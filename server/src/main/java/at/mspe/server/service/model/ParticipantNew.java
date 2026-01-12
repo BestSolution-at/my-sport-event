@@ -22,6 +22,8 @@ public interface ParticipantNew {
 
 		public String cohortKey();
 
+		public boolean publishName();
+
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<ParticipantNew.Data> {
@@ -38,6 +40,8 @@ public interface ParticipantNew {
 		public DataBuilder association(String association);
 
 		public DataBuilder cohortKey(String cohortKey);
+
+		public DataBuilder publishName(boolean publishName);
 
 	}
 }

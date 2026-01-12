@@ -351,6 +351,17 @@
           "variant": "builtin",
           "type": "string",
           "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "publishName",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "boolean",
+          "doc": ""
         }
       ],
       "doc": ""

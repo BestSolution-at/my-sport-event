@@ -94,7 +94,8 @@ INSERT INTO Participant
     par_lastname,
     par_gender,
     par_fk_sportevent,
-    par_birthday
+    par_birthday,
+    par_publish_name
 ) 
 VALUES
 (
@@ -105,5 +106,6 @@ VALUES
     'Doe',
     0,
     1,
-    '1985-05-20'
+    '1985-05-20',
+    true
 );
