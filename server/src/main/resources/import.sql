@@ -106,4 +106,60 @@ VALUES
     0,
     1,
     '1985-05-20'
+    '1985-05-20',
+    true
+);
+
+INSERT INTO Cohort (
+    coh_id, 
+    coh_key,
+    coh_name, 
+    coh_fk_sportevent, 
+    coh_version, 
+    coh_type, 
+    coh_gender
+) 
+VALUES
+(
+    nextval('cohort_seq_id'), 
+    'da6d61eb-87a1-4adb-826b-c7a4e97e3dfc',
+    'AK 5 - female', 
+    2, 
+    1, 
+    1, 
+    0
+);
+
+INSERT INTO BirthyearCohort 
+(
+    coh_id,
+    coh_min,
+    coh_max
+) 
+VALUES
+(
+    currval('cohort_seq_id'),
+    1900,
+    1956
+);
+
+
+INSERT INTO Cohort (
+    coh_id, 
+    coh_key,
+    coh_name, 
+    coh_fk_sportevent, 
+    coh_version, 
+    coh_type, 
+    coh_gender
+) 
+VALUES
+(
+    nextval('cohort_seq_id'), 
+    'da6d61eb-87a1-4adb-826b-c7a4e97e3dfc',
+    'GC 5 - female', 
+    2, 
+    1, 
+    1, 
+    0
 );
