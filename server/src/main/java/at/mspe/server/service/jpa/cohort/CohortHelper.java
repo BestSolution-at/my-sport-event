@@ -10,7 +10,6 @@ import at.mspe.server.service.jpa.sportevent.SportEventHelper;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.function.IntFunction;
 import java.util.function.ToIntFunction;
 
 import at.mspe.server.service.BuilderFactory;
@@ -54,6 +53,7 @@ public class CohortHelper {
             return factory.builder(GenericCohort.DataBuilder.class)
                     .key(entity.key.toString())
                     .version(entity.version)
+                    .autoAssign(entity.autoAssign)
                     .name(entity.name)
                     .gender(Gender.valueOf(entity.gender.toString()))
                     .participantCount(participantCountProvider.applyAsInt(entity.key))
@@ -62,6 +62,7 @@ public class CohortHelper {
             return factory.builder(BirthyearCohort.DataBuilder.class)
                     .key(be.key.toString())
                     .version(entity.version)
+                    .autoAssign(entity.autoAssign)
                     .max(be.max)
                     .min(be.min)
                     .name(be.name)
@@ -81,15 +82,14 @@ public class CohortHelper {
                         Cohort c
                     WHERE
                         c.sportEvent.id = :id
+                    AND c.autoAssign = true
                 """, CohortEntity.class)
                 .setParameter("id", participant.sportEvent.id)
                 .getResultList();
-        CohortEntity result = null;
-
         // try to find correct birthyear cohort
         if (participant.birthday != null) {
             var birthday = participant.birthday;
-            result = list.stream()
+            return list.stream()
                     .filter(c -> c.gender == participant.gender)
                     .filter(c -> c instanceof BirthyearCohortEntity)
                     .map(BirthyearCohortEntity.class::cast)
@@ -98,14 +98,7 @@ public class CohortHelper {
                     .findFirst()
                     .orElse(null);
         }
-
-        if (result == null) {
-            result = list.stream()
-                    .filter(c -> c.gender == participant.gender)
-                    .findFirst()
-                    .orElse(null);
-        }
-        return result;
+        return null;
     }
 
     private static boolean containsDate(LocalDate date, LocalDate min, LocalDate max) {

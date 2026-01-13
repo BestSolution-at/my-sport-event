@@ -30,6 +30,7 @@ public class BaseTest {
 
     public String FullEvent_GenericCohortKey;
     public String FullEvent_BirthyearCohortKey;
+    public String FullEvent_BirthyearCohort_NoOutAssignKey;
     public String FullEvent_GenericCohortNotReferencedKey;
 
     public String FullEvent_ParticpantKey;
@@ -126,6 +127,7 @@ public class BaseTest {
                     .max(1980)
                     .sportEvent(event)
                     .gender(Gender.MALE)
+                    .autoAssign(true)
                     .build();
             em.persist(cohort);
             this.FullEvent_BirthyearCohortKey = cohort.key.toString();
@@ -147,6 +149,18 @@ public class BaseTest {
                 em.flush();
             }
 
+            {
+                var noAutoAssign = BirthyearCohortEntity.builder()
+                        .key(UUID.randomUUID())
+                        .name("Birthyear Cohort - no out of assign")
+                        .min(1900)
+                        .max(1930)
+                        .sportEvent(event)
+                        .gender(Gender.MALE)
+                        .build();
+                em.persist(noAutoAssign);
+                this.FullEvent_BirthyearCohort_NoOutAssignKey = noAutoAssign.key.toString();
+            }
         }
 
         this.FullEventKey = event.key.toString();

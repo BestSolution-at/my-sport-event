@@ -34,6 +34,10 @@ public class BirthyearCohortPatchImpl extends _BaseDataImpl implements Birthyear
 		return _JsonUtils.mapOptLiteral(data, "gender", Gender::valueOf);
 	}
 
+	public Optional<Boolean> autoAssign() {
+		return _JsonUtils.mapOptBoolean(data, "autoAssign");
+	}
+
 	public OptionalInt min() {
 		return _JsonUtils.mapOptInt(data, "min");
 	}
@@ -68,6 +72,12 @@ public class BirthyearCohortPatchImpl extends _BaseDataImpl implements Birthyear
 		@Override
 		public BirthyearCohort.PatchBuilder gender(Gender gender) {
 			$builder.add("gender", gender.toString());
+			return this;
+		}
+
+		@Override
+		public BirthyearCohort.PatchBuilder autoAssign(boolean autoAssign) {
+			$builder.add("autoAssign", autoAssign);
 			return this;
 		}
 

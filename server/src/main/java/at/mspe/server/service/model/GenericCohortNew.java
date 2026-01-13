@@ -12,12 +12,17 @@ public interface GenericCohortNew {
 		@Override
 		public Gender gender();
 
+		@Override
+		public boolean autoAssign();
+
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<GenericCohortNew.Data>, CohortNew.DataBuilder {
 		public DataBuilder name(String name);
 
 		public DataBuilder gender(Gender gender);
+
+		public DataBuilder autoAssign(boolean autoAssign);
 
 	}
 }

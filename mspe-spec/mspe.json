@@ -45,6 +45,17 @@
           "variant": "enum",
           "type": "Gender",
           "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "autoAssign",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "boolean",
+          "doc": ""
         }
       ],
       "doc": ""

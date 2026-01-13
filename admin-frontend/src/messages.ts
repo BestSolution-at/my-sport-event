@@ -79,6 +79,7 @@ const en = {
 	CohortViewDialog_Gender: 'Gender',
 	CohortViewDialog_Type_MinYear: 'From Birthyear',
 	CohortViewDialog_Type_MaxYear: 'To Birthyear',
+	CohortViewDialog_AutoAssignParticipants: 'Auto-assign participants',
 
 	ParticipantView_Title: 'Participants',
 	ParticipantView_None: 'None',
@@ -199,6 +200,7 @@ const de = {
 	CohortViewDialog_Gender: 'Geschlecht',
 	CohortViewDialog_Type_MinYear: 'Ab Jahrgang',
 	CohortViewDialog_Type_MaxYear: 'Bis Jahrgang',
+	CohortViewDialog_AutoAssignParticipants: 'Teilnehmer automatisch zuordnen',
 
 	ParticipantView_Title: 'Teilnehmer',
 	ParticipantView_None: 'Keine',

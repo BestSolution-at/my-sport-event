@@ -2,7 +2,6 @@ package at.mspe.server.service.jpa.cohort;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import at.mspe.server.service.jpa.BaseReadonlyHandler;

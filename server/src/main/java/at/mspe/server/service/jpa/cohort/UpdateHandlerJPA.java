@@ -50,9 +50,9 @@ public class UpdateHandlerJPA extends BaseHandler implements EventCohortServiceI
 
         if (cohort instanceof GenericCohort.Patch patch) {
             if (entity instanceof GenericCohortEntity gc) {
-                System.err.println("====> Updating GENERIC cohort" + patch.gender());
                 patch.name().ifPresent(gc::name);
                 patch.gender().map(g -> Gender.valueOf(g.name())).ifPresent(gc::gender);
+                patch.autoAssign().ifPresent(gc::autoAssign);
                 GenericCohortEntity.validate(gc);
             } else {
                 throw new InvalidDataException(
@@ -65,6 +65,7 @@ public class UpdateHandlerJPA extends BaseHandler implements EventCohortServiceI
                 patch.max().ifPresent(be::max);
                 patch.min().ifPresent(be::min);
                 patch.gender().map(g -> Gender.valueOf(g.name())).ifPresent(be::gender);
+                patch.autoAssign().ifPresent(be::autoAssign);
                 BirthyearCohortEntity.validate(be);
             } else {
                 throw new InvalidDataException(

@@ -11,6 +11,8 @@ public interface CohortNew {
 
 		public Gender gender();
 
+		public boolean autoAssign();
+
 	}
 
 	public interface DataBuilder extends Builder {

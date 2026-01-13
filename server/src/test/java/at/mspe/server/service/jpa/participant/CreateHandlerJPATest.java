@@ -82,6 +82,44 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
     }
 
     @Test
+    public void autoAssign() {
+        var firstname = "John";
+        var gender = Gender.MALE;
+        var lastname = "Doe";
+        var dto = newBuilder()
+                .firstname(firstname)
+                .gender(gender)
+                .lastname(lastname)
+                .publishName(true)
+                .birthday(LocalDate.of(1970, 1, 1))
+                .build();
+        var key = handler.create(builderFactory, FullEventKey, dto, true);
+        assertNotNull(key);
+        var entity = getParticipantEntity(key);
+        assertEquals(entity.key.toString(), key);
+        assertEquals(FullEvent_BirthyearCohortKey, entity.cohort.key.toString());
+    }
+
+    @Test
+    public void autoAssignNone() {
+        var firstname = "John";
+        var gender = Gender.MALE;
+        var lastname = "Doe";
+        var dto = newBuilder()
+                .firstname(firstname)
+                .gender(gender)
+                .lastname(lastname)
+                .publishName(true)
+                .birthday(LocalDate.of(1925, 1, 1))
+                .build();
+        var key = handler.create(builderFactory, FullEventKey, dto, true);
+        assertNotNull(key);
+        var entity = getParticipantEntity(key);
+        assertEquals(entity.key.toString(), key);
+        assertNull(entity.cohort);
+    }
+
+    @Test
     public void emptyFirstname() {
         var gender = Gender.MALE;
         var lastname = "Doe";

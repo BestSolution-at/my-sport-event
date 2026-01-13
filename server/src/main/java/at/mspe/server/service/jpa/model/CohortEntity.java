@@ -43,6 +43,9 @@ public class CohortEntity {
     @Column(name = "coh_gender")
     public Gender gender;
 
+    @Column(name = "coh_autoassign", nullable = false)
+    public boolean autoAssign;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "coh_fk_sportevent", foreignKey = @ForeignKey(name = "coh_fkey_sportevent"))
     public SportEventEntity sportEvent;
@@ -69,5 +72,13 @@ public class CohortEntity {
 
     public Gender gender() {
         return this.gender;
+    }
+
+    public boolean autoAssign() {
+        return autoAssign;
+    }
+
+    public void autoAssign(boolean autoAssign) {
+        this.autoAssign = autoAssign;
     }
 }

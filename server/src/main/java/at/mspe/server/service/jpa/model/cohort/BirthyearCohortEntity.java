@@ -47,9 +47,15 @@ public class BirthyearCohortEntity extends CohortEntity {
         private int min;
         private int max;
         private Gender gender;
+        private boolean autoAssign;
 
         public BirthyearCohortEntityBuilder key(UUID key) {
             this.key = key;
+            return this;
+        }
+
+        public BirthyearCohortEntityBuilder autoAssign(boolean autoAssign) {
+            this.autoAssign = autoAssign;
             return this;
         }
 
@@ -91,6 +97,7 @@ public class BirthyearCohortEntity extends CohortEntity {
             entity.min = this.min;
             entity.max = this.max;
             entity.gender = this.gender;
+            entity.autoAssign = this.autoAssign;
             validate(entity);
             return entity;
         }

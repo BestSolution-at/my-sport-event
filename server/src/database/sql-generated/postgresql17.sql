@@ -15,6 +15,7 @@
     create table Cohort (
         coh_type integer not null,
         coh_id bigint not null,
+        coh_autoassign boolean not null,
         coh_gender smallint check (coh_gender between 0 and 2),
         coh_key uuid not null unique,
         coh_name varchar(255),

@@ -23,6 +23,9 @@ public interface BirthyearCohort {
 		public Gender gender();
 
 		@Override
+		public boolean autoAssign();
+
+		@Override
 		public int min();
 
 		@Override
@@ -41,6 +44,8 @@ public interface BirthyearCohort {
 
 		public DataBuilder gender(Gender gender);
 
+		public DataBuilder autoAssign(boolean autoAssign);
+
 		public DataBuilder min(int min);
 
 		public DataBuilder max(int max);
@@ -56,6 +61,8 @@ public interface BirthyearCohort {
 
 		public Optional<Gender> gender();
 
+		public Optional<Boolean> autoAssign();
+
 		public OptionalInt min();
 
 		public OptionalInt max();
@@ -70,6 +77,8 @@ public interface BirthyearCohort {
 		public PatchBuilder name(String name);
 
 		public PatchBuilder gender(Gender gender);
+
+		public PatchBuilder autoAssign(boolean autoAssign);
 
 		public PatchBuilder min(int min);
 

@@ -33,6 +33,10 @@ public class GenericCohortPatchImpl extends _BaseDataImpl implements GenericCoho
 		return _JsonUtils.mapOptLiteral(data, "gender", Gender::valueOf);
 	}
 
+	public Optional<Boolean> autoAssign() {
+		return _JsonUtils.mapOptBoolean(data, "autoAssign");
+	}
+
 	public static class PatchBuilderImpl implements GenericCohort.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
@@ -59,6 +63,12 @@ public class GenericCohortPatchImpl extends _BaseDataImpl implements GenericCoho
 		@Override
 		public GenericCohort.PatchBuilder gender(Gender gender) {
 			$builder.add("gender", gender.toString());
+			return this;
+		}
+
+		@Override
+		public GenericCohort.PatchBuilder autoAssign(boolean autoAssign) {
+			$builder.add("autoAssign", autoAssign);
 			return this;
 		}
 

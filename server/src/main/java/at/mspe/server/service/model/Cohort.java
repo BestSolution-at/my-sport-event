@@ -19,6 +19,8 @@ public interface Cohort {
 
 		public Gender gender();
 
+		public boolean autoAssign();
+
 	}
 
 	public interface DataBuilder extends Builder {
@@ -32,6 +34,8 @@ public interface Cohort {
 		public Optional<String> name();
 
 		public Optional<Gender> gender();
+
+		public Optional<Boolean> autoAssign();
 
 	}
 

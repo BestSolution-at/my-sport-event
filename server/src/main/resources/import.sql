@@ -11,7 +11,8 @@ INSERT INTO Cohort
     coh_fk_sportevent, 
     coh_version, 
     coh_type, 
-    coh_gender
+    coh_gender,
+    coh_autoassign
 ) 
 VALUES
 (
@@ -21,7 +22,8 @@ VALUES
     1, 
     1, 
     1, 
-    0
+    0,
+    true
 );
 
 INSERT INTO GenericCohort (coh_id) VALUES (currval('cohort_seq_id'));
@@ -35,7 +37,8 @@ INSERT INTO Cohort
     coh_fk_sportevent, 
     coh_version, 
     coh_type, 
-    coh_gender
+    coh_gender,
+    coh_autoassign
 ) 
 VALUES
 (
@@ -45,7 +48,8 @@ VALUES
     1, 
     1, 
     1, 
-    1
+    1,
+    true
 );
 
 INSERT INTO GenericCohort (coh_id) VALUES (currval('cohort_seq_id'));
@@ -59,7 +63,8 @@ INSERT INTO Cohort
     coh_fk_sportevent, 
     coh_version, 
     coh_type,
-    coh_gender
+    coh_gender,
+    coh_autoassign
 )
 VALUES
 (
@@ -69,7 +74,8 @@ VALUES
     1, 
     1, 
     2, 
-    0
+    0,
+    true
 );
 INSERT INTO BirthyearCohort 
 (

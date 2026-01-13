@@ -24,6 +24,11 @@ public class BirthyearCohortNewDataImpl extends _BaseDataImpl implements Birthye
 	}
 
 	@Override
+	public boolean autoAssign() {
+		return _JsonUtils.mapBoolean(data, "autoAssign");
+	}
+
+	@Override
 	public int min() {
 		return _JsonUtils.mapInt(data, "min");
 	}
@@ -63,6 +68,12 @@ public class BirthyearCohortNewDataImpl extends _BaseDataImpl implements Birthye
 				return this;
 			}
 			$builder.add("gender", gender.toString());
+			return this;
+		}
+
+		@Override
+		public BirthyearCohortNew.DataBuilder autoAssign(boolean autoAssign) {
+			$builder.add("autoAssign", autoAssign);
 			return this;
 		}
 

@@ -21,9 +21,15 @@ public class GenericCohortEntity extends CohortEntity {
         private String name;
         private SportEventEntity sportEvent;
         private Gender gender;
+        private boolean autoAssign;
 
         public GenericCohortEntityBuilder key(UUID key) {
             this.key = key;
+            return this;
+        }
+
+        public GenericCohortEntityBuilder autoAssign(boolean autoAssign) {
+            this.autoAssign = autoAssign;
             return this;
         }
 
@@ -48,6 +54,7 @@ public class GenericCohortEntity extends CohortEntity {
             entity.name = this.name;
             entity.sportEvent = this.sportEvent;
             entity.gender = this.gender;
+            entity.autoAssign = this.autoAssign;
             validate(entity);
             return entity;
         }

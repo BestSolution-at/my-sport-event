@@ -8,4 +8,6 @@ public interface CohortBaseMixin {
 
 	public Gender gender();
 
+	public boolean autoAssign();
+
 }

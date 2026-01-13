@@ -16,6 +16,7 @@ import { useEffect, useState } from 'react';
 import { ErrorDialog } from './utils/ErrorDialog';
 import { SuccessInfo } from './utils/SuccessInfo';
 import { ErrorInfo } from './utils/ErrorInfo';
+import { CheckBoxFormField } from './utils/CheckBoxFormField';
 
 export function CohortView() {
 	const m = useMessageFormatSignal(messages);
@@ -194,6 +195,7 @@ function CohortDialog(props: { vm: CohortViewDialogVM }) {
 					<TextFormField vm={props.vm.name} />
 					<SelectFormField vm={props.vm.gender} />
 					{cohortType === 'birthyear' && <MinMaxYear vm={props.vm} />}
+					<CheckBoxFormField vm={props.vm.autoAssignParticipants} />
 				</FieldGroup>
 			</DialogBody>
 			<DialogActions>

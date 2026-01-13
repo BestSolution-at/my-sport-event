@@ -14,6 +14,9 @@ public interface BirthyearCohortNew {
 		public Gender gender();
 
 		@Override
+		public boolean autoAssign();
+
+		@Override
 		public int min();
 
 		@Override
@@ -25,6 +28,8 @@ public interface BirthyearCohortNew {
 		public DataBuilder name(String name);
 
 		public DataBuilder gender(Gender gender);
+
+		public DataBuilder autoAssign(boolean autoAssign);
 
 		public DataBuilder min(int min);
 
