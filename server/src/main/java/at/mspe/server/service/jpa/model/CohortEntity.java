@@ -73,4 +73,12 @@ public class CohortEntity {
     public Gender gender() {
         return this.gender;
     }
+
+    public boolean autoAssign() {
+        return autoAssign;
+    }
+
+    public void autoAssign(boolean autoAssign) {
+        this.autoAssign = autoAssign;
+    }
 }

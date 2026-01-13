@@ -3,6 +3,7 @@ enum Gender = MALE | FEMALE | ALL;
 mixin CohortBase {
     name: string
     gender: Gender
+    autoAssign: boolean
 }
 
 mixin BirthyearCohortBase {

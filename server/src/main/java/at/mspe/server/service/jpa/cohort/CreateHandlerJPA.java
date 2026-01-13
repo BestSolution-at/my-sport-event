@@ -35,6 +35,7 @@ public class CreateHandlerJPA extends BaseHandler implements EventCohortServiceI
         if (cohort instanceof GenericCohortNew.Data generic) {
             var entity = GenericCohortEntity.builder()
                     .key(generateKey())
+                    .autoAssign(generic.autoAssign())
                     .name(generic.name())
                     .sportEvent(sportEvent)
                     .gender(Gender.valueOf(cohort.gender().toString()))
@@ -46,6 +47,7 @@ public class CreateHandlerJPA extends BaseHandler implements EventCohortServiceI
         } else if (cohort instanceof BirthyearCohortNew.Data birthyear) {
             var entity = BirthyearCohortEntity.builder()
                     .key(generateKey())
+                    .autoAssign(birthyear.autoAssign())
                     .name(birthyear.name())
                     .min(birthyear.min())
                     .max(birthyear.max())

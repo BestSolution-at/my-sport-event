@@ -20,6 +20,9 @@ public interface GenericCohort {
 		@Override
 		public Gender gender();
 
+		@Override
+		public boolean autoAssign();
+
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<GenericCohort.Data>, Cohort.DataBuilder {
@@ -33,6 +36,8 @@ public interface GenericCohort {
 
 		public DataBuilder gender(Gender gender);
 
+		public DataBuilder autoAssign(boolean autoAssign);
+
 	}
 
 	public interface Patch extends _Base.BaseData, GenericCohort, Cohort.Patch {
@@ -44,6 +49,8 @@ public interface GenericCohort {
 
 		public Optional<Gender> gender();
 
+		public Optional<Boolean> autoAssign();
+
 	}
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<GenericCohort.Patch>, Cohort.PatchBuilder {
@@ -54,6 +61,8 @@ public interface GenericCohort {
 		public PatchBuilder name(String name);
 
 		public PatchBuilder gender(Gender gender);
+
+		public PatchBuilder autoAssign(boolean autoAssign);
 
 	}
 }

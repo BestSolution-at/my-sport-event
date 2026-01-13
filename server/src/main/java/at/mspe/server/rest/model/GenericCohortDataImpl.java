@@ -38,6 +38,11 @@ public class GenericCohortDataImpl extends _BaseDataImpl implements GenericCohor
 		return _JsonUtils.mapLiteral(data, "gender", Gender::valueOf);
 	}
 
+	@Override
+	public boolean autoAssign() {
+		return _JsonUtils.mapBoolean(data, "autoAssign");
+	}
+
 	public static GenericCohort.Data of(JsonObject obj) {
 		return new GenericCohortDataImpl(obj);
 	}
@@ -86,6 +91,12 @@ public class GenericCohortDataImpl extends _BaseDataImpl implements GenericCohor
 				return this;
 			}
 			$builder.add("gender", gender.toString());
+			return this;
+		}
+
+		@Override
+		public GenericCohort.DataBuilder autoAssign(boolean autoAssign) {
+			$builder.add("autoAssign", autoAssign);
 			return this;
 		}
 
