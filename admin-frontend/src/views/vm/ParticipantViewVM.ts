@@ -220,7 +220,7 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 		validation: () => '',
 	});
 	public readonly publishName = createCheckBoxField({
-		initialValue: false,
+		initialValue: true,
 		label: this.l10n('ParticipantDialog_PublishName'),
 		validation: () => '',
 	});
@@ -275,8 +275,6 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 			validation: () => '',
 			disabled: this.cohortAutoAssign.$value,
 		});
-
-		this.publishName.value = true;
 
 		if (dto) {
 			this.lastname.value = dto.lastname;
