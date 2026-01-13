@@ -66,6 +66,7 @@ public class ParticipantNewDataImpl extends _BaseDataImpl implements Participant
 	public static class DataBuilderImpl implements ParticipantNew.DataBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
+		@Override
 		public ParticipantNew.DataBuilder firstname(String firstname) {
 			if (firstname == null) {
 				return this;
@@ -74,6 +75,7 @@ public class ParticipantNewDataImpl extends _BaseDataImpl implements Participant
 			return this;
 		}
 
+		@Override
 		public ParticipantNew.DataBuilder lastname(String lastname) {
 			if (lastname == null) {
 				return this;
@@ -82,6 +84,7 @@ public class ParticipantNewDataImpl extends _BaseDataImpl implements Participant
 			return this;
 		}
 
+		@Override
 		public ParticipantNew.DataBuilder team(String team) {
 			if (team == null) {
 				return this;
@@ -90,6 +93,7 @@ public class ParticipantNewDataImpl extends _BaseDataImpl implements Participant
 			return this;
 		}
 
+		@Override
 		public ParticipantNew.DataBuilder birthday(LocalDate birthday) {
 			if (birthday == null) {
 				return this;
@@ -98,6 +102,7 @@ public class ParticipantNewDataImpl extends _BaseDataImpl implements Participant
 			return this;
 		}
 
+		@Override
 		public ParticipantNew.DataBuilder gender(Gender gender) {
 			if (gender == null) {
 				return this;
@@ -106,6 +111,7 @@ public class ParticipantNewDataImpl extends _BaseDataImpl implements Participant
 			return this;
 		}
 
+		@Override
 		public ParticipantNew.DataBuilder association(String association) {
 			if (association == null) {
 				return this;
@@ -114,6 +120,7 @@ public class ParticipantNewDataImpl extends _BaseDataImpl implements Participant
 			return this;
 		}
 
+		@Override
 		public ParticipantNew.DataBuilder cohortKey(String cohortKey) {
 			if (cohortKey == null) {
 				return this;
@@ -122,6 +129,7 @@ public class ParticipantNewDataImpl extends _BaseDataImpl implements Participant
 			return this;
 		}
 
+		@Override
 		public ParticipantNew.DataBuilder publishName(boolean publishName) {
 			$builder.add("publishName", publishName);
 			return this;

@@ -38,6 +38,7 @@ public class GenericCohortNewDataImpl extends _BaseDataImpl implements GenericCo
 			$builder.add("@type", "generic");
 		}
 
+		@Override
 		public GenericCohortNew.DataBuilder name(String name) {
 			if (name == null) {
 				return this;
@@ -46,6 +47,7 @@ public class GenericCohortNewDataImpl extends _BaseDataImpl implements GenericCo
 			return this;
 		}
 
+		@Override
 		public GenericCohortNew.DataBuilder gender(Gender gender) {
 			if (gender == null) {
 				return this;

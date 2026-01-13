@@ -87,16 +87,19 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 	public static class DataBuilderImpl implements Participant.DataBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
+		@Override
 		public Participant.DataBuilder key(String key) {
 			$builder.add("key", key);
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder version(long version) {
 			$builder.add("version", version);
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder teamMates(List<String> teamMates) {
 			if (teamMates == null) {
 				return this;
@@ -105,11 +108,13 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder time(long time) {
 			$builder.add("time", time);
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder firstname(String firstname) {
 			if (firstname == null) {
 				return this;
@@ -118,6 +123,7 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder lastname(String lastname) {
 			if (lastname == null) {
 				return this;
@@ -126,6 +132,7 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder team(String team) {
 			if (team == null) {
 				return this;
@@ -134,6 +141,7 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder birthday(LocalDate birthday) {
 			if (birthday == null) {
 				return this;
@@ -142,6 +150,7 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder gender(Gender gender) {
 			if (gender == null) {
 				return this;
@@ -150,6 +159,7 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder association(String association) {
 			if (association == null) {
 				return this;
@@ -158,6 +168,7 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder cohortKey(String cohortKey) {
 			if (cohortKey == null) {
 				return this;
@@ -166,6 +177,7 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder publishName(boolean publishName) {
 			$builder.add("publishName", publishName);
 			return this;

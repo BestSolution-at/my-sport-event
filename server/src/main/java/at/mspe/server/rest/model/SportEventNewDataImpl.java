@@ -35,6 +35,7 @@ public class SportEventNewDataImpl extends _BaseDataImpl implements SportEventNe
 	public static class DataBuilderImpl implements SportEventNew.DataBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
+		@Override
 		public SportEventNew.DataBuilder name(String name) {
 			if (name == null) {
 				return this;
@@ -43,6 +44,7 @@ public class SportEventNewDataImpl extends _BaseDataImpl implements SportEventNe
 			return this;
 		}
 
+		@Override
 		public SportEventNew.DataBuilder date(ZonedDateTime date) {
 			if (date == null) {
 				return this;

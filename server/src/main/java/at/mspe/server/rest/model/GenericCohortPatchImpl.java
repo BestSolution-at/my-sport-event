@@ -58,7 +58,7 @@ public class GenericCohortPatchImpl extends _BaseDataImpl implements GenericCoho
 
 		@Override
 		public GenericCohort.PatchBuilder gender(Gender gender) {
-			;
+			$builder.add("gender", gender.toString());
 			return this;
 		}
 

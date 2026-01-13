@@ -53,21 +53,25 @@ public class GenericCohortDataImpl extends _BaseDataImpl implements GenericCohor
 			$builder.add("@type", "generic");
 		}
 
+		@Override
 		public GenericCohort.DataBuilder key(String key) {
 			$builder.add("key", key);
 			return this;
 		}
 
+		@Override
 		public GenericCohort.DataBuilder version(long version) {
 			$builder.add("version", version);
 			return this;
 		}
 
+		@Override
 		public GenericCohort.DataBuilder participantCount(int participantCount) {
 			$builder.add("participantCount", participantCount);
 			return this;
 		}
 
+		@Override
 		public GenericCohort.DataBuilder name(String name) {
 			if (name == null) {
 				return this;
@@ -76,6 +80,7 @@ public class GenericCohortDataImpl extends _BaseDataImpl implements GenericCohor
 			return this;
 		}
 
+		@Override
 		public GenericCohort.DataBuilder gender(Gender gender) {
 			if (gender == null) {
 				return this;

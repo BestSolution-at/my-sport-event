@@ -67,7 +67,7 @@ public class BirthyearCohortPatchImpl extends _BaseDataImpl implements Birthyear
 
 		@Override
 		public BirthyearCohort.PatchBuilder gender(Gender gender) {
-			;
+			$builder.add("gender", gender.toString());
 			return this;
 		}
 
