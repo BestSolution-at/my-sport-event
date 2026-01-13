@@ -15,10 +15,12 @@ public class GenericCohortPatchImpl extends _BaseDataImpl implements GenericCoho
 		super(data);
 	}
 
+	@Override
 	public String key() {
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	@Override
 	public long version() {
 		return _JsonUtils.mapLong(data, "version");
 	}
@@ -56,7 +58,7 @@ public class GenericCohortPatchImpl extends _BaseDataImpl implements GenericCoho
 
 		@Override
 		public GenericCohort.PatchBuilder gender(Gender gender) {
-			;
+			$builder.add("gender", gender.toString());
 			return this;
 		}
 

@@ -14,8 +14,10 @@ public interface GenericCohort {
 
 		public int participantCount();
 
+		@Override
 		public String name();
 
+		@Override
 		public Gender gender();
 
 	}

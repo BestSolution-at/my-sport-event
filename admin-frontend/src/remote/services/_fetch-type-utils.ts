@@ -30,7 +30,7 @@ export function safeExecute<T>(value: T, block: () => void): T {
 	return value;
 }
 
-export function encodeValue(type: ContentTypeEncodings, value: unknown) {
+export function encodeValue(_type: ContentTypeEncodings, value: unknown) {
 	return encodeJsonBody(value);
 }
 

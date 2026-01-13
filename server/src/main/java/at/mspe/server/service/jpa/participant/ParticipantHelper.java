@@ -50,6 +50,7 @@ public class ParticipantHelper {
                 .lastname(entity.lastname)
                 .team(entity.team)
                 .teamMates(entity.team == null || entity.team.isBlank() ? List.of() : teamMatesLookup.apply(entity))
+                .publishName(entity.publishName)
                 .build();
     }
 

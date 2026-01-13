@@ -14,10 +14,12 @@ public class SportEventNewDataImpl extends _BaseDataImpl implements SportEventNe
 		super(data);
 	}
 
+	@Override
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
 
+	@Override
 	public ZonedDateTime date() {
 		return _JsonUtils.mapZonedDateTime(data, "date");
 	}
@@ -33,6 +35,7 @@ public class SportEventNewDataImpl extends _BaseDataImpl implements SportEventNe
 	public static class DataBuilderImpl implements SportEventNew.DataBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
+		@Override
 		public SportEventNew.DataBuilder name(String name) {
 			if (name == null) {
 				return this;
@@ -41,6 +44,7 @@ public class SportEventNewDataImpl extends _BaseDataImpl implements SportEventNe
 			return this;
 		}
 
+		@Override
 		public SportEventNew.DataBuilder date(ZonedDateTime date) {
 			if (date == null) {
 				return this;

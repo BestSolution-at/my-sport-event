@@ -15,8 +15,10 @@ public interface SportEvent {
 
 		public int participantCount();
 
+		@Override
 		public String name();
 
+		@Override
 		public ZonedDateTime date();
 
 	}

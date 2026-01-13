@@ -1,9 +1,11 @@
 package at.mspe.server.service.jpa.participant;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -39,6 +41,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .lastname(lastname)
                 .team(team)
                 .cohortKey(FullEvent_GenericCohortKey)
+                .publishName(false)
                 .build();
         var key = handler.create(builderFactory, FullEventKey, dto, false);
         assertNotNull(key);
@@ -51,6 +54,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
         assertEquals(lastname, entity.lastname);
         assertEquals(team, entity.team);
         assertEquals(FullEvent_GenericCohortKey, entity.cohort.key.toString());
+        assertFalse(entity.publishName);
     }
 
     @Test
@@ -62,6 +66,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .firstname(firstname)
                 .gender(gender)
                 .lastname(lastname)
+                .publishName(true)
                 .build();
         var key = handler.create(builderFactory, SimpleEmptyEventKey, dto, false);
         assertNotNull(key);
@@ -73,6 +78,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
         assertEquals(gender, Gender.valueOf(entity.gender.toString()));
         assertEquals(lastname, entity.lastname);
         assertNull(entity.team);
+        assertTrue(entity.publishName);
     }
 
     @Test
@@ -83,6 +89,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .firstname("")
                 .gender(gender)
                 .lastname(lastname)
+                .publishName(false)
                 .build();
         assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto, false));
     }
@@ -95,6 +102,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .firstname(firstname)
                 .gender(gender)
                 .lastname("")
+                .publishName(false)
                 .build();
         assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto, false));
     }
@@ -108,6 +116,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .firstname(firstname)
                 .gender(gender)
                 .lastname(lastname)
+                .publishName(false)
                 .build();
         assertThrows(NotFoundException.class,
                 () -> handler.create(builderFactory, UUID.randomUUID().toString(), dto, false));
@@ -122,6 +131,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .firstname(firstname)
                 .gender(gender)
                 .lastname(lastname)
+                .publishName(false)
                 .build();
         assertThrows(NotFoundException.class, () -> handler.create(builderFactory, "abcd", dto, false));
     }

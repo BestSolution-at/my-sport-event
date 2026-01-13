@@ -8,19 +8,29 @@ import at.mspe.server.service.model.mixins.ParticipantBaseMixin;
 public interface ParticipantNew {
 
 	public interface Data extends _Base.BaseData, ParticipantNew, ParticipantBaseMixin {
+		@Override
 		public String firstname();
 
+		@Override
 		public String lastname();
 
+		@Override
 		public String team();
 
+		@Override
 		public LocalDate birthday();
 
+		@Override
 		public Gender gender();
 
+		@Override
 		public String association();
 
+		@Override
 		public String cohortKey();
+
+		@Override
+		public boolean publishName();
 
 	}
 
@@ -38,6 +48,8 @@ public interface ParticipantNew {
 		public DataBuilder association(String association);
 
 		public DataBuilder cohortKey(String cohortKey);
+
+		public DataBuilder publishName(boolean publishName);
 
 	}
 }

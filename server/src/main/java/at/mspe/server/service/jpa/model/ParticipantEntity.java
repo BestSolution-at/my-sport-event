@@ -58,6 +58,9 @@ public class ParticipantEntity {
     @Column(name = "par_time", nullable = true)
     public Long time;
 
+    @Column(name = "par_publish_name", nullable = false)
+    public boolean publishName;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = true)
     @JoinColumn(name = "par_fk_cohort", foreignKey = @ForeignKey(name = "par_fkey_cohort"))
     public CohortEntity cohort;
@@ -162,6 +165,14 @@ public class ParticipantEntity {
         this.time = time;
     }
 
+    public boolean publishName() {
+        return this.publishName;
+    }
+
+    public void publishName(boolean publishName) {
+        this.publishName = publishName;
+    }
+
     public static class ParticipantEntityBuilder {
         private UUID key;
         private String firstname;
@@ -175,6 +186,7 @@ public class ParticipantEntity {
         private Gender gender;
         private String association;
         private Long time;
+        private boolean publishName;
 
         public ParticipantEntityBuilder key(UUID key) {
             this.key = key;
@@ -241,6 +253,11 @@ public class ParticipantEntity {
             return this;
         }
 
+        public ParticipantEntityBuilder publishName(boolean publishName) {
+            this.publishName = publishName;
+            return this;
+        }
+
         public ParticipantEntity build() {
             var entity = new ParticipantEntity();
             entity.key = this.key;
@@ -255,6 +272,7 @@ public class ParticipantEntity {
             entity.sportEvent = this.sportEvent;
             entity.gender = gender;
             entity.time = this.time;
+            entity.publishName = this.publishName;
             validate(entity);
             return entity;
         }

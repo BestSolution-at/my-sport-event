@@ -13,30 +13,37 @@ public class BirthyearCohortDataImpl extends _BaseDataImpl implements BirthyearC
 		super(data);
 	}
 
+	@Override
 	public String key() {
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	@Override
 	public long version() {
 		return _JsonUtils.mapLong(data, "version");
 	}
 
+	@Override
 	public int participantCount() {
 		return _JsonUtils.mapInt(data, "participantCount");
 	}
 
+	@Override
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
 
+	@Override
 	public Gender gender() {
 		return _JsonUtils.mapLiteral(data, "gender", Gender::valueOf);
 	}
 
+	@Override
 	public int min() {
 		return _JsonUtils.mapInt(data, "min");
 	}
 
+	@Override
 	public int max() {
 		return _JsonUtils.mapInt(data, "max");
 	}
@@ -56,21 +63,25 @@ public class BirthyearCohortDataImpl extends _BaseDataImpl implements BirthyearC
 			$builder.add("@type", "birthyear");
 		}
 
+		@Override
 		public BirthyearCohort.DataBuilder key(String key) {
 			$builder.add("key", key);
 			return this;
 		}
 
+		@Override
 		public BirthyearCohort.DataBuilder version(long version) {
 			$builder.add("version", version);
 			return this;
 		}
 
+		@Override
 		public BirthyearCohort.DataBuilder participantCount(int participantCount) {
 			$builder.add("participantCount", participantCount);
 			return this;
 		}
 
+		@Override
 		public BirthyearCohort.DataBuilder name(String name) {
 			if (name == null) {
 				return this;
@@ -79,6 +90,7 @@ public class BirthyearCohortDataImpl extends _BaseDataImpl implements BirthyearC
 			return this;
 		}
 
+		@Override
 		public BirthyearCohort.DataBuilder gender(Gender gender) {
 			if (gender == null) {
 				return this;
@@ -87,11 +99,13 @@ public class BirthyearCohortDataImpl extends _BaseDataImpl implements BirthyearC
 			return this;
 		}
 
+		@Override
 		public BirthyearCohort.DataBuilder min(int min) {
 			$builder.add("min", min);
 			return this;
 		}
 
+		@Override
 		public BirthyearCohort.DataBuilder max(int max) {
 			$builder.add("max", max);
 			return this;

@@ -17,10 +17,12 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 		super(data);
 	}
 
+	@Override
 	public String key() {
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	@Override
 	public long version() {
 		return _JsonUtils.mapLong(data, "version");
 	}
@@ -55,6 +57,10 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 
 	public _Base.Nillable<String> cohortKey() {
 		return _JsonUtils.mapNilString(data, "cohortKey");
+	}
+
+	public Optional<Boolean> publishName() {
+		return _JsonUtils.mapOptBoolean(data, "publishName");
 	}
 
 	public static class PatchBuilderImpl implements Participant.PatchBuilder {
@@ -114,7 +120,7 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 
 		@Override
 		public Participant.PatchBuilder gender(Gender gender) {
-			;
+			$builder.add("gender", gender.toString());
 			return this;
 		}
 
@@ -135,6 +141,12 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 				return this;
 			}
 			$builder.add("cohortKey", cohortKey);
+			return this;
+		}
+
+		@Override
+		public Participant.PatchBuilder publishName(boolean publishName) {
+			$builder.add("publishName", publishName);
 			return this;
 		}
 

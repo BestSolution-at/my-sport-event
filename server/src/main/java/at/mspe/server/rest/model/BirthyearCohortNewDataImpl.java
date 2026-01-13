@@ -13,18 +13,22 @@ public class BirthyearCohortNewDataImpl extends _BaseDataImpl implements Birthye
 		super(data);
 	}
 
+	@Override
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
 
+	@Override
 	public Gender gender() {
 		return _JsonUtils.mapLiteral(data, "gender", Gender::valueOf);
 	}
 
+	@Override
 	public int min() {
 		return _JsonUtils.mapInt(data, "min");
 	}
 
+	@Override
 	public int max() {
 		return _JsonUtils.mapInt(data, "max");
 	}
@@ -44,6 +48,7 @@ public class BirthyearCohortNewDataImpl extends _BaseDataImpl implements Birthye
 			$builder.add("@type", "birthyear");
 		}
 
+		@Override
 		public BirthyearCohortNew.DataBuilder name(String name) {
 			if (name == null) {
 				return this;
@@ -52,6 +57,7 @@ public class BirthyearCohortNewDataImpl extends _BaseDataImpl implements Birthye
 			return this;
 		}
 
+		@Override
 		public BirthyearCohortNew.DataBuilder gender(Gender gender) {
 			if (gender == null) {
 				return this;
@@ -60,11 +66,13 @@ public class BirthyearCohortNewDataImpl extends _BaseDataImpl implements Birthye
 			return this;
 		}
 
+		@Override
 		public BirthyearCohortNew.DataBuilder min(int min) {
 			$builder.add("min", min);
 			return this;
 		}
 
+		@Override
 		public BirthyearCohortNew.DataBuilder max(int max) {
 			$builder.add("max", max);
 			return this;

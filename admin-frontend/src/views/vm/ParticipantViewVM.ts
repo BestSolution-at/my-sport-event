@@ -219,6 +219,11 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 		initialValue: '',
 		validation: () => '',
 	});
+	public readonly publishName = createCheckBoxField({
+		initialValue: true,
+		label: this.l10n('ParticipantDialog_PublishName'),
+		validation: () => '',
+	});
 
 	public readonly title: string;
 	public readonly description: string;
@@ -279,6 +284,7 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 			this.cohort.value = cohorts.find(c => c.key === dto.cohortKey) ?? null;
 			this.team.value = dto.team ?? '';
 			this.association.value = dto.association ?? '';
+			this.publishName.value = dto.publishName;
 		}
 	}
 
@@ -309,6 +315,7 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 					birthday: emptyAsUndefined(this.birthday.value),
 					cohortKey: this.cohort.value === null || this.cohortAutoAssign.value ? undefined : this.cohort.value.key,
 					team: emptyAsUndefined(this.team.value),
+					publishName: this.publishName.value,
 				};
 				const [, err] = await this.parent.participantService.create(
 					this.parent.eventId.value,
@@ -333,6 +340,7 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 					cohortKey: this.cohort.value === null ? undefined : this.cohort.value.key,
 					team: emptyAsUndefined(this.team.value),
 					teamMates: [],
+					publishName: this.publishName.value,
 				};
 				const patch = createParticipantPatch(this.dto, updated);
 				if (patch) {
@@ -386,6 +394,7 @@ function createParticipantPatch(cur: Participant, updated: Participant): Partici
 		gender: cur.gender !== updated.gender ? updated.gender : undefined,
 		lastname: cur.lastname !== updated.lastname ? updated.lastname : undefined,
 		team: patchValueOrNull(cur, updated, 'team'),
+		publishName: cur.publishName !== updated.publishName ? updated.publishName : undefined,
 	};
 	if (
 		Object.entries(patch)

@@ -12,10 +12,12 @@ public class UpdateResultDataImpl extends _BaseDataImpl implements UpdateResult.
 		super(data);
 	}
 
+	@Override
 	public String key() {
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	@Override
 	public long version() {
 		return _JsonUtils.mapLong(data, "version");
 	}
@@ -31,6 +33,7 @@ public class UpdateResultDataImpl extends _BaseDataImpl implements UpdateResult.
 	public static class DataBuilderImpl implements UpdateResult.DataBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
+		@Override
 		public UpdateResult.DataBuilder key(String key) {
 			if (key == null) {
 				return this;
@@ -39,6 +42,7 @@ public class UpdateResultDataImpl extends _BaseDataImpl implements UpdateResult.
 			return this;
 		}
 
+		@Override
 		public UpdateResult.DataBuilder version(long version) {
 			$builder.add("version", version);
 			return this;

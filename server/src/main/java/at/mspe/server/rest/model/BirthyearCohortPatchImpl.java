@@ -16,10 +16,12 @@ public class BirthyearCohortPatchImpl extends _BaseDataImpl implements Birthyear
 		super(data);
 	}
 
+	@Override
 	public String key() {
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	@Override
 	public long version() {
 		return _JsonUtils.mapLong(data, "version");
 	}
@@ -65,7 +67,7 @@ public class BirthyearCohortPatchImpl extends _BaseDataImpl implements Birthyear
 
 		@Override
 		public BirthyearCohort.PatchBuilder gender(Gender gender) {
-			;
+			$builder.add("gender", gender.toString());
 			return this;
 		}
 

@@ -1,6 +1,7 @@
 package at.mspe.server.service.jpa.participant;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDate;
@@ -36,6 +37,7 @@ public class UpdateHandlerJPATest extends ParticipantHandlerTest<UpdateHandlerJP
                 .lastname(lastname)
                 .team(team)
                 .cohortKey(null)
+                .publishName(false)
                 .build();
         var result = handler.update(builderFactory, FullEventKey, FullEvent_ParticpantWithGenericCohortKey, dto, false);
         assertEquals(FullEvent_ParticpantWithGenericCohortKey, result.key());
@@ -49,6 +51,7 @@ public class UpdateHandlerJPATest extends ParticipantHandlerTest<UpdateHandlerJP
         assertEquals(lastname, entity.lastname);
         assertNull(entity.team);
         assertNull(entity.cohort);
+        assertFalse(entity.publishName);
     }
 
     @Test

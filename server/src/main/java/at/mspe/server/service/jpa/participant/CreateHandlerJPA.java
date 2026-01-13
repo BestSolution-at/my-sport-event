@@ -56,6 +56,7 @@ public class CreateHandlerJPA extends BaseHandler implements EventParticipantSer
                 .sportEvent(sportEvent)
                 .team(participant.team())
                 .association(participant.association())
+                .publishName(participant.publishName())
                 .build();
         if (e.cohort == null && Boolean.TRUE.equals(autoAssignCohort)) {
             cohort = CohortHelper.findMatchingCohort(em, e);
