@@ -16,48 +16,64 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 		super(data);
 	}
 
+	@Override
 	public String key() {
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	@Override
 	public long version() {
 		return _JsonUtils.mapLong(data, "version");
 	}
 
+	@Override
 	public List<String> teamMates() {
 		return _JsonUtils.mapStrings(data, "teamMates");
 	}
 
+	@Override
 	public long time() {
 		return _JsonUtils.mapLong(data, "time", 0);
 	}
 
+	@Override
 	public String firstname() {
 		return _JsonUtils.mapString(data, "firstname");
 	}
 
+	@Override
 	public String lastname() {
 		return _JsonUtils.mapString(data, "lastname");
 	}
 
+	@Override
 	public String team() {
 		return _JsonUtils.mapString(data, "team", null);
 	}
 
+	@Override
 	public LocalDate birthday() {
 		return _JsonUtils.mapLocalDate(data, "birthday", null);
 	}
 
+	@Override
 	public Gender gender() {
 		return _JsonUtils.mapLiteral(data, "gender", Gender::valueOf);
 	}
 
+	@Override
 	public String association() {
 		return _JsonUtils.mapString(data, "association", null);
 	}
 
+	@Override
 	public String cohortKey() {
 		return _JsonUtils.mapString(data, "cohortKey", null);
+	}
+
+	@Override
+	public boolean publishName() {
+		return _JsonUtils.mapBoolean(data, "publishName");
 	}
 
 	public static Participant.Data of(JsonObject obj) {
@@ -71,16 +87,19 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 	public static class DataBuilderImpl implements Participant.DataBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
+		@Override
 		public Participant.DataBuilder key(String key) {
 			$builder.add("key", key);
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder version(long version) {
 			$builder.add("version", version);
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder teamMates(List<String> teamMates) {
 			if (teamMates == null) {
 				return this;
@@ -89,11 +108,13 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder time(long time) {
 			$builder.add("time", time);
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder firstname(String firstname) {
 			if (firstname == null) {
 				return this;
@@ -102,6 +123,7 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder lastname(String lastname) {
 			if (lastname == null) {
 				return this;
@@ -110,6 +132,7 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder team(String team) {
 			if (team == null) {
 				return this;
@@ -118,6 +141,7 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder birthday(LocalDate birthday) {
 			if (birthday == null) {
 				return this;
@@ -126,6 +150,7 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder gender(Gender gender) {
 			if (gender == null) {
 				return this;
@@ -134,6 +159,7 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder association(String association) {
 			if (association == null) {
 				return this;
@@ -142,11 +168,18 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 			return this;
 		}
 
+		@Override
 		public Participant.DataBuilder cohortKey(String cohortKey) {
 			if (cohortKey == null) {
 				return this;
 			}
 			$builder.add("cohortKey", cohortKey);
+			return this;
+		}
+
+		@Override
+		public Participant.DataBuilder publishName(boolean publishName) {
+			$builder.add("publishName", publishName);
 			return this;
 		}
 

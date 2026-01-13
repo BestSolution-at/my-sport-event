@@ -13,22 +13,27 @@ public class GenericCohortDataImpl extends _BaseDataImpl implements GenericCohor
 		super(data);
 	}
 
+	@Override
 	public String key() {
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	@Override
 	public long version() {
 		return _JsonUtils.mapLong(data, "version");
 	}
 
+	@Override
 	public int participantCount() {
 		return _JsonUtils.mapInt(data, "participantCount");
 	}
 
+	@Override
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
 
+	@Override
 	public Gender gender() {
 		return _JsonUtils.mapLiteral(data, "gender", Gender::valueOf);
 	}
@@ -48,21 +53,25 @@ public class GenericCohortDataImpl extends _BaseDataImpl implements GenericCohor
 			$builder.add("@type", "generic");
 		}
 
+		@Override
 		public GenericCohort.DataBuilder key(String key) {
 			$builder.add("key", key);
 			return this;
 		}
 
+		@Override
 		public GenericCohort.DataBuilder version(long version) {
 			$builder.add("version", version);
 			return this;
 		}
 
+		@Override
 		public GenericCohort.DataBuilder participantCount(int participantCount) {
 			$builder.add("participantCount", participantCount);
 			return this;
 		}
 
+		@Override
 		public GenericCohort.DataBuilder name(String name) {
 			if (name == null) {
 				return this;
@@ -71,6 +80,7 @@ public class GenericCohortDataImpl extends _BaseDataImpl implements GenericCohor
 			return this;
 		}
 
+		@Override
 		public GenericCohort.DataBuilder gender(Gender gender) {
 			if (gender == null) {
 				return this;

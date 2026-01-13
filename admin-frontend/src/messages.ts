@@ -109,6 +109,7 @@ const en = {
 	ParticipantDialog_AutoCohort: 'auto. assign',
 	ParticipantDialog_Team: 'Team',
 	ParticipantDialog_Association: 'Association',
+	ParticipantDialog_PublishName: 'Publish name',
 
 	ParticipantDialog_NewTitle: 'New participant',
 	ParticipantDialog_UpdateTitle: 'Update participant',
@@ -228,6 +229,7 @@ const de = {
 	ParticipantDialog_AutoCohort: 'autom. Zuordnung',
 	ParticipantDialog_Team: 'Team',
 	ParticipantDialog_Association: 'Verein',
+	ParticipantDialog_PublishName: 'Namen veröffentlichen',
 
 	ParticipantDialog_NewTitle: 'Neuer Teilnehmer',
 	ParticipantDialog_UpdateTitle: 'Teilnehmer bearbeiten',

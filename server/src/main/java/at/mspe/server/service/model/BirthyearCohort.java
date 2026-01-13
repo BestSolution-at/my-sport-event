@@ -16,12 +16,16 @@ public interface BirthyearCohort {
 
 		public int participantCount();
 
+		@Override
 		public String name();
 
+		@Override
 		public Gender gender();
 
+		@Override
 		public int min();
 
+		@Override
 		public int max();
 
 	}

@@ -7,12 +7,16 @@ import at.mspe.server.service.model.mixins.CohortBaseMixin;
 public interface BirthyearCohortNew {
 
 	public interface Data extends _Base.BaseData, BirthyearCohortNew, CohortBaseMixin, BirthyearCohortBaseMixin, CohortNew.Data {
+		@Override
 		public String name();
 
+		@Override
 		public Gender gender();
 
+		@Override
 		public int min();
 
+		@Override
 		public int max();
 
 	}

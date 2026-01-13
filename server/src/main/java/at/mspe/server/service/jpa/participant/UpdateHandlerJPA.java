@@ -59,6 +59,7 @@ public class UpdateHandlerJPA extends BaseHandler implements EventParticipantSer
                 entity.cohort = cohort;
             }
         }
+        participant.publishName().ifPresent(entity::publishName);
         em.persist(entity);
         em.flush();
 

@@ -18,19 +18,29 @@ public interface Participant {
 
 		public long time();
 
+		@Override
 		public String firstname();
 
+		@Override
 		public String lastname();
 
+		@Override
 		public String team();
 
+		@Override
 		public LocalDate birthday();
 
+		@Override
 		public Gender gender();
 
+		@Override
 		public String association();
 
+		@Override
 		public String cohortKey();
+
+		@Override
+		public boolean publishName();
 
 	}
 
@@ -57,6 +67,8 @@ public interface Participant {
 
 		public DataBuilder cohortKey(String cohortKey);
 
+		public DataBuilder publishName(boolean publishName);
+
 	}
 
 	public interface Patch extends _Base.BaseData, Participant {
@@ -80,6 +92,8 @@ public interface Participant {
 
 		public _Base.Nillable<String> cohortKey();
 
+		public Optional<Boolean> publishName();
+
 	}
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<Participant.Patch> {
@@ -102,6 +116,8 @@ public interface Participant {
 		public PatchBuilder association(String association);
 
 		public PatchBuilder cohortKey(String cohortKey);
+
+		public PatchBuilder publishName(boolean publishName);
 
 	}
 }

@@ -6,8 +6,10 @@ import at.mspe.server.service.model.mixins.CohortBaseMixin;
 public interface GenericCohortNew {
 
 	public interface Data extends _Base.BaseData, GenericCohortNew, CohortBaseMixin, CohortNew.Data {
+		@Override
 		public String name();
 
+		@Override
 		public Gender gender();
 
 	}

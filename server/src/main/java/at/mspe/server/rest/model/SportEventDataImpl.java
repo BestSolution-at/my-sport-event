@@ -14,22 +14,27 @@ public class SportEventDataImpl extends _BaseDataImpl implements SportEvent.Data
 		super(data);
 	}
 
+	@Override
 	public String key() {
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	@Override
 	public long version() {
 		return _JsonUtils.mapLong(data, "version");
 	}
 
+	@Override
 	public int participantCount() {
 		return _JsonUtils.mapInt(data, "participantCount");
 	}
 
+	@Override
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
 
+	@Override
 	public ZonedDateTime date() {
 		return _JsonUtils.mapZonedDateTime(data, "date");
 	}
@@ -45,21 +50,25 @@ public class SportEventDataImpl extends _BaseDataImpl implements SportEvent.Data
 	public static class DataBuilderImpl implements SportEvent.DataBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
+		@Override
 		public SportEvent.DataBuilder key(String key) {
 			$builder.add("key", key);
 			return this;
 		}
 
+		@Override
 		public SportEvent.DataBuilder version(long version) {
 			$builder.add("version", version);
 			return this;
 		}
 
+		@Override
 		public SportEvent.DataBuilder participantCount(int participantCount) {
 			$builder.add("participantCount", participantCount);
 			return this;
 		}
 
+		@Override
 		public SportEvent.DataBuilder name(String name) {
 			if (name == null) {
 				return this;
@@ -68,6 +77,7 @@ public class SportEventDataImpl extends _BaseDataImpl implements SportEvent.Data
 			return this;
 		}
 
+		@Override
 		public SportEvent.DataBuilder date(ZonedDateTime date) {
 			if (date == null) {
 				return this;
