@@ -31,6 +31,7 @@ public class CreateHandlerJPATest extends CohortHandlerTest<CreateHandlerJPA> {
         var dto = builderFactory.builder(GenericCohortNew.DataBuilder.class)
                 .name("New Generic Cohort")
                 .gender(Gender.MALE)
+                .autoAssign(true)
                 .build();
         var key = handler.create(builderFactory, SimpleEmptyEventKey, dto);
         assertNotNull(key);
@@ -46,6 +47,7 @@ public class CreateHandlerJPATest extends CohortHandlerTest<CreateHandlerJPA> {
         var dto = builderFactory.builder(GenericCohortNew.DataBuilder.class)
                 .name("")
                 .gender(Gender.MALE)
+                .autoAssign(true)
                 .build();
         assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto));
     }
@@ -79,6 +81,7 @@ public class CreateHandlerJPATest extends CohortHandlerTest<CreateHandlerJPA> {
                 .min(1980)
                 .max(1981)
                 .gender(Gender.ALL)
+                .autoAssign(true)
                 .build();
         assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto));
     }
@@ -90,6 +93,7 @@ public class CreateHandlerJPATest extends CohortHandlerTest<CreateHandlerJPA> {
                 .min(-1)
                 .max(1981)
                 .gender(Gender.ALL)
+                .autoAssign(true)
                 .build();
         assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto));
     }
@@ -101,6 +105,7 @@ public class CreateHandlerJPATest extends CohortHandlerTest<CreateHandlerJPA> {
                 .min(1980)
                 .max(-1)
                 .gender(Gender.ALL)
+                .autoAssign(true)
                 .build();
         assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto));
     }
@@ -112,6 +117,7 @@ public class CreateHandlerJPATest extends CohortHandlerTest<CreateHandlerJPA> {
                 .min(1980)
                 .max(1979)
                 .gender(Gender.ALL)
+                .autoAssign(true)
                 .build();
         assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto));
     }
