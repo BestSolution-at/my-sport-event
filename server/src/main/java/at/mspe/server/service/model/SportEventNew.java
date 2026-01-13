@@ -8,8 +8,10 @@ import at.mspe.server.service.model.mixins.SportEventBaseMixin;
 public interface SportEventNew {
 
 	public interface Data extends _Base.BaseData, SportEventNew, SportEventBaseMixin {
+		@Override
 		public String name();
 
+		@Override
 		public ZonedDateTime date();
 
 	}

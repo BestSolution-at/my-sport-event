@@ -18,20 +18,28 @@ public interface Participant {
 
 		public long time();
 
+		@Override
 		public String firstname();
 
+		@Override
 		public String lastname();
 
+		@Override
 		public String team();
 
+		@Override
 		public LocalDate birthday();
 
+		@Override
 		public Gender gender();
 
+		@Override
 		public String association();
 
+		@Override
 		public String cohortKey();
 
+		@Override
 		public boolean publishName();
 
 	}
