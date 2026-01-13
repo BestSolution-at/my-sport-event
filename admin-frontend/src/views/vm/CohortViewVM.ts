@@ -15,6 +15,7 @@ import {
 import type { AllMessages } from '../../messages';
 import { createEventCohortService, createSportEventService } from '../../remote';
 import {
+	createCheckBoxField,
 	createRemoteFunction,
 	createSelectFormField,
 	createTextField,
@@ -196,6 +197,11 @@ export class CohortViewDialogVM extends BaseViewVM {
 		label: this.messages.value('CohortViewDialog_Type_MaxYear'),
 		validation: this.validateMax.bind(this),
 	});
+	public autoAssignParticipants = createCheckBoxField({
+		label: this.messages.value('CohortViewDialog_AutoAssignParticipants'),
+		initialValue: true,
+		validation: () => '',
+	});
 
 	public readonly persistButtonLabel: ReadonlySignal<string>;
 	private readonly dto?: Cohort;
@@ -226,6 +232,7 @@ export class CohortViewDialogVM extends BaseViewVM {
 				this.min.value = String(dto.min);
 				this.max.value = String(dto.max);
 			}
+			this.autoAssignParticipants.value = dto.autoAssign;
 		}
 	}
 
@@ -281,6 +288,7 @@ export class CohortViewDialogVM extends BaseViewVM {
 				const max = this.max.value;
 				const name = this.name.value;
 				const gender = this.gender.value;
+				const autoAssign = this.autoAssignParticipants.value;
 				const patch: CohortPatch | undefined = isBirthyearCohort(this.dto)
 					? createBirthyearPatch(this.dto, {
 							...this.dto,
@@ -288,8 +296,9 @@ export class CohortViewDialogVM extends BaseViewVM {
 							min: parseFormattedInteger(min),
 							max: parseFormattedInteger(max),
 							gender,
+							autoAssign,
 					  })
-					: createGenericPatch(this.dto, { ...this.dto, name, gender });
+					: createGenericPatch(this.dto, { ...this.dto, name, gender, autoAssign });
 				if (patch) {
 					const [result, err] = await this.parent.cohortService.update(this.parent.eventId.value, patch.key, patch);
 					if (result) {
@@ -318,6 +327,7 @@ export class CohortViewDialogVM extends BaseViewVM {
 				const max = this.max.value;
 				const name = this.name.value;
 				const gender = this.gender.value;
+				const autoAssign = this.autoAssignParticipants.value;
 
 				const dto: CohortNew =
 					this.cohortType.value === 'birthyear'
@@ -327,8 +337,9 @@ export class CohortViewDialogVM extends BaseViewVM {
 								min: parseFormattedInteger(min),
 								max: parseFormattedInteger(max),
 								gender,
+								autoAssign,
 						  }
-						: { '@type': 'generic', name, gender };
+						: { '@type': 'generic', name, gender, autoAssign };
 				const [result, err] = await this.parent.cohortService.create(this.parent.eventId.value, dto);
 				if (result) {
 					const state = {
@@ -372,13 +383,15 @@ function createBirthyearPatch(cur: BirthyearCohort, updated: BirthyearCohort): B
 		min: cur.min !== updated.min ? updated.min : undefined,
 		max: cur.max !== updated.max ? updated.max : undefined,
 		gender: cur.gender !== updated.gender ? updated.gender : undefined,
+		autoAssign: cur.autoAssign !== updated.autoAssign ? updated.autoAssign : undefined,
 	};
 
 	if (
 		result.min !== undefined ||
 		result.max !== undefined ||
 		result.name !== undefined ||
-		result.gender !== undefined
+		result.gender !== undefined ||
+		result.autoAssign !== undefined
 	) {
 		return result;
 	}
@@ -391,8 +404,9 @@ function createGenericPatch(cur: GenericCohort, update: GenericCohort): GenericC
 		key: cur.key,
 		version: cur.version,
 		name: cur.name !== update.name ? update.name : undefined,
+		autoAssign: cur.autoAssign !== update.autoAssign ? update.autoAssign : undefined,
 	};
-	if (result.name !== undefined) {
+	if (result.name !== undefined || result.autoAssign !== undefined) {
 		return result;
 	}
 	return undefined;
