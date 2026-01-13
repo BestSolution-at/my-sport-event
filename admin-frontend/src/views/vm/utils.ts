@@ -8,6 +8,12 @@ export type StateInfo = {
 };
 
 export function cohortSort(a: Cohort, b: Cohort) {
+	const autoAssignA = a.autoAssign ? 0 : 1;
+	const autoAssignB = b.autoAssign ? 0 : 1;
+	const autoAssignSort = compare(autoAssignA, autoAssignB);
+	if (autoAssignSort !== 0) {
+		return autoAssignSort;
+	}
 	const typeA = isBirthyearCohort(a) ? 0 : 1;
 	const typeB = isBirthyearCohort(b) ? 0 : 1;
 	const typeSort = compare(typeA, typeB);
@@ -21,7 +27,11 @@ export function cohortSort(a: Cohort, b: Cohort) {
 		return genderSort;
 	}
 	if (isBirthyearCohort(a) && isBirthyearCohort(b)) {
-		return compareProps(a, b, ['min', 'max', 'name', 'key']);
+		const minCompare = compare(a.min, b.min) * -1;
+		if (minCompare !== 0) {
+			return minCompare;
+		}
+		return compareProps(a, b, ['name', 'key']);
 	}
 	return compareProps(a, b, ['name', 'key']);
 }
