@@ -24,7 +24,7 @@ public class UpdateHandlerJPATest extends ParticipantHandlerTest<UpdateHandlerJP
         String association = null;
         LocalDate birthday = null;
         var firstname = "Updated Firstname";
-        var gender = Gender.FEMALE;
+        var gender = Gender.MALE;
         var lastname = "Updated Lastname";
         String team = null;
         var dto = builderFactory.builder(Participant.PatchBuilder.class)
