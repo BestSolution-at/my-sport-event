@@ -14,10 +14,12 @@ public class SportEventNewDataImpl extends _BaseDataImpl implements SportEventNe
 		super(data);
 	}
 
+	@Override
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
 
+	@Override
 	public ZonedDateTime date() {
 		return _JsonUtils.mapZonedDateTime(data, "date");
 	}

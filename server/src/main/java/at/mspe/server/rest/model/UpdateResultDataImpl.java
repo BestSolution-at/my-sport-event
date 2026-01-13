@@ -12,10 +12,12 @@ public class UpdateResultDataImpl extends _BaseDataImpl implements UpdateResult.
 		super(data);
 	}
 
+	@Override
 	public String key() {
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	@Override
 	public long version() {
 		return _JsonUtils.mapLong(data, "version");
 	}

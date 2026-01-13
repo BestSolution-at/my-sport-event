@@ -14,22 +14,27 @@ public class SportEventDataImpl extends _BaseDataImpl implements SportEvent.Data
 		super(data);
 	}
 
+	@Override
 	public String key() {
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	@Override
 	public long version() {
 		return _JsonUtils.mapLong(data, "version");
 	}
 
+	@Override
 	public int participantCount() {
 		return _JsonUtils.mapInt(data, "participantCount");
 	}
 
+	@Override
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
 
+	@Override
 	public ZonedDateTime date() {
 		return _JsonUtils.mapZonedDateTime(data, "date");
 	}

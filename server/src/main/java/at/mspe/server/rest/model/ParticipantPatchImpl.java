@@ -17,10 +17,12 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 		super(data);
 	}
 
+	@Override
 	public String key() {
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	@Override
 	public long version() {
 		return _JsonUtils.mapLong(data, "version");
 	}

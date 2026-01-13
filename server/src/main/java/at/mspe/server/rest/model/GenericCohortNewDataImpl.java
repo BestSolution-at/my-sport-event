@@ -13,10 +13,12 @@ public class GenericCohortNewDataImpl extends _BaseDataImpl implements GenericCo
 		super(data);
 	}
 
+	@Override
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
 
+	@Override
 	public Gender gender() {
 		return _JsonUtils.mapLiteral(data, "gender", Gender::valueOf);
 	}

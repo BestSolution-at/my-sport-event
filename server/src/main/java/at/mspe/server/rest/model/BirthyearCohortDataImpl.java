@@ -13,30 +13,37 @@ public class BirthyearCohortDataImpl extends _BaseDataImpl implements BirthyearC
 		super(data);
 	}
 
+	@Override
 	public String key() {
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	@Override
 	public long version() {
 		return _JsonUtils.mapLong(data, "version");
 	}
 
+	@Override
 	public int participantCount() {
 		return _JsonUtils.mapInt(data, "participantCount");
 	}
 
+	@Override
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
 
+	@Override
 	public Gender gender() {
 		return _JsonUtils.mapLiteral(data, "gender", Gender::valueOf);
 	}
 
+	@Override
 	public int min() {
 		return _JsonUtils.mapInt(data, "min");
 	}
 
+	@Override
 	public int max() {
 		return _JsonUtils.mapInt(data, "max");
 	}

@@ -16,50 +16,62 @@ public class ParticipantDataImpl extends _BaseDataImpl implements Participant.Da
 		super(data);
 	}
 
+	@Override
 	public String key() {
 		return _JsonUtils.mapString(data, "key");
 	}
 
+	@Override
 	public long version() {
 		return _JsonUtils.mapLong(data, "version");
 	}
 
+	@Override
 	public List<String> teamMates() {
 		return _JsonUtils.mapStrings(data, "teamMates");
 	}
 
+	@Override
 	public long time() {
 		return _JsonUtils.mapLong(data, "time", 0);
 	}
 
+	@Override
 	public String firstname() {
 		return _JsonUtils.mapString(data, "firstname");
 	}
 
+	@Override
 	public String lastname() {
 		return _JsonUtils.mapString(data, "lastname");
 	}
 
+	@Override
 	public String team() {
 		return _JsonUtils.mapString(data, "team", null);
 	}
 
+	@Override
 	public LocalDate birthday() {
 		return _JsonUtils.mapLocalDate(data, "birthday", null);
 	}
 
+	@Override
 	public Gender gender() {
 		return _JsonUtils.mapLiteral(data, "gender", Gender::valueOf);
 	}
 
+	@Override
 	public String association() {
 		return _JsonUtils.mapString(data, "association", null);
 	}
 
+	@Override
 	public String cohortKey() {
 		return _JsonUtils.mapString(data, "cohortKey", null);
 	}
 
+	@Override
 	public boolean publishName() {
 		return _JsonUtils.mapBoolean(data, "publishName");
 	}

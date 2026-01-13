@@ -13,18 +13,22 @@ public class BirthyearCohortNewDataImpl extends _BaseDataImpl implements Birthye
 		super(data);
 	}
 
+	@Override
 	public String name() {
 		return _JsonUtils.mapString(data, "name");
 	}
 
+	@Override
 	public Gender gender() {
 		return _JsonUtils.mapLiteral(data, "gender", Gender::valueOf);
 	}
 
+	@Override
 	public int min() {
 		return _JsonUtils.mapInt(data, "min");
 	}
 
+	@Override
 	public int max() {
 		return _JsonUtils.mapInt(data, "max");
 	}
