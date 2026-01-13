@@ -11,6 +11,7 @@ import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.jpa.model.cohort.BirthyearCohortEntity;
 import at.mspe.server.service.jpa.model.cohort.GenericCohortEntity;
 import at.mspe.server.service.model.BirthyearCohort;
+import at.mspe.server.service.model.Gender;
 import at.mspe.server.service.model.GenericCohort;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
@@ -29,6 +30,7 @@ public class UpdateHandlerJPATest extends CohortHandlerTest<UpdateHandlerJPA> {
                 .key(FullEvent_GenericCohortKey)
                 .version(0)
                 .name("Updated")
+                .gender(Gender.FEMALE)
                 .build();
         var result = handler.update(builderFactory, FullEventKey, FullEvent_GenericCohortKey, patch);
         assertNotNull(result);
@@ -38,6 +40,7 @@ public class UpdateHandlerJPATest extends CohortHandlerTest<UpdateHandlerJPA> {
         var event = getCohortEntity(FullEvent_GenericCohortKey);
         assertInstanceOf(GenericCohortEntity.class, event);
         assertEquals(FullEvent_GenericCohortKey, event.key().toString());
+        assertEquals(at.mspe.server.service.jpa.model.Gender.FEMALE, event.gender());
         assertEquals("Updated", event.name());
     }
 

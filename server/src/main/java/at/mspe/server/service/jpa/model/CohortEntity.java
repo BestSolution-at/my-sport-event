@@ -62,4 +62,12 @@ public class CohortEntity {
     public void key(UUID key) {
         this.key = key;
     }
+
+    public void gender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public Gender gender() {
+        return this.gender;
+    }
 }

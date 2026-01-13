@@ -114,7 +114,7 @@ public class ParticipantPatchImpl extends _BaseDataImpl implements Participant.P
 
 		@Override
 		public Participant.PatchBuilder gender(Gender gender) {
-			;
+			$builder.add("gender", gender.toString());
 			return this;
 		}
 
