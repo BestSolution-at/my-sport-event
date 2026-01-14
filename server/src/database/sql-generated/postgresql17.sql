@@ -53,6 +53,7 @@
         see_date timestamp(6) with time zone not null,
         see_key uuid not null,
         see_name varchar(255) not null,
+        see_registration_url varchar(255),
         see_version bigint,
         primary key (see_id),
         constraint sportevent_uq_key unique (see_key)

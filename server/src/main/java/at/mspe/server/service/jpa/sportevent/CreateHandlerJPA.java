@@ -28,6 +28,7 @@ public class CreateHandlerJPA extends BaseHandler implements SportEventServiceIm
                 .key(generateKey())
                 .name(event.name())
                 .date(event.date())
+                .registrationUrl(event.registrationUrl())
                 .build();
         SportEventEntity.validate(entity);
         em.persist(entity);

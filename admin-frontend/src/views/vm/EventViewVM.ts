@@ -18,6 +18,8 @@ export class EventViewVM extends BaseViewVM {
 		}
 	});
 	public stateInfo = signal<StateInfo>();
+	public readonly qrDialog = signal<QRCodeDialogVM | null>(null);
+
 	private readonly eventService = createSportEventService({ baseUrl: '' });
 
 	private readonly eventServiceGet = createRemoteFunction(this.eventService.get, this.handleGetResult.bind(this));
@@ -38,6 +40,11 @@ export class EventViewVM extends BaseViewVM {
 		initialValue: '',
 		validation: v => validateRequired(v, this.l10n),
 	});
+	public readonly registrationUrl = createTextField({
+		label: computed(() => this.l10n('NewEventDialog_RegistrationUrl')),
+		initialValue: '',
+		validation: () => '',
+	});
 
 	constructor(messages: ReadonlySignal<AllMessages>) {
 		super(messages);
@@ -51,6 +58,7 @@ export class EventViewVM extends BaseViewVM {
 				const [isoDate, isoTime] = toLocaleDateTime(this.dto.value.date);
 				this.date.value = isoDate;
 				this.time.value = isoTime;
+				this.registrationUrl.value = this.dto.value.registrationUrl || '';
 			}
 		});
 	}
@@ -68,6 +76,10 @@ export class EventViewVM extends BaseViewVM {
 		} else if (err) {
 			this.stateInfo.value = { type: 'error', message: err.message };
 		}
+	}
+
+	public onOpenQRCodeDialog() {
+		this.qrDialog.value = new QRCodeDialogVM(this, this.registrationUrl.value);
 	}
 
 	public validate() {
@@ -88,6 +100,7 @@ export class EventViewVM extends BaseViewVM {
 				...this.dto.value,
 				name,
 				date: new Date(`${date}T${time}:00`).toISOString(),
+				registrationUrl: this.registrationUrl.value || undefined,
 			});
 			if (patch) {
 				const [result, err] = await this.eventService.update(this.eventId.value, patch);
@@ -104,6 +117,10 @@ export class EventViewVM extends BaseViewVM {
 	clearStateInfo() {
 		this.stateInfo.value = undefined;
 	}
+
+	closeDialogs() {
+		this.qrDialog.value = null;
+	}
 }
 
 function createSportEventPatch(cur: SportEvent, updated: SportEvent): SportEventPatch | undefined {
@@ -112,8 +129,9 @@ function createSportEventPatch(cur: SportEvent, updated: SportEvent): SportEvent
 		version: cur.version,
 		date: cur.date !== updated.date ? updated.date : undefined,
 		name: cur.name !== updated.name ? updated.name : undefined,
+		registrationUrl: cur.registrationUrl !== updated.registrationUrl ? updated.registrationUrl : undefined,
 	};
-	if (patch.date !== undefined || patch.name !== undefined) {
+	if (patch.date !== undefined || patch.name !== undefined || patch.registrationUrl !== undefined) {
 		return patch;
 	}
 	return undefined;
@@ -136,4 +154,18 @@ function toLocaleDateTime(isoDateTime: string): [string, string] {
 	const hour = parts.find(p => p.type === 'hour')?.value;
 	const minute = parts.find(p => p.type === 'minute')?.value;
 	return [`${year}-${month}-${day}`, `${hour}:${minute}`];
+}
+
+export class QRCodeDialogVM {
+	public readonly url: string;
+	private readonly parent: EventViewVM;
+
+	constructor(parent: EventViewVM, url: string) {
+		this.parent = parent;
+		this.url = url;
+	}
+
+	public close() {
+		this.parent.closeDialogs();
+	}
 }

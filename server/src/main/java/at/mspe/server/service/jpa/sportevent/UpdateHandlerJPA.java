@@ -41,6 +41,7 @@ public class UpdateHandlerJPA extends BaseHandler implements SportEventServiceIm
         }
         event.name().ifPresent(entity::name);
         event.date().ifPresent(entity::date);
+        event.registrationUrl().accept(entity::registrationUrl);
         SportEventEntity.validate(entity);
 
         em.persist(entity);

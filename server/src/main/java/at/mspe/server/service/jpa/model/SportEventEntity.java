@@ -37,6 +37,9 @@ public class SportEventEntity {
     @Column(name = "see_date", nullable = false)
     public ZonedDateTime date;
 
+    @Column(name = "see_registration_url", nullable = true)
+    public String registrationUrl;
+
     public UUID key() {
         return key;
     }
@@ -57,6 +60,14 @@ public class SportEventEntity {
         this.date = date;
     }
 
+    public String registrationUrl() {
+        return registrationUrl;
+    }
+
+    public void registrationUrl(String registrationUrl) {
+        this.registrationUrl = registrationUrl;
+    }
+
     public static SportEventEntityBuilder builder() {
         return new SportEventEntityBuilder();
     }
@@ -65,6 +76,7 @@ public class SportEventEntity {
         private UUID key;
         private String name;
         private ZonedDateTime date;
+        private String registrationUrl;
 
         public SportEventEntityBuilder key(UUID key) {
             this.key = key;
@@ -81,11 +93,17 @@ public class SportEventEntity {
             return this;
         }
 
+        public SportEventEntityBuilder registrationUrl(String registrationUrl) {
+            this.registrationUrl = registrationUrl;
+            return this;
+        }
+
         public SportEventEntity build() {
             var entity = new SportEventEntity();
             entity.key = this.key;
             entity.name = this.name;
             entity.date = this.date;
+            entity.registrationUrl = this.registrationUrl;
             validate(entity);
             return entity;
         }

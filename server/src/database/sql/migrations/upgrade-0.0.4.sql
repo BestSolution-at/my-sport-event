@@ -15,4 +15,7 @@ ALTER TABLE IF EXISTS Participant
 ALTER TABLE IF EXISTS Cohort
     ALTER COLUMN coh_autoassign SET NOT NULL;
 
+ALTER TABLE SportEvent
+    ADD COLUMN see_registration_url varchar(255);
+
 INSERT INTO meta_dbversion (version) VALUES (2);

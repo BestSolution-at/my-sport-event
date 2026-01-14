@@ -21,6 +21,9 @@ public interface SportEvent {
 		@Override
 		public ZonedDateTime date();
 
+		@Override
+		public String registrationUrl();
+
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<SportEvent.Data> {
@@ -34,6 +37,8 @@ public interface SportEvent {
 
 		public DataBuilder date(ZonedDateTime date);
 
+		public DataBuilder registrationUrl(String registrationUrl);
+
 	}
 
 	public interface Patch extends _Base.BaseData, SportEvent {
@@ -45,6 +50,8 @@ public interface SportEvent {
 
 		public Optional<ZonedDateTime> date();
 
+		public _Base.Nillable<String> registrationUrl();
+
 	}
 
 	public interface PatchBuilder extends _Base.BaseDataBuilder<SportEvent.Patch> {
@@ -55,6 +62,8 @@ public interface SportEvent {
 		public PatchBuilder name(String name);
 
 		public PatchBuilder date(ZonedDateTime date);
+
+		public PatchBuilder registrationUrl(String registrationUrl);
 
 	}
 }
