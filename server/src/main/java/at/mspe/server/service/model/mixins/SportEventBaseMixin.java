@@ -8,4 +8,6 @@ public interface SportEventBaseMixin {
 
 	public ZonedDateTime date();
 
+	public String registrationUrl();
+
 }

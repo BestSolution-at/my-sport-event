@@ -39,6 +39,11 @@ public class SportEventDataImpl extends _BaseDataImpl implements SportEvent.Data
 		return _JsonUtils.mapZonedDateTime(data, "date");
 	}
 
+	@Override
+	public String registrationUrl() {
+		return _JsonUtils.mapString(data, "registrationUrl", null);
+	}
+
 	public static SportEvent.Data of(JsonObject obj) {
 		return new SportEventDataImpl(obj);
 	}
@@ -83,6 +88,15 @@ public class SportEventDataImpl extends _BaseDataImpl implements SportEvent.Data
 				return this;
 			}
 			$builder.add("date", date.toString());
+			return this;
+		}
+
+		@Override
+		public SportEvent.DataBuilder registrationUrl(String registrationUrl) {
+			if (registrationUrl == null) {
+				return this;
+			}
+			$builder.add("registrationUrl", registrationUrl);
 			return this;
 		}
 

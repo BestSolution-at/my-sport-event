@@ -8,6 +8,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
+import at.mspe.server.service.model._Base;
 import at.mspe.server.service.model.SportEvent;
 
 public class SportEventPatchImpl extends _BaseDataImpl implements SportEvent.Patch {
@@ -33,6 +34,10 @@ public class SportEventPatchImpl extends _BaseDataImpl implements SportEvent.Pat
 		return _JsonUtils.mapOptZonedDateTime(data, "date");
 	}
 
+	public _Base.Nillable<String> registrationUrl() {
+		return _JsonUtils.mapNilString(data, "registrationUrl");
+	}
+
 	public static class PatchBuilderImpl implements SportEvent.PatchBuilder {
 		private JsonObjectBuilder $builder = Json.createObjectBuilder();
 
@@ -55,6 +60,16 @@ public class SportEventPatchImpl extends _BaseDataImpl implements SportEvent.Pat
 		@Override
 		public SportEvent.PatchBuilder date(ZonedDateTime date) {
 			$builder.add("date", date.toString());
+			return this;
+		}
+
+		@Override
+		public SportEvent.PatchBuilder registrationUrl(String registrationUrl) {
+			if (registrationUrl == null) {
+				$builder.addNull("registrationUrl");
+				return this;
+			}
+			$builder.add("registrationUrl", registrationUrl);
 			return this;
 		}
 

@@ -24,9 +24,11 @@ public class CreateHandlerJPATest extends SportEventHandlerTest<CreateHandlerJPA
     public void simple() {
         var date = ZonedDateTime.parse("2000-01-01T10:00:00Z");
         var name = "Simple New Event";
+        var registrationUrl = "http://example.com/register";
         var dto = newBuilder()
                 .date(date)
                 .name(name)
+                .registrationUrl(registrationUrl)
                 .build();
         var key = handler.create(builderFactory, dto);
         assertNotNull(key);
@@ -34,6 +36,7 @@ public class CreateHandlerJPATest extends SportEventHandlerTest<CreateHandlerJPA
         assertEquals(entity.key.toString(), key);
         assertEquals(entity.name, name);
         assertEquals(entity.date, date);
+        assertEquals(entity.registrationUrl, registrationUrl);
     }
 
     @Test

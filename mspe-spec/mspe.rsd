@@ -47,6 +47,7 @@ union Cohort = GenericCohort("generic") | BirthyearCohort("birthyear");
 mixin SportEventBase {
     name: string
     date: zoned-date-time
+    registrationUrl?: string
 }
 
 record SportEventNew {

@@ -14,12 +14,17 @@ public interface SportEventNew {
 		@Override
 		public ZonedDateTime date();
 
+		@Override
+		public String registrationUrl();
+
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<SportEventNew.Data> {
 		public DataBuilder name(String name);
 
 		public DataBuilder date(ZonedDateTime date);
+
+		public DataBuilder registrationUrl(String registrationUrl);
 
 	}
 }

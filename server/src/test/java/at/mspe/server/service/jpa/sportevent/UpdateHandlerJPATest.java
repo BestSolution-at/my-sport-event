@@ -27,6 +27,7 @@ public class UpdateHandlerJPATest extends SportEventHandlerTest<UpdateHandlerJPA
                 .version(0)
                 .date(ZonedDateTime.parse("1999-01-01T10:00:00Z"))
                 .name("Update event")
+                .registrationUrl("http://myrace.at/register")
                 .build();
         var result = handler.update(builderFactory, SimpleEmptyEventKey, patch);
         assertEquals(SimpleEmptyEventKey, result.key());
@@ -35,6 +36,7 @@ public class UpdateHandlerJPATest extends SportEventHandlerTest<UpdateHandlerJPA
         var event = getSportEventEntity(SimpleEmptyEventKey);
         assertEquals("Update event", event.name());
         assertEquals(ZonedDateTime.parse("1999-01-01T10:00:00Z"), event.date());
+        assertEquals("http://myrace.at/register", event.registrationUrl());
     }
 
     @Test

@@ -39,6 +39,7 @@ public class SportEventHelper {
                 .name(entity.name)
                 .date(entity.date)
                 .participantCount(participantCount.applyAsInt(entity.id))
+                .registrationUrl(entity.registrationUrl)
                 .build();
     }
 }

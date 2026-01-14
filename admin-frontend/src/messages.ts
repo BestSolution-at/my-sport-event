@@ -40,6 +40,7 @@ const en = {
 	NewEventDialog_Date: 'Date',
 	NewEventDialog_Time: 'Time',
 	NewEventDialog_RequiredField: 'This field is required.',
+	NewEventDialog_RegistrationUrl: 'Registration URL',
 
 	NewEventDialog_RemoteError_Title: 'Failed to persist',
 	NewEventDialog_RemoteError_Description: 'Failure while saving the data. The error message was:',
@@ -57,6 +58,12 @@ const en = {
 
 	EventView_Title: 'Event Details',
 	EventView_Description: 'Edit the details of the event',
+	EventView_Lock: 'Lock Registration',
+	EventView_QRCode_Generate: 'Generate QR Code',
+	EventView_QRCodeDialog_Title: 'QR Code',
+	EventView_QRCodeDialog_Description: 'Generate a QR code for the registration URL',
+	EventView_QRCodeDialog_Download_Svg: 'As SVG',
+	EventView_QRCodeDialog_Download_Png: 'As PNG',
 
 	CohortView_Title: 'Cohorts',
 	CohortView_New: 'New cohort',
@@ -163,6 +170,12 @@ const de = {
 
 	EventView_Title: 'Event-Details',
 	EventView_Description: 'Bearbeite die Details des Event',
+	EventView_Lock: 'Anmeldung sperren',
+	EventView_QRCode_Generate: 'QR Code erzeugen',
+	EventView_QRCodeDialog_Title: 'QR Code',
+	EventView_QRCodeDialog_Description: 'Erzeuge einen QR Code für die Registrierungs-URL',
+	EventView_QRCodeDialog_Download_Svg: 'Als SVG',
+	EventView_QRCodeDialog_Download_Png: 'Als PNG',
 
 	NewEventDialog_Title: 'Neues Sport-Event',
 	NewEventDialog_Description: 'Lege ein neues Sport-Event an',
@@ -173,6 +186,7 @@ const de = {
 	NewEventDialog_Date: 'Datum',
 	NewEventDialog_Time: 'Uhrzeit',
 	NewEventDialog_RequiredField: 'Dieses Feld muss ausgefüllt werden.',
+	NewEventDialog_RegistrationUrl: 'Anmelde-URL',
 
 	NewEventDialog_RemoteError_Title: 'Fehler beim Speichern',
 	NewEventDialog_RemoteError_Description:

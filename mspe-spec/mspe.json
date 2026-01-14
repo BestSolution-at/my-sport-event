@@ -234,6 +234,17 @@
           "variant": "builtin",
           "type": "zoned-date-time",
           "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "registrationUrl",
+          "array": false,
+          "readonly": false,
+          "optional": true,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
         }
       ],
       "doc": ""
