@@ -1,6 +1,6 @@
 INSERT INTO SportEvent (see_id, see_date, see_key, see_name, see_version) VALUES
 (nextval('sportevent_seq_id'), '2024-07-15 09:00:00+00', '8784ad6c-36f9-4bc9-9a53-f4a4807c7326', 'City Marathon 2024', 1),
-(nextval('sportevent_seq_id'), '2024-08-20 10:00:00+00', '019ada6d-6249-7e37-950a-2b944b61c186', 'Ski Downhill 2024', 1);
+(nextval('sportevent_seq_id'), '2024-02-20 10:00:00+00', '019ada6d-6249-7e37-950a-2b944b61c186', 'Ski Downhill 2024', 1);
 
 -- Generic Male
 INSERT INTO Cohort 
@@ -11,7 +11,8 @@ INSERT INTO Cohort
     coh_fk_sportevent, 
     coh_version, 
     coh_type, 
-    coh_gender
+    coh_gender,
+    coh_autoassign
 ) 
 VALUES
 (
@@ -21,7 +22,8 @@ VALUES
     1, 
     1, 
     1, 
-    0
+    0,
+    true
 );
 
 INSERT INTO GenericCohort (coh_id) VALUES (currval('cohort_seq_id'));
@@ -35,7 +37,8 @@ INSERT INTO Cohort
     coh_fk_sportevent, 
     coh_version, 
     coh_type, 
-    coh_gender
+    coh_gender,
+    coh_autoassign
 ) 
 VALUES
 (
@@ -45,7 +48,8 @@ VALUES
     1, 
     1, 
     1, 
-    1
+    1,
+    true
 );
 
 INSERT INTO GenericCohort (coh_id) VALUES (currval('cohort_seq_id'));
@@ -59,7 +63,8 @@ INSERT INTO Cohort
     coh_fk_sportevent, 
     coh_version, 
     coh_type,
-    coh_gender
+    coh_gender,
+    coh_autoassign
 )
 VALUES
 (
@@ -69,7 +74,8 @@ VALUES
     1, 
     1, 
     2, 
-    0
+    0,
+    true
 );
 INSERT INTO BirthyearCohort 
 (
@@ -94,7 +100,8 @@ INSERT INTO Participant
     par_lastname,
     par_gender,
     par_fk_sportevent,
-    par_birthday
+    par_birthday,
+    par_publish_name
 ) 
 VALUES
 (
@@ -105,5 +112,6 @@ VALUES
     'Doe',
     0,
     1,
-    '1985-05-20'
+    '1985-05-20',
+    true
 );
