@@ -2,8 +2,6 @@ package at.mspe.server.service.jpa.cohort;
 
 import at.mspe.server.service.jpa.BaseReadonlyHandler;
 
-import java.util.UUID;
-
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.impl.EventCohortServiceImpl;
 import at.mspe.server.service.model.Cohort;
