@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +40,8 @@ public class UpdateHandlerJPATest extends ParticipantHandlerTest<UpdateHandlerJP
                 .cohortKey(null)
                 .publishName(false)
                 .build();
-        var result = handler.update(builderFactory, FullEventKey, FullEvent_ParticpantWithGenericCohortKey, dto, false);
+        var result = handler.update(builderFactory, FullEventKey, FullEvent_ParticpantWithGenericCohortKey, dto,
+                Optional.of(false));
         assertEquals(FullEvent_ParticpantWithGenericCohortKey, result.key());
         assertEquals(1L, result.version());
         var entity = getParticipantEntity(FullEvent_ParticpantWithGenericCohortKey);
@@ -61,7 +63,8 @@ public class UpdateHandlerJPATest extends ParticipantHandlerTest<UpdateHandlerJP
                 .version(0)
                 .cohortKey(FullEvent_BirthyearCohortKey)
                 .build();
-        var result = handler.update(builderFactory, FullEventKey, FullEvent_ParticpantWithGenericCohortKey, dto, false);
+        var result = handler.update(builderFactory, FullEventKey, FullEvent_ParticpantWithGenericCohortKey, dto,
+                Optional.of(false));
         assertEquals(FullEvent_ParticpantWithGenericCohortKey, result.key());
         assertEquals(1L, result.version());
         var entity = getParticipantEntity(FullEvent_ParticpantWithGenericCohortKey);

@@ -6,6 +6,9 @@ import at.mspe.server.service.jpa.model.CohortEntity;
 import at.mspe.server.service.jpa.model.Gender;
 import at.mspe.server.service.jpa.model.ParticipantEntity;
 import at.mspe.server.service.jpa.sportevent.SportEventHelper;
+
+import java.util.Optional;
+
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.NotFoundException;
@@ -26,9 +29,11 @@ public class CreateHandlerJPA extends BaseHandler implements EventParticipantSer
 
     @Transactional
     @Override
-    public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant,
-            Boolean autoAssignCohort) {
-        return apply(em -> create(em, _factory, eventKey, participant, autoAssignCohort));
+    public String create(BuilderFactory _factory,
+            String eventKey,
+            ParticipantNew.Data participant,
+            Optional<Boolean> autoAssignCohort) {
+        return apply(em -> create(em, _factory, eventKey, participant, autoAssignCohort.orElse(null)));
     }
 
     private static String create(EntityManager em, BuilderFactory _factory, String eventKey,

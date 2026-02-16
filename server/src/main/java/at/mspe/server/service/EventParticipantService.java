@@ -2,6 +2,8 @@
 package at.mspe.server.service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalLong;
 
 import at.mspe.server.service.model.Participant;
 import at.mspe.server.service.model.ParticipantNew;
@@ -15,16 +17,16 @@ public interface EventParticipantService {
 	public List<Participant.Data> list(BuilderFactory _factory, String eventKey)
 			throws NotFoundException;
 
-	public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant, Boolean autoAssignCohort)
+	public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant, Optional<Boolean> autoAssignCohort)
 			throws NotFoundException,
 			InvalidDataException;
 
-	public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant, Boolean autoAssignCohort)
+	public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant, Optional<Boolean> autoAssignCohort)
 			throws NotFoundException,
 			InvalidDataException,
 			StaleDataException;
 
-	public void delete(BuilderFactory _factory, String eventKey, String key, Long version)
+	public void delete(BuilderFactory _factory, String eventKey, String key, OptionalLong version)
 			throws NotFoundException,
 			StaleDataException;
 

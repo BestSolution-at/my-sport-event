@@ -1,6 +1,7 @@
 package at.mspe.server.service.jpa.sportevent;
 
 import java.util.Objects;
+import java.util.OptionalLong;
 
 import at.mspe.server.service.jpa.BaseHandler;
 import at.mspe.server.service.jpa.Utils;
@@ -22,8 +23,8 @@ public class DeleteHandlerJPA extends BaseHandler implements SportEventServiceIm
 
     @Transactional
     @Override
-    public void delete(BuilderFactory _factory, String key, Long version) {
-        accept(em -> delete(em, key, version));
+    public void delete(BuilderFactory _factory, String key, OptionalLong version) {
+        accept(em -> delete(em, key, version.isPresent() ? version.getAsLong() : null));
     }
 
     private static void delete(EntityManager em, String key, Long version) {

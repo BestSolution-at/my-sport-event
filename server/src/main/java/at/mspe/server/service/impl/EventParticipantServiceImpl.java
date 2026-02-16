@@ -2,6 +2,8 @@
 package at.mspe.server.service.impl;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalLong;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -46,14 +48,14 @@ public class EventParticipantServiceImpl implements EventParticipantService {
 	}
 
 	@Override
-	public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant, Boolean autoAssignCohort)
+	public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant, Optional<Boolean> autoAssignCohort)
 			throws NotFoundException,
 			InvalidDataException {
 		return createHandler.create(_factory, eventKey, participant, autoAssignCohort);
 	}
 
 	@Override
-	public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant, Boolean autoAssignCohort)
+	public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant, Optional<Boolean> autoAssignCohort)
 			throws NotFoundException,
 			InvalidDataException,
 			StaleDataException {
@@ -61,7 +63,7 @@ public class EventParticipantServiceImpl implements EventParticipantService {
 	}
 
 	@Override
-	public void delete(BuilderFactory _factory, String eventKey, String key, Long version)
+	public void delete(BuilderFactory _factory, String eventKey, String key, OptionalLong version)
 			throws NotFoundException,
 			StaleDataException {
 		deleteHandler.delete(_factory, eventKey, key, version);
@@ -84,20 +86,20 @@ public class EventParticipantServiceImpl implements EventParticipantService {
 	}
 
 	public interface CreateHandler {
-		public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant, Boolean autoAssignCohort)
+		public String create(BuilderFactory _factory, String eventKey, ParticipantNew.Data participant, Optional<Boolean> autoAssignCohort)
 				throws NotFoundException,
 				InvalidDataException;
 	}
 
 	public interface UpdateHandler {
-		public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant, Boolean autoAssignCohort)
+		public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key, Participant.Patch participant, Optional<Boolean> autoAssignCohort)
 				throws NotFoundException,
 				InvalidDataException,
 				StaleDataException;
 	}
 
 	public interface DeleteHandler {
-		public void delete(BuilderFactory _factory, String eventKey, String key, Long version)
+		public void delete(BuilderFactory _factory, String eventKey, String key, OptionalLong version)
 				throws NotFoundException,
 				StaleDataException;
 	}

@@ -2,6 +2,7 @@ package at.mspe.server.service.jpa.participant;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.OptionalLong;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -19,41 +20,42 @@ public class DeleteHandlerJPATest extends ParticipantHandlerTest<DeleteHandlerJP
 
     @Test
     public void delete_NoVersion() {
-        handler.delete(builderFactory, FullEventKey, FullEvent_ParticpantKey, null);
+        handler.delete(builderFactory, FullEventKey, FullEvent_ParticpantKey, OptionalLong.empty());
     }
 
     @Test
     public void delete_Version() {
-        handler.delete(builderFactory, FullEventKey, FullEvent_ParticpantKey, 0L);
+        handler.delete(builderFactory, FullEventKey, FullEvent_ParticpantKey, OptionalLong.of(0L));
     }
 
     @Test
     void delete_Stale() {
         assertThrows(StaleDataException.class,
-                () -> handler.delete(builderFactory, FullEventKey, FullEvent_ParticpantKey, 1L));
+                () -> handler.delete(builderFactory, FullEventKey, FullEvent_ParticpantKey, OptionalLong.of(1L)));
     }
 
     @Test
     void delete_UnknownEventId() {
         assertThrows(NotFoundException.class,
-                () -> handler.delete(builderFactory, UUID.randomUUID().toString(), FullEvent_ParticpantKey, 0L));
+                () -> handler.delete(builderFactory, UUID.randomUUID().toString(), FullEvent_ParticpantKey,
+                        OptionalLong.of(0L)));
     }
 
     @Test
     void delete_InvalidEventId() {
         assertThrows(NotFoundException.class,
-                () -> handler.delete(builderFactory, "abcd", FullEvent_ParticpantKey, 0L));
+                () -> handler.delete(builderFactory, "abcd", FullEvent_ParticpantKey, OptionalLong.of(0L)));
     }
 
     @Test
     void delete_UnknownParticipantId() {
         assertThrows(NotFoundException.class,
-                () -> handler.delete(builderFactory, FullEventKey, UUID.randomUUID().toString(), 0L));
+                () -> handler.delete(builderFactory, FullEventKey, UUID.randomUUID().toString(), OptionalLong.of(0L)));
     }
 
     @Test
     void delete_InvalidParticipantId() {
         assertThrows(NotFoundException.class,
-                () -> handler.delete(builderFactory, FullEventKey, "abcd", 0L));
+                () -> handler.delete(builderFactory, FullEventKey, "abcd", OptionalLong.of(0L)));
     }
 }

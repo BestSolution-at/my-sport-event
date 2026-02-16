@@ -6,6 +6,7 @@ import java.util.Optional;
 import at.mspe.server.service.model.mixins.CohortBaseMixin;
 
 public interface GenericCohort {
+	public interface Builder {}
 
 	public interface Data extends _Base.BaseData, GenericCohort, CohortBaseMixin, Cohort.Data {
 		public String key();
@@ -25,7 +26,7 @@ public interface GenericCohort {
 
 	}
 
-	public interface DataBuilder extends _Base.BaseDataBuilder<GenericCohort.Data>, Cohort.DataBuilder {
+	public interface DataBuilder extends Builder, _Base.BaseDataBuilder<GenericCohort.Data>, Cohort.DataBuilder {
 		public DataBuilder key(String key);
 
 		public DataBuilder version(long version);
@@ -53,7 +54,7 @@ public interface GenericCohort {
 
 	}
 
-	public interface PatchBuilder extends _Base.BaseDataBuilder<GenericCohort.Patch>, Cohort.PatchBuilder {
+	public interface PatchBuilder extends Builder, _Base.BaseDataBuilder<GenericCohort.Patch>, Cohort.PatchBuilder {
 		public PatchBuilder key(String key);
 
 		public PatchBuilder version(long version);

@@ -4,6 +4,7 @@ import at.mspe.server.service.jpa.BaseHandler;
 import at.mspe.server.service.jpa.Utils;
 
 import java.util.Objects;
+import java.util.OptionalLong;
 
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.StaleDataException;
@@ -22,8 +23,8 @@ public class DeleteHandlerJPA extends BaseHandler implements EventParticipantSer
 
     @Transactional
     @Override
-    public void delete(BuilderFactory _factory, String eventKey, String key, Long version) {
-        accept(em -> delete(em, _factory, eventKey, key, version));
+    public void delete(BuilderFactory _factory, String eventKey, String key, OptionalLong version) {
+        accept(em -> delete(em, _factory, eventKey, key, version.isPresent() ? version.getAsLong() : null));
     }
 
     private static void delete(EntityManager em, BuilderFactory _factory, String eventKey, String key, Long version) {

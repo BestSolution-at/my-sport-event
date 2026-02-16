@@ -14,6 +14,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Produces;
 
+import at.mspe.server.rest.model._JsonUtils;
 import at.mspe.server.service.EventCohortService;
 import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.model.Cohort;
@@ -41,8 +42,8 @@ public class EventCohortResource {
 	public Response get(
 			@PathParam("eventKey") String _eventKey,
 			@PathParam("key") String _key) {
-		var eventKey = _eventKey;
-		var key = _key;
+		var eventKey = _RestUtils.parseString(_eventKey);
+		var key = _RestUtils.parseString(_key);
 		try {
 			var result = service.get(builderFactory, eventKey, key);
 			return responseBuilder.get(result, eventKey, key).build();
@@ -53,7 +54,7 @@ public class EventCohortResource {
 
 	@GET
 	public Response list(@PathParam("eventKey") String _eventKey) {
-		var eventKey = _eventKey;
+		var eventKey = _RestUtils.parseString(_eventKey);
 		try {
 			var result = service.list(builderFactory, eventKey);
 			return responseBuilder.list(result, eventKey).build();
@@ -66,8 +67,8 @@ public class EventCohortResource {
 	public Response create(
 			@PathParam("eventKey") String _eventKey,
 			String _cohort) {
-		var eventKey = _eventKey;
-		var cohort = builderFactory.of(CohortNew.Data.class, _cohort);
+		var eventKey = _RestUtils.parseString(_eventKey);
+		var cohort = _JsonUtils.parseObject(_cohort, $j -> builderFactory.of(CohortNew.Data.class, $j));
 		try {
 			var result = service.create(builderFactory, eventKey, cohort);
 			return responseBuilder.create(result, eventKey, cohort).build();
@@ -84,9 +85,9 @@ public class EventCohortResource {
 			@PathParam("eventKey") String _eventKey,
 			@PathParam("key") String _key,
 			String _cohort) {
-		var eventKey = _eventKey;
-		var key = _key;
-		var cohort = builderFactory.of(Cohort.Patch.class, _cohort);
+		var eventKey = _RestUtils.parseString(_eventKey);
+		var key = _RestUtils.parseString(_key);
+		var cohort = _JsonUtils.parseObject(_cohort, $j -> builderFactory.of(Cohort.Patch.class, $j));
 		try {
 			var result = service.update(builderFactory, eventKey, key, cohort);
 			return responseBuilder.update(result, eventKey, key, cohort).build();
@@ -104,10 +105,10 @@ public class EventCohortResource {
 	public Response delete(
 			@PathParam("eventKey") String _eventKey,
 			@PathParam("key") String _key,
-			@HeaderParam("version") Long _version) {
-		var eventKey = _eventKey;
-		var key = _key;
-		var version = _version;
+			@HeaderParam("version") String _version) {
+		var eventKey = _RestUtils.parseString(_eventKey);
+		var key = _RestUtils.parseString(_key);
+		var version = _RestUtils.parseOptLong(_version);
 		try {
 			service.delete(builderFactory, eventKey, key, version);
 			return responseBuilder.delete(eventKey, key, version).build();

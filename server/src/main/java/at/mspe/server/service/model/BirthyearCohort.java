@@ -8,6 +8,7 @@ import at.mspe.server.service.model.mixins.BirthyearCohortBaseMixin;
 import at.mspe.server.service.model.mixins.CohortBaseMixin;
 
 public interface BirthyearCohort {
+	public interface Builder {}
 
 	public interface Data extends _Base.BaseData, BirthyearCohort, CohortBaseMixin, BirthyearCohortBaseMixin, Cohort.Data {
 		public String key();
@@ -33,7 +34,7 @@ public interface BirthyearCohort {
 
 	}
 
-	public interface DataBuilder extends _Base.BaseDataBuilder<BirthyearCohort.Data>, Cohort.DataBuilder {
+	public interface DataBuilder extends Builder, _Base.BaseDataBuilder<BirthyearCohort.Data>, Cohort.DataBuilder {
 		public DataBuilder key(String key);
 
 		public DataBuilder version(long version);
@@ -69,7 +70,7 @@ public interface BirthyearCohort {
 
 	}
 
-	public interface PatchBuilder extends _Base.BaseDataBuilder<BirthyearCohort.Patch>, Cohort.PatchBuilder {
+	public interface PatchBuilder extends Builder, _Base.BaseDataBuilder<BirthyearCohort.Patch>, Cohort.PatchBuilder {
 		public PatchBuilder key(String key);
 
 		public PatchBuilder version(long version);

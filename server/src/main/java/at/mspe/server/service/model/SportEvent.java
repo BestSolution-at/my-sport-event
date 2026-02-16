@@ -7,6 +7,7 @@ import java.util.Optional;
 import at.mspe.server.service.model.mixins.SportEventBaseMixin;
 
 public interface SportEvent {
+	public interface Builder {}
 
 	public interface Data extends _Base.BaseData, SportEvent, SportEventBaseMixin {
 		public String key();
@@ -26,7 +27,7 @@ public interface SportEvent {
 
 	}
 
-	public interface DataBuilder extends _Base.BaseDataBuilder<SportEvent.Data> {
+	public interface DataBuilder extends Builder, _Base.BaseDataBuilder<SportEvent.Data> {
 		public DataBuilder key(String key);
 
 		public DataBuilder version(long version);
@@ -54,7 +55,7 @@ public interface SportEvent {
 
 	}
 
-	public interface PatchBuilder extends _Base.BaseDataBuilder<SportEvent.Patch> {
+	public interface PatchBuilder extends Builder, _Base.BaseDataBuilder<SportEvent.Patch> {
 		public PatchBuilder key(String key);
 
 		public PatchBuilder version(long version);

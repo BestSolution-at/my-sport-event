@@ -2,6 +2,7 @@
 package at.mspe.server.service.impl;
 
 import java.util.List;
+import java.util.OptionalLong;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -56,7 +57,7 @@ public class SportEventServiceImpl implements SportEventService {
 	}
 
 	@Override
-	public void delete(BuilderFactory _factory, String key, Long version)
+	public void delete(BuilderFactory _factory, String key, OptionalLong version)
 			throws NotFoundException,
 			StaleDataException {
 		deleteHandler.delete(_factory, key, version);
@@ -84,7 +85,7 @@ public class SportEventServiceImpl implements SportEventService {
 	}
 
 	public interface DeleteHandler {
-		public void delete(BuilderFactory _factory, String key, Long version)
+		public void delete(BuilderFactory _factory, String key, OptionalLong version)
 				throws NotFoundException,
 				StaleDataException;
 	}

@@ -2,6 +2,7 @@
 package at.mspe.server.service;
 
 import java.util.List;
+import java.util.OptionalLong;
 
 import at.mspe.server.service.model.SportEvent;
 import at.mspe.server.service.model.SportEventNew;
@@ -21,7 +22,7 @@ public interface SportEventService {
 			InvalidDataException,
 			StaleDataException;
 
-	public void delete(BuilderFactory _factory, String key, Long version)
+	public void delete(BuilderFactory _factory, String key, OptionalLong version)
 			throws NotFoundException,
 			StaleDataException;
 

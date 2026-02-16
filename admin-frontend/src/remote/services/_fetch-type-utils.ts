@@ -16,7 +16,7 @@ export type ServiceProps<T extends string = string> = {
 	encoding?: ContentTypeEncodings;
 };
 
-export function encodingType(props: ServiceProps<never>): ContentTypeEncodings	{
+export function encodingType(props: ServiceProps<never>): ContentTypeEncodings {
 	return props.encoding ?? 'application/json';
 }
 
@@ -28,6 +28,33 @@ export function safeExecute<T>(value: T, block: () => void): T {
 	}
 
 	return value;
+}
+
+export function encodeBase64(value: string): string {
+	const bytes = new TextEncoder().encode(value);
+	const binString = Array.from(bytes, byte => String.fromCodePoint(byte)).join('');
+	return btoa(binString);
+}
+
+export function encodeAsciiString(text: string): string {
+	text = text.replaceAll('\\u', '\\u005Cu'); // Escape existing \u sequences
+	let b = '';
+	const l = text.length;
+	for (let i = 0; i < l; i++) {
+		const c = text.charCodeAt(i);
+		// Escape non-printable characters, comma and all non-ASCII characters
+		if (c < 32 || c > 126 || c === 44) {
+			b += `\\u${c.toString(16).padStart(4, '0')}`;
+		} else {
+			b += text.charAt(i);
+		}
+	}
+
+	return b;
+}
+
+export function decodeAsciiString(text: string): string {
+	return text.replace(/\\u([0-9a-fA-F]{4})/g, (_, g1) => String.fromCharCode(parseInt(String(g1), 16)));
 }
 
 export function encodeValue(_type: ContentTypeEncodings, value: unknown) {

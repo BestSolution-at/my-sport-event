@@ -6,6 +6,7 @@ import at.mspe.server.service.jpa.cohort.CohortHelper;
 import at.mspe.server.service.jpa.model.Gender;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.InvalidDataException;
@@ -27,9 +28,11 @@ public class UpdateHandlerJPA extends BaseHandler implements EventParticipantSer
 
     @Transactional
     @Override
-    public UpdateResult.Data update(BuilderFactory _factory, String eventKey, String key,
-            Participant.Patch participant, Boolean autoAssignCohort) {
-        return apply(em -> update(em, _factory, eventKey, key, participant, autoAssignCohort));
+    public UpdateResult.Data update(BuilderFactory _factory,
+            String eventKey, String key,
+            Participant.Patch participant,
+            Optional<Boolean> autoAssignCohort) {
+        return apply(em -> update(em, _factory, eventKey, key, participant, autoAssignCohort.orElse(null)));
     }
 
     private static UpdateResult.Data update(EntityManager em, BuilderFactory factory, String eventKey, String key,

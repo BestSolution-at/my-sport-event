@@ -1,6 +1,7 @@
 package at.mspe.server.service.jpa.cohort;
 
 import java.util.Objects;
+import java.util.OptionalLong;
 
 import at.mspe.server.service.jpa.BaseHandler;
 import at.mspe.server.service.jpa.Utils;
@@ -24,8 +25,8 @@ public class DeleteHandlerJPA extends BaseHandler implements EventCohortServiceI
 
     @Override
     @Transactional
-    public void delete(BuilderFactory _factory, String eventKey, String key, Long version) {
-        accept(em -> delete(em, _factory, eventKey, key, version));
+    public void delete(BuilderFactory _factory, String eventKey, String key, OptionalLong version) {
+        accept(em -> delete(em, _factory, eventKey, key, version.isPresent() ? version.getAsLong() : null));
     }
 
     private static void delete(EntityManager em, BuilderFactory factory, String eventKey, String key, Long version) {

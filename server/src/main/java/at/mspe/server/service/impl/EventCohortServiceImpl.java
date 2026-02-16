@@ -2,6 +2,7 @@
 package at.mspe.server.service.impl;
 
 import java.util.List;
+import java.util.OptionalLong;
 
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -58,7 +59,7 @@ public class EventCohortServiceImpl implements EventCohortService {
 	}
 
 	@Override
-	public void delete(BuilderFactory _factory, String eventKey, String key, Long version)
+	public void delete(BuilderFactory _factory, String eventKey, String key, OptionalLong version)
 			throws NotFoundException,
 			StaleDataException {
 		deleteHandler.delete(_factory, eventKey, key, version);
@@ -88,7 +89,7 @@ public class EventCohortServiceImpl implements EventCohortService {
 	}
 
 	public interface DeleteHandler {
-		public void delete(BuilderFactory _factory, String eventKey, String key, Long version)
+		public void delete(BuilderFactory _factory, String eventKey, String key, OptionalLong version)
 				throws NotFoundException,
 				StaleDataException;
 	}

@@ -2,6 +2,7 @@
 package at.mspe.server.rest;
 
 import java.util.List;
+import java.util.OptionalLong;
 
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.Response;
@@ -30,7 +31,7 @@ public class SportEventResourceResponseBuilder {
 		return Response.status(200).entity(_JsonUtils.toJsonString($result, false));
 	}
 
-	public ResponseBuilder delete(String key, Long version) {
+	public ResponseBuilder delete(String key, OptionalLong version) {
 		return Response.status(200);
 	}
 

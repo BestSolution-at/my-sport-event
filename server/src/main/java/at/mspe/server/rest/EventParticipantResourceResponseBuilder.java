@@ -2,6 +2,8 @@
 package at.mspe.server.rest;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalLong;
 
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.core.Response;
@@ -23,20 +25,20 @@ public class EventParticipantResourceResponseBuilder {
 		return Response.status(200).entity(_JsonUtils.toJsonString($result, false));
 	}
 
-	public ResponseBuilder create(String $result, String eventKey, ParticipantNew.Data participant, Boolean autoAssignCohort) {
+	public ResponseBuilder create(String $result, String eventKey, ParticipantNew.Data participant, Optional<Boolean> autoAssignCohort) {
 		return Response.status(201).entity(_JsonUtils.encodeAsJsonString($result));
 	}
 
-	public ResponseBuilder update(UpdateResult.Data $result, String eventKey, String key, Participant.Patch participant, Boolean autoAssignCohort) {
+	public ResponseBuilder update(UpdateResult.Data $result, String eventKey, String key, Participant.Patch participant, Optional<Boolean> autoAssignCohort) {
 		return Response.status(200).entity(_JsonUtils.toJsonString($result, false));
 	}
 
-	public ResponseBuilder delete(String eventKey, String key, Long version) {
+	public ResponseBuilder delete(String eventKey, String key, OptionalLong version) {
 		return Response.status(200);
 	}
 
 	public ResponseBuilder downloadCsv(RSDFile $result, String eventKey) {
-		return _RestUtils.toStreamResponse(200,$result);
+		return _RestUtils.toStreamResponse(200, $result);
 	}
 
 }

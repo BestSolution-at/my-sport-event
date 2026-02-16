@@ -14,6 +14,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Produces;
 
+import at.mspe.server.rest.model._JsonUtils;
 import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.model.SportEvent;
 import at.mspe.server.service.model.SportEventNew;
@@ -39,7 +40,7 @@ public class SportEventResource {
 	@GET
 	@Path("{key}")
 	public Response get(@PathParam("key") String _key) {
-		var key = _key;
+		var key = _RestUtils.parseString(_key);
 		try {
 			var result = service.get(builderFactory, key);
 			return responseBuilder.get(result, key).build();
@@ -56,7 +57,7 @@ public class SportEventResource {
 
 	@POST
 	public Response create(String _event) {
-		var event = builderFactory.of(SportEventNew.Data.class, _event);
+		var event = _JsonUtils.parseObject(_event, $j -> builderFactory.of(SportEventNew.Data.class, $j));
 		try {
 			var result = service.create(builderFactory, event);
 			return responseBuilder.create(result, event).build();
@@ -70,8 +71,8 @@ public class SportEventResource {
 	public Response update(
 			@PathParam("key") String _key,
 			String _event) {
-		var key = _key;
-		var event = builderFactory.of(SportEvent.Patch.class, _event);
+		var key = _RestUtils.parseString(_key);
+		var event = _JsonUtils.parseObject(_event, $j -> builderFactory.of(SportEvent.Patch.class, $j));
 		try {
 			var result = service.update(builderFactory, key, event);
 			return responseBuilder.update(result, key, event).build();
@@ -88,9 +89,9 @@ public class SportEventResource {
 	@Path("{key}")
 	public Response delete(
 			@PathParam("key") String _key,
-			@HeaderParam("version") Long _version) {
-		var key = _key;
-		var version = _version;
+			@HeaderParam("version") String _version) {
+		var key = _RestUtils.parseString(_key);
+		var version = _RestUtils.parseOptLong(_version);
 		try {
 			service.delete(builderFactory, key, version);
 			return responseBuilder.delete(key, version).build();

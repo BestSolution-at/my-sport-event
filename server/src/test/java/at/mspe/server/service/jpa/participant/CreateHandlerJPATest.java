@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -43,7 +44,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .cohortKey(FullEvent_GenericCohortKey)
                 .publishName(false)
                 .build();
-        var key = handler.create(builderFactory, FullEventKey, dto, false);
+        var key = handler.create(builderFactory, FullEventKey, dto, Optional.of(false));
         assertNotNull(key);
         var entity = getParticipantEntity(key);
         assertEquals(entity.key.toString(), key);
@@ -68,7 +69,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .lastname(lastname)
                 .publishName(true)
                 .build();
-        var key = handler.create(builderFactory, SimpleEmptyEventKey, dto, false);
+        var key = handler.create(builderFactory, SimpleEmptyEventKey, dto, Optional.of(false));
         assertNotNull(key);
         var entity = getParticipantEntity(key);
         assertEquals(entity.key.toString(), key);
@@ -93,7 +94,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .publishName(true)
                 .birthday(LocalDate.of(1970, 1, 1))
                 .build();
-        var key = handler.create(builderFactory, FullEventKey, dto, true);
+        var key = handler.create(builderFactory, FullEventKey, dto, Optional.of(true));
         assertNotNull(key);
         var entity = getParticipantEntity(key);
         assertEquals(entity.key.toString(), key);
@@ -112,7 +113,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .publishName(true)
                 .birthday(LocalDate.of(1925, 1, 1))
                 .build();
-        var key = handler.create(builderFactory, FullEventKey, dto, true);
+        var key = handler.create(builderFactory, FullEventKey, dto, Optional.of(true));
         assertNotNull(key);
         var entity = getParticipantEntity(key);
         assertEquals(entity.key.toString(), key);
@@ -129,7 +130,8 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .lastname(lastname)
                 .publishName(false)
                 .build();
-        assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto, false));
+        assertThrows(InvalidDataException.class,
+                () -> handler.create(builderFactory, SimpleEmptyEventKey, dto, Optional.of(false)));
     }
 
     @Test
@@ -142,7 +144,8 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .lastname("")
                 .publishName(false)
                 .build();
-        assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, SimpleEmptyEventKey, dto, false));
+        assertThrows(InvalidDataException.class,
+                () -> handler.create(builderFactory, SimpleEmptyEventKey, dto, Optional.of(false)));
     }
 
     @Test
@@ -157,7 +160,7 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .publishName(false)
                 .build();
         assertThrows(NotFoundException.class,
-                () -> handler.create(builderFactory, UUID.randomUUID().toString(), dto, false));
+                () -> handler.create(builderFactory, UUID.randomUUID().toString(), dto, Optional.of(false)));
     }
 
     @Test
@@ -171,6 +174,6 @@ public class CreateHandlerJPATest extends ParticipantHandlerTest<CreateHandlerJP
                 .lastname(lastname)
                 .publishName(false)
                 .build();
-        assertThrows(NotFoundException.class, () -> handler.create(builderFactory, "abcd", dto, false));
+        assertThrows(NotFoundException.class, () -> handler.create(builderFactory, "abcd", dto, Optional.of(false)));
     }
 }

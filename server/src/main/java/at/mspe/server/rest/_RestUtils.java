@@ -3,6 +3,18 @@ package at.mspe.server.rest;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.function.Function;
+import java.util.List;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
+import java.util.regex.Pattern;
 
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -10,23 +22,663 @@ import jakarta.ws.rs.core.StreamingOutput;
 import jakarta.ws.rs.WebApplicationException;
 
 import at.mspe.server.rest.model._JsonUtils;
+import at.mspe.server.rest.model._NillableImpl;
+import at.mspe.server.service.model._Base;
 import at.mspe.server.service.model.RSDBlob;
 import at.mspe.server.service.model.RSDFile;
 import at.mspe.server.service.RSDException;
 
 public class _RestUtils {
+	private static final Pattern SPLIT_COMMA_PATTERN = Pattern.compile(",");
+	private static final Pattern UNESCAPE_PATTERN = Pattern.compile("\\\\u([0-9a-fA-F]{4})");
+
+	public static String decodeBase64(String value) {
+		return new String(Base64.getDecoder().decode(value));
+	}
+
+	public static String fromEscapedAscii(String value) {
+		var p = UNESCAPE_PATTERN.matcher(value);
+		while (p.find()) {
+			String ch = String.valueOf((char) Integer.parseInt(p.group(1), 16));
+			value = value.replace(p.group(0), ch);
+		}
+		return value;
+	}
+
+	public static <T> Function<String, T> preprocessEscapedAscii(Function<String, T> parser) {
+		return value -> parser.apply(fromEscapedAscii(value));
+	}
+
+	public static <T> T parseLiteral(String value, Function<String, T> parser) {
+		return parser.apply(value);
+	}
+
+	public static <T> Optional<T> parseOptLiteral(String value, Function<String, T> parser) {
+		return value != null ? Optional.of(parser.apply(value)) : Optional.empty();
+	}
+
+	public static <T> Optional<T> parseNullLiteral(String value, Function<String, T> parser) {
+		return "null".equals(value) ? Optional.empty() : Optional.of(parser.apply(value));
+	}
+
+	public static <T> _Base.Nillable<T> parseNilLiteral(String value, Function<String, T> parser) {
+		if (value == null) {
+			return _NillableImpl.undefined();
+		} else if ("null".equals(value)) {
+			return _NillableImpl.nill();
+		} else {
+			return _NillableImpl.of(parser.apply(value));
+		}
+	}
+
+	public static String parseString(String value) {
+		return value;
+	}
+
+	public static Optional<String> parseOptString(String value) {
+		return parseOptLiteral(value, Function.identity());
+	}
+
+	public static Optional<String> parseNullString(String value) {
+		return "null".equals(value) ? Optional.empty() : Optional.of(value);
+	}
+
+	public static _Base.Nillable<String> parseNilString(String value) {
+		return parseNilLiteral(value, Function.identity());
+	}
+
+	public static String parseString(String value, Function<String, String> decoder) {
+		return decoder.apply(value);
+	}
+
+	public static Optional<String> parseOptString(String value, Function<String, String> decoder) {
+		return parseOptLiteral(value, decoder);
+	}
+
+	public static Optional<String> parseNullString(String value, Function<String, String> decoder) {
+		return parseNullLiteral(value, decoder);
+	}
+
+	public static _Base.Nillable<String> parseNilString(String value, Function<String, String> decoder) {
+		return parseNilLiteral(value, decoder);
+	}
+
+	public static short parseShort(String value) {
+		return Short.parseShort(value);
+	}
+
+	public static Optional<Short> parseOptShort(String value) {
+		return parseOptLiteral(value, Short::valueOf);
+	}
+
+	public static Optional<Short> parseNullShort(String value) {
+		return parseNullLiteral(value, Short::valueOf);
+	}
+
+	public static _Base.Nillable<Short> parseNilShort(String value) {
+		return parseNilLiteral(value, Short::valueOf);
+	}
+
+	public static int parseInt(String value) {
+		return Integer.parseInt(value);
+	}
+
+	public static OptionalInt parseOptInt(String value) {
+		return value != null ? OptionalInt.of(Integer.parseInt(value)) : OptionalInt.empty();
+	}
+
+	public static OptionalInt parseNullInt(String value) {
+		return "null".equals(value) ? OptionalInt.empty() : OptionalInt.of(Integer.parseInt(value));
+	}
+
+	public static _Base.Nillable<Integer> parseNilInt(String value) {
+		return parseNilLiteral(value, Integer::valueOf);
+	}
+
+	public static long parseLong(String value) {
+		return Long.parseLong(value);
+	}
+
+	public static OptionalLong parseOptLong(String value) {
+		return value != null ? OptionalLong.of(Long.parseLong(value)) : OptionalLong.empty();
+	}
+
+	public static OptionalLong parseNullLong(String value) {
+		return "null".equals(value) ? OptionalLong.empty() : OptionalLong.of(Long.parseLong(value));
+	}
+
+	public static _Base.Nillable<Long> parseNilLong(String value) {
+		return parseNilLiteral(value, Long::valueOf);
+	}
+
+	public static boolean parseBoolean(String value) {
+		return Boolean.parseBoolean(value);
+	}
+
+	public static Optional<Boolean> parseOptBoolean(String value) {
+		return parseOptLiteral(value, Boolean::valueOf);
+	}
+
+	public static Optional<Boolean> parseNullBoolean(String value) {
+		return parseNullLiteral(value, Boolean::valueOf);
+	}
+
+	public static _Base.Nillable<Boolean> parseNilBoolean(String value) {
+		return parseNilLiteral(value, Boolean::valueOf);
+	}
+
+	public static float parseFloat(String value) {
+		return Float.parseFloat(value);
+	}
+
+	public static Optional<Float> parseOptFloat(String value) {
+		return parseOptLiteral(value, Float::valueOf);
+	}
+
+	public static Optional<Float> parseNullFloat(String value) {
+		return parseNullLiteral(value, Float::valueOf);
+	}
+
+	public static _Base.Nillable<Float> parseNilFloat(String value) {
+		return parseNilLiteral(value, Float::valueOf);
+	}
+
+	public static double parseDouble(String value) {
+		return Double.parseDouble(value);
+	}
+
+	public static OptionalDouble parseOptDouble(String value) {
+		return value != null ? OptionalDouble.of(Double.parseDouble(value)) : OptionalDouble.empty();
+	}
+
+	public static OptionalDouble parseNullDouble(String value) {
+		return "null".equals(value) ? OptionalDouble.empty() : OptionalDouble.of(Double.parseDouble(value));
+	}
+
+	public static _Base.Nillable<Double> parseNilDouble(String value) {
+		return parseNilLiteral(value, Double::valueOf);
+	}
+
+	public static LocalDate parseLocalDate(String value) {
+		return parseLiteral(value, LocalDate::parse);
+	}
+
+	public static Optional<LocalDate> parseOptLocalDate(String value) {
+		return parseOptLiteral(value, LocalDate::parse);
+	}
+
+	public static Optional<LocalDate> parseNullLocalDate(String value) {
+		return parseNullLiteral(value, LocalDate::parse);
+	}
+
+	public static _Base.Nillable<LocalDate> parseNilLocalDate(String value) {
+		return parseNilLiteral(value, LocalDate::parse);
+	}
+
+	public static LocalDateTime parseLocalDateTime(String value) {
+		return parseLiteral(value, LocalDateTime::parse);
+	}
+
+	public static Optional<LocalDateTime> parseOptLocalDateTime(String value) {
+		return parseOptLiteral(value, LocalDateTime::parse);
+	}
+
+	public static Optional<LocalDateTime> parseNullLocalDateTime(String value) {
+		return parseNullLiteral(value, LocalDateTime::parse);
+	}
+
+	public static _Base.Nillable<LocalDateTime> parseNilLocalDateTime(String value) {
+		return parseNilLiteral(value, LocalDateTime::parse);
+	}
+
+	public static ZonedDateTime parseZonedDateTime(String value) {
+		return parseLiteral(value, ZonedDateTime::parse);
+	}
+
+	public static Optional<ZonedDateTime> parseOptZonedDateTime(String value) {
+		return parseOptLiteral(value, ZonedDateTime::parse);
+	}
+
+	public static Optional<ZonedDateTime> parseNullZonedDateTime(String value) {
+		return parseNullLiteral(value, ZonedDateTime::parse);
+	}
+
+	public static _Base.Nillable<ZonedDateTime> parseNilZonedDateTime(String value) {
+		return parseNilLiteral(value, ZonedDateTime::parse);
+	}
+
+	public static <T> List<T> mapLiterals(List<String> data, Function<String, T> mapper) {
+		return data.stream().map(mapper).toList();
+	}
+
+	public static <T> Optional<List<T>> mapOptLiterals(List<String> data, Function<String, T> mapper) {
+		return data != null ? Optional.of(data.stream().map(mapper).toList()) : Optional.empty();
+	}
+
+	public static <T> Optional<List<T>> mapNullLiterals(List<String> data, Function<String, T> mapper) {
+		if (data == null) {
+			return Optional.empty();
+		}
+		return Optional.of(data.stream().map(mapper).toList());
+	}
+
+	public static <T> _Base.Nillable<List<T>> mapNilLiterals(List<String> data, Function<String, T> mapper) {
+		if (data == null) {
+			return _NillableImpl.undefined();
+		}
+		return _NillableImpl.of(data.stream().map(mapper).toList());
+	}
+
+	public static <T> List<T> mapLiterals(String data, Function<String, T> mapper) {
+		return Arrays.stream(SPLIT_COMMA_PATTERN.split(data)).map(String::trim).map(mapper).toList();
+	}
+
+	public static <T> Optional<List<T>> mapOptLiterals(String data, Function<String, T> mapper) {
+		return data != null ? Optional.of(mapLiterals(data, mapper)) : Optional.empty();
+	}
+
+	public static <T> Optional<List<T>> mapNullLiterals(String data, Function<String, T> mapper) {
+		return "null".equals(data) ? Optional.empty() : Optional.of(mapLiterals(data, mapper));
+	}
+
+	public static <T> _Base.Nillable<List<T>> mapNilLiterals(String data, Function<String, T> mapper) {
+		if (data == null) {
+			return _NillableImpl.undefined();
+		} else if ("null".equals(data)) {
+			return _NillableImpl.nill();
+		}
+		return _NillableImpl.of(mapLiterals(data, mapper));
+	}
+
+	public static List<Boolean> mapBooleans(List<String> data) {
+		return mapLiterals(data, Boolean::valueOf);
+	}
+
+	public static Optional<List<Boolean>> mapOptBooleans(List<String> data) {
+		return mapOptLiterals(data, Boolean::valueOf);
+	}
+
+	public static Optional<List<Boolean>> mapNullBooleans(List<String> data) {
+		return mapNullLiterals(data, Boolean::valueOf);
+	}
+
+	public static _Base.Nillable<List<Boolean>> mapNilBooleans(List<String> data) {
+		return mapNilLiterals(data, Boolean::valueOf);
+	}
+
+	public static List<Boolean> mapBooleans(String data) {
+		return mapLiterals(data, Boolean::valueOf);
+	}
+
+	public static Optional<List<Boolean>> mapOptBooleans(String data) {
+		return mapOptLiterals(data, Boolean::valueOf);
+	}
+
+	public static Optional<List<Boolean>> mapNullBooleans(String data) {
+		return mapNullLiterals(data, Boolean::valueOf);
+	}
+
+	public static _Base.Nillable<List<Boolean>> mapNilBooleans(String data) {
+		return mapNilLiterals(data, Boolean::valueOf);
+	}
+
+	public static List<Short> mapShorts(List<String> data) {
+		return mapLiterals(data, Short::valueOf);
+	}
+
+	public static Optional<List<Short>> mapOptShorts(List<String> data) {
+		return mapOptLiterals(data, Short::valueOf);
+	}
+
+	public static Optional<List<Short>> mapNullShorts(List<String> data) {
+		return mapNullLiterals(data, Short::valueOf);
+	}
+
+	public static _Base.Nillable<List<Short>> mapNilShorts(List<String> data) {
+		return mapNilLiterals(data, Short::valueOf);
+	}
+
+	public static List<Short> mapShorts(String data) {
+		return mapLiterals(data, Short::valueOf);
+	}
+
+	public static Optional<List<Short>> mapOptShorts(String data) {
+		return mapOptLiterals(data, Short::valueOf);
+	}
+
+	public static Optional<List<Short>> mapNullShorts(String data) {
+		return mapNullLiterals(data, Short::valueOf);
+	}
+
+	public static _Base.Nillable<List<Short>> mapNilShorts(String data) {
+		return mapNilLiterals(data, Short::valueOf);
+	}
+
+	public static List<Integer> mapInts(List<String> data) {
+		return mapLiterals(data, Integer::valueOf);
+	}
+
+	public static Optional<List<Integer>> mapOptInts(List<String> data) {
+		return mapOptLiterals(data, Integer::valueOf);
+	}
+
+	public static Optional<List<Integer>> mapNullInts(List<String> data) {
+		return mapNullLiterals(data, Integer::valueOf);
+	}
+
+	public static _Base.Nillable<List<Integer>> mapNilInts(List<String> data) {
+		return mapNilLiterals(data, Integer::valueOf);
+	}
+
+	public static List<Integer> mapInts(String data) {
+		return mapLiterals(data, Integer::valueOf);
+	}
+
+	public static Optional<List<Integer>> mapOptInts(String data) {
+		return mapOptLiterals(data, Integer::valueOf);
+	}
+
+	public static Optional<List<Integer>> mapNullInts(String data) {
+		return mapNullLiterals(data, Integer::valueOf);
+	}
+
+	public static _Base.Nillable<List<Integer>> mapNilInts(String data) {
+		return mapNilLiterals(data, Integer::valueOf);
+	}
+
+	public static List<Long> mapLongs(List<String> data) {
+		return mapLiterals(data, Long::valueOf);
+	}
+
+	public static Optional<List<Long>> mapOptLongs(List<String> data) {
+		return mapOptLiterals(data, Long::valueOf);
+	}
+
+	public static Optional<List<Long>> mapNullLongs(List<String> data) {
+		return mapNullLiterals(data, Long::valueOf);
+	}
+
+	public static _Base.Nillable<List<Long>> mapNilLongs(List<String> data) {
+		return mapNilLiterals(data, Long::valueOf);
+	}
+
+	public static List<Long> mapLongs(String data) {
+		return mapLiterals(data, Long::valueOf);
+	}
+
+	public static Optional<List<Long>> mapOptLongs(String data) {
+		return mapOptLiterals(data, Long::valueOf);
+	}
+
+	public static Optional<List<Long>> mapNullLongs(String data) {
+		return mapNullLiterals(data, Long::valueOf);
+	}
+
+	public static _Base.Nillable<List<Long>> mapNilLongs(String data) {
+		return mapNilLiterals(data, Long::valueOf);
+	}
+
+	public static List<Float> mapFloats(List<String> data) {
+		return mapLiterals(data, Float::valueOf);
+	}
+
+	public static Optional<List<Float>> mapOptFloats(List<String> data) {
+		return mapOptLiterals(data, Float::valueOf);
+	}
+
+	public static Optional<List<Float>> mapNullFloats(List<String> data) {
+		return mapNullLiterals(data, Float::valueOf);
+	}
+
+	public static _Base.Nillable<List<Float>> mapNilFloats(List<String> data) {
+		return mapNilLiterals(data, Float::valueOf);
+	}
+
+	public static List<Float> mapFloats(String data) {
+		return mapLiterals(data, Float::valueOf);
+	}
+
+	public static Optional<List<Float>> mapOptFloats(String data) {
+		return mapOptLiterals(data, Float::valueOf);
+	}
+
+	public static Optional<List<Float>> mapNullFloats(String data) {
+		return mapNullLiterals(data, Float::valueOf);
+	}
+
+	public static _Base.Nillable<List<Float>> mapNilFloats(String data) {
+		return mapNilLiterals(data, Float::valueOf);
+	}
+
+	public static List<Double> mapDoubles(List<String> data) {
+		return mapLiterals(data, Double::valueOf);
+	}
+
+	public static Optional<List<Double>> mapOptDoubles(List<String> data) {
+		return mapOptLiterals(data, Double::valueOf);
+	}
+
+	public static Optional<List<Double>> mapNullDoubles(List<String> data) {
+		return mapNullLiterals(data, Double::valueOf);
+	}
+
+	public static _Base.Nillable<List<Double>> mapNilDoubles(List<String> data) {
+		return mapNilLiterals(data, Double::valueOf);
+	}
+
+	public static List<Double> mapDoubles(String data) {
+		return mapLiterals(data, Double::valueOf);
+	}
+
+	public static Optional<List<Double>> mapOptDoubles(String data) {
+		return mapOptLiterals(data, Double::valueOf);
+	}
+
+	public static Optional<List<Double>> mapNullDoubles(String data) {
+		return mapNullLiterals(data, Double::valueOf);
+	}
+
+	public static _Base.Nillable<List<Double>> mapNilDoubles(String data) {
+		return mapNilLiterals(data, Double::valueOf);
+	}
+
+	public static List<String> mapStrings(List<String> data) {
+		return mapLiterals(data, Function.identity());
+	}
+
+	public static Optional<List<String>> mapOptStrings(List<String> data) {
+		return mapOptLiterals(data, Function.identity());
+	}
+
+	public static Optional<List<String>> mapNullStrings(List<String> data) {
+		return mapNullLiterals(data, Function.identity());
+	}
+
+	public static _Base.Nillable<List<String>> mapNilStrings(List<String> data) {
+		return mapNilLiterals(data, Function.identity());
+	}
+
+	public static List<String> mapStrings(String data, Function<String, String> decoder) {
+		return mapLiterals(data, decoder);
+	}
+
+	public static Optional<List<String>> mapOptStrings(String data, Function<String, String> decoder) {
+		return mapOptLiterals(data, decoder);
+	}
+
+	public static Optional<List<String>> mapNullStrings(String data, Function<String, String> decoder) {
+		return mapNullLiterals(data, decoder);
+	}
+
+	public static _Base.Nillable<List<String>> mapNilStrings(String data, Function<String, String> decoder) {
+		return mapNilLiterals(data, decoder);
+	}
+
+	public static List<LocalDate> mapLocalDates(List<String> data) {
+		return mapLiterals(data, LocalDate::parse);
+	}
+
+	public static Optional<List<LocalDate>> mapOptLocalDates(List<String> data) {
+		return mapOptLiterals(data, LocalDate::parse);
+	}
+
+	public static Optional<List<LocalDate>> mapNullLocalDates(List<String> data) {
+		return mapNullLiterals(data, LocalDate::parse);
+	}
+
+	public static _Base.Nillable<List<LocalDate>> mapNilLocalDates(List<String> data) {
+		return mapNilLiterals(data, LocalDate::parse);
+	}
+
+	public static List<LocalDate> mapLocalDates(String data) {
+		return mapLiterals(data, LocalDate::parse);
+	}
+
+	public static Optional<List<LocalDate>> mapOptLocalDates(String data) {
+		return mapOptLiterals(data, LocalDate::parse);
+	}
+
+	public static Optional<List<LocalDate>> mapNullLocalDates(String data) {
+		return mapNullLiterals(data, LocalDate::parse);
+	}
+
+	public static _Base.Nillable<List<LocalDate>> mapNilLocalDates(String data) {
+		return mapNilLiterals(data, LocalDate::parse);
+	}
+
+	public static List<LocalDateTime> mapLocalDateTimes(List<String> data) {
+		return mapLiterals(data, LocalDateTime::parse);
+	}
+
+	public static Optional<List<LocalDateTime>> mapOptLocalDateTimes(List<String> data) {
+		return mapOptLiterals(data, LocalDateTime::parse);
+	}
+
+	public static Optional<List<LocalDateTime>> mapNullLocalDateTimes(List<String> data) {
+		return mapNullLiterals(data, LocalDateTime::parse);
+	}
+
+	public static _Base.Nillable<List<LocalDateTime>> mapNilLocalDateTimes(List<String> data) {
+		return mapNilLiterals(data, LocalDateTime::parse);
+	}
+
+	public static List<LocalDateTime> mapLocalDateTimes(String data) {
+		return mapLiterals(data, LocalDateTime::parse);
+	}
+
+	public static Optional<List<LocalDateTime>> mapOptLocalDateTimes(String data) {
+		return mapOptLiterals(data, LocalDateTime::parse);
+	}
+
+	public static Optional<List<LocalDateTime>> mapNullLocalDateTimes(String data) {
+		return mapNullLiterals(data, LocalDateTime::parse);
+	}
+
+	public static _Base.Nillable<List<LocalDateTime>> mapNilLocalDateTimes(String data) {
+		return mapNilLiterals(data, LocalDateTime::parse);
+	}
+
+	public static List<ZonedDateTime> mapZonedDateTimes(List<String> data) {
+		return mapLiterals(data, ZonedDateTime::parse);
+	}
+
+	public static Optional<List<ZonedDateTime>> mapOptZonedDateTimes(List<String> data) {
+		return mapOptLiterals(data, ZonedDateTime::parse);
+	}
+
+	public static Optional<List<ZonedDateTime>> mapNullZonedDateTimes(List<String> data) {
+		return mapNullLiterals(data, ZonedDateTime::parse);
+	}
+
+	public static _Base.Nillable<List<ZonedDateTime>> mapNilZonedDateTimes(List<String> data) {
+		return mapNilLiterals(data, ZonedDateTime::parse);
+	}
+
+	public static List<ZonedDateTime> mapZonedDateTimes(String data) {
+		return mapLiterals(data, ZonedDateTime::parse);
+	}
+
+	public static Optional<List<ZonedDateTime>> mapOptZonedDateTimes(String data) {
+		return mapOptLiterals(data, ZonedDateTime::parse);
+	}
+
+	public static Optional<List<ZonedDateTime>> mapNullZonedDateTimes(String data) {
+		return mapNullLiterals(data, ZonedDateTime::parse);
+	}
+
+	public static _Base.Nillable<List<ZonedDateTime>> mapNilZonedDateTimes(String data) {
+		return mapNilLiterals(data, ZonedDateTime::parse);
+	}
+
+	public static <T> List<T> mapObjects(List<String> data, Function<String, T> mapper) {
+		return data.stream().map(mapper).toList();
+	}
+
+	public static <T> Optional<List<T>> mapOptObjects(List<String> data, Function<String, T> mapper) {
+		return data != null ? Optional.of(data.stream().map(mapper).toList()) : Optional.empty();
+	}
+
+	public static <T> Optional<List<T>> mapNullObjects(List<String> data, Function<String, T> mapper) {
+		if (data == null) {
+			return Optional.empty();
+		}
+		return Optional.of(data.stream().map(mapper).toList());
+	}
+
+	public static <T> _Base.Nillable<List<T>> mapNilObjects(List<String> data, Function<String, T> mapper) {
+		if (data == null) {
+			return _NillableImpl.undefined();
+		}
+		return _NillableImpl.of(data.stream().map(mapper).toList());
+	}
+
+	public static <T> List<T> mapObjects(String data, Function<String, T> mapper) {
+		return mapLiterals(data, mapper);
+	}
+
+	public static <T> Optional<List<T>> mapOptObjects(String data, Function<String, T> mapper) {
+		return mapOptLiterals(data, mapper);
+	}
+
+	public static <T> Optional<List<T>> mapNullObjects(String data, Function<String, T> mapper) {
+		return mapNullLiterals(data, mapper);
+	}
+
+	public static <T> _Base.Nillable<List<T>> mapNilObjects(String data, Function<String, T> mapper) {
+		return mapNilLiterals(data, mapper);
+	}
+
+	public static <T> T parseObject(String value, Function<String, T> parser) {
+		return parseLiteral(value, parser);
+	}
+
+	public static <T> Optional<T> parseOptObject(String value, Function<String, T> parser) {
+		return parseOptLiteral(value, parser);
+	}
+
+	public static <T> Optional<T> parseNullObject(String value, Function<String, T> parser) {
+		return parseNullLiteral(value, parser);
+	}
+
+	public static <T> _Base.Nillable<T> parseNilObject(String value, Function<String, T> parser) {
+		return parseNilLiteral(value, parser);
+	}
+
 	public static Response toResponse(int status, RSDException e) {
 		if (e instanceof RSDException.RSDStructuredDataException s) {
 			return Response.status(status)
 					.header("X-RSD-Error-Type", e.type)
 					.header("X-RSD-Error-Message", e.getMessage())
+					.type(MediaType.APPLICATION_JSON_TYPE)
 					.entity(_JsonUtils.toJsonString(s.data, false)).build();
 		}
 		return Response.status(status)
 				.header("X-RSD-Error-Type", e.type)
 				.header("X-RSD-Error-Message", e.getMessage())
-				.entity(_JsonUtils.encodeAsJsonString(e.getMessage())).build();
+				.type(MediaType.TEXT_PLAIN_TYPE)
+				.entity(e.getMessage()).build();
 	}
+
 	public static Response.ResponseBuilder toStreamResponse(int status, RSDBlob blob) {
 		class FileStreamingOutput implements StreamingOutput {
 			@Override

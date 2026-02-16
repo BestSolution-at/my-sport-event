@@ -14,6 +14,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Produces;
 
+import at.mspe.server.rest.model._JsonUtils;
 import at.mspe.server.service.EventParticipantService;
 import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.model.Participant;
@@ -41,8 +42,8 @@ public class EventParticipantResource {
 	public Response get(
 			@PathParam("eventKey") String _eventKey,
 			@PathParam("key") String _key) {
-		var eventKey = _eventKey;
-		var key = _key;
+		var eventKey = _RestUtils.parseString(_eventKey);
+		var key = _RestUtils.parseString(_key);
 		try {
 			var result = service.get(builderFactory, eventKey, key);
 			return responseBuilder.get(result, eventKey, key).build();
@@ -53,7 +54,7 @@ public class EventParticipantResource {
 
 	@GET
 	public Response list(@PathParam("eventKey") String _eventKey) {
-		var eventKey = _eventKey;
+		var eventKey = _RestUtils.parseString(_eventKey);
 		var result = service.list(builderFactory, eventKey);
 		return responseBuilder.list(result, eventKey).build();
 	}
@@ -62,10 +63,10 @@ public class EventParticipantResource {
 	public Response create(
 			@PathParam("eventKey") String _eventKey,
 			String _participant,
-			@HeaderParam("autoAssignCohort") Boolean _autoAssignCohort) {
-		var eventKey = _eventKey;
-		var participant = builderFactory.of(ParticipantNew.Data.class, _participant);
-		var autoAssignCohort = _autoAssignCohort;
+			@HeaderParam("autoAssignCohort") String _autoAssignCohort) {
+		var eventKey = _RestUtils.parseString(_eventKey);
+		var participant = _JsonUtils.parseObject(_participant, $j -> builderFactory.of(ParticipantNew.Data.class, $j));
+		var autoAssignCohort = _RestUtils.parseOptBoolean(_autoAssignCohort);
 		try {
 			var result = service.create(builderFactory, eventKey, participant, autoAssignCohort);
 			return responseBuilder.create(result, eventKey, participant, autoAssignCohort).build();
@@ -80,11 +81,11 @@ public class EventParticipantResource {
 			@PathParam("eventKey") String _eventKey,
 			@PathParam("key") String _key,
 			String _participant,
-			@HeaderParam("autoAssignCohort") Boolean _autoAssignCohort) {
-		var eventKey = _eventKey;
-		var key = _key;
-		var participant = builderFactory.of(Participant.Patch.class, _participant);
-		var autoAssignCohort = _autoAssignCohort;
+			@HeaderParam("autoAssignCohort") String _autoAssignCohort) {
+		var eventKey = _RestUtils.parseString(_eventKey);
+		var key = _RestUtils.parseString(_key);
+		var participant = _JsonUtils.parseObject(_participant, $j -> builderFactory.of(Participant.Patch.class, $j));
+		var autoAssignCohort = _RestUtils.parseOptBoolean(_autoAssignCohort);
 		try {
 			var result = service.update(builderFactory, eventKey, key, participant, autoAssignCohort);
 			return responseBuilder.update(result, eventKey, key, participant, autoAssignCohort).build();
@@ -102,10 +103,10 @@ public class EventParticipantResource {
 	public Response delete(
 			@PathParam("eventKey") String _eventKey,
 			@PathParam("key") String _key,
-			@HeaderParam("version") Long _version) {
-		var eventKey = _eventKey;
-		var key = _key;
-		var version = _version;
+			@HeaderParam("version") String _version) {
+		var eventKey = _RestUtils.parseString(_eventKey);
+		var key = _RestUtils.parseString(_key);
+		var version = _RestUtils.parseOptLong(_version);
 		try {
 			service.delete(builderFactory, eventKey, key, version);
 			return responseBuilder.delete(eventKey, key, version).build();
@@ -119,7 +120,7 @@ public class EventParticipantResource {
 	@GET
 	@Path("export/csv")
 	public Response downloadCsv(@PathParam("eventKey") String _eventKey) {
-		var eventKey = _eventKey;
+		var eventKey = _RestUtils.parseString(_eventKey);
 		try {
 			var result = service.downloadCsv(builderFactory, eventKey);
 			return responseBuilder.downloadCsv(result, eventKey).build();

@@ -2,6 +2,7 @@
 package at.mspe.server.service;
 
 import java.util.List;
+import java.util.OptionalLong;
 
 import at.mspe.server.service.model.Cohort;
 import at.mspe.server.service.model.CohortNew;
@@ -23,7 +24,7 @@ public interface EventCohortService {
 			InvalidDataException,
 			StaleDataException;
 
-	public void delete(BuilderFactory _factory, String eventKey, String key, Long version)
+	public void delete(BuilderFactory _factory, String eventKey, String key, OptionalLong version)
 			throws NotFoundException,
 			StaleDataException;
 

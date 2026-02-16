@@ -8,6 +8,7 @@ import java.util.Optional;
 import at.mspe.server.service.model.mixins.ParticipantBaseMixin;
 
 public interface Participant {
+	public interface Builder {}
 
 	public interface Data extends _Base.BaseData, Participant, ParticipantBaseMixin {
 		public String key();
@@ -44,7 +45,7 @@ public interface Participant {
 
 	}
 
-	public interface DataBuilder extends _Base.BaseDataBuilder<Participant.Data> {
+	public interface DataBuilder extends Builder, _Base.BaseDataBuilder<Participant.Data> {
 		public DataBuilder key(String key);
 
 		public DataBuilder version(long version);
@@ -96,7 +97,7 @@ public interface Participant {
 
 	}
 
-	public interface PatchBuilder extends _Base.BaseDataBuilder<Participant.Patch> {
+	public interface PatchBuilder extends Builder, _Base.BaseDataBuilder<Participant.Patch> {
 		public PatchBuilder key(String key);
 
 		public PatchBuilder version(long version);

@@ -2,8 +2,11 @@
 package at.mspe.server.rest;
 
 import java.nio.file.Path;
+import java.util.List;
 
 import jakarta.inject.Singleton;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
 
 import at.mspe.server.rest.model._BlobImpl;
 import at.mspe.server.rest.model._FileImpl;
@@ -86,54 +89,108 @@ public class RestBuilderFactory implements BuilderFactory {
 		throw new IllegalArgumentException("Unsupported Builder '%s'".formatted(type));
 	}
 
-	public <T extends _Base.BaseData> T of(Class<T> type, String data) {
+	public <T extends _Base.BaseData> T of(Class<T> type, JsonObject data) {
 		if (type == GenericCohortNew.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, GenericCohortNewDataImpl::of));
+			return type.cast(GenericCohortNewDataImpl.of(data));
 		}
 		if (type == BirthyearCohortNew.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, BirthyearCohortNewDataImpl::of));
+			return type.cast(BirthyearCohortNewDataImpl.of(data));
 		}
 		if (type == GenericCohort.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, GenericCohortDataImpl::of));
+			return type.cast(GenericCohortDataImpl.of(data));
 		}
 		if (type == GenericCohort.Patch.class) {
-			return type.cast(_JsonUtils.fromString(data, GenericCohortPatchImpl::of));
+			return type.cast(GenericCohortPatchImpl.of(data));
 		}
 		if (type == BirthyearCohort.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, BirthyearCohortDataImpl::of));
+			return type.cast(BirthyearCohortDataImpl.of(data));
 		}
 		if (type == BirthyearCohort.Patch.class) {
-			return type.cast(_JsonUtils.fromString(data, BirthyearCohortPatchImpl::of));
+			return type.cast(BirthyearCohortPatchImpl.of(data));
 		}
 		if (type == SportEventNew.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, SportEventNewDataImpl::of));
+			return type.cast(SportEventNewDataImpl.of(data));
 		}
 		if (type == SportEvent.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, SportEventDataImpl::of));
+			return type.cast(SportEventDataImpl.of(data));
 		}
 		if (type == SportEvent.Patch.class) {
-			return type.cast(_JsonUtils.fromString(data, SportEventPatchImpl::of));
+			return type.cast(SportEventPatchImpl.of(data));
 		}
 		if (type == ParticipantNew.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, ParticipantNewDataImpl::of));
+			return type.cast(ParticipantNewDataImpl.of(data));
 		}
 		if (type == Participant.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, ParticipantDataImpl::of));
+			return type.cast(ParticipantDataImpl.of(data));
 		}
 		if (type == Participant.Patch.class) {
-			return type.cast(_JsonUtils.fromString(data, ParticipantPatchImpl::of));
+			return type.cast(ParticipantPatchImpl.of(data));
 		}
 		if (type == UpdateResult.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, UpdateResultDataImpl::of));
+			return type.cast(UpdateResultDataImpl.of(data));
 		}
 		if (type == CohortNew.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, CohortNewDataImpl::of));
+			return type.cast(CohortNewDataImpl.of(data));
 		}
 		if (type == Cohort.Data.class) {
-			return type.cast(_JsonUtils.fromString(data, CohortDataImpl::of));
+			return type.cast(CohortDataImpl.of(data));
 		}
 		if (type == Cohort.Patch.class) {
-			return type.cast(_JsonUtils.fromString(data, CohortPatchImpl::of));
+			return type.cast(CohortPatchImpl.of(data));
+		}
+
+		throw new IllegalArgumentException("Unsupported Builder '%s'".formatted(type));
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends _Base.BaseData> List<T> of(Class<T> type, JsonArray data) {
+		if (type == GenericCohortNew.Data.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  GenericCohortNewDataImpl::of);
+		}
+		if (type == BirthyearCohortNew.Data.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  BirthyearCohortNewDataImpl::of);
+		}
+		if (type == GenericCohort.Data.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  GenericCohortDataImpl::of);
+		}
+		if (type == GenericCohort.Patch.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  GenericCohortPatchImpl::of);
+		}
+		if (type == BirthyearCohort.Data.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  BirthyearCohortDataImpl::of);
+		}
+		if (type == BirthyearCohort.Patch.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  BirthyearCohortPatchImpl::of);
+		}
+		if (type == SportEventNew.Data.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  SportEventNewDataImpl::of);
+		}
+		if (type == SportEvent.Data.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  SportEventDataImpl::of);
+		}
+		if (type == SportEvent.Patch.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  SportEventPatchImpl::of);
+		}
+		if (type == ParticipantNew.Data.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  ParticipantNewDataImpl::of);
+		}
+		if (type == Participant.Data.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  ParticipantDataImpl::of);
+		}
+		if (type == Participant.Patch.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  ParticipantPatchImpl::of);
+		}
+		if (type == UpdateResult.Data.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  UpdateResultDataImpl::of);
+		}
+		if (type == CohortNew.Data.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  CohortNewDataImpl::of);
+		}
+		if (type == Cohort.Data.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  CohortDataImpl::of);
+		}
+		if (type == Cohort.Patch.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  CohortPatchImpl::of);
 		}
 
 		throw new IllegalArgumentException("Unsupported Builder '%s'".formatted(type));
