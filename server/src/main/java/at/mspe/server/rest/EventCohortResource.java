@@ -119,4 +119,16 @@ public class EventCohortResource {
 		}
 	}
 
+	@GET
+	@Path("export/csv")
+	public Response downloadCsv(@PathParam("eventKey") String _eventKey) {
+		var eventKey = _RestUtils.parseString(_eventKey);
+		try {
+			var result = service.downloadCsv(builderFactory, eventKey);
+			return responseBuilder.downloadCsv(result, eventKey).build();
+		} catch (NotFoundException e) {
+			return _RestUtils.toResponse(404, e);
+		}
+	}
+
 }

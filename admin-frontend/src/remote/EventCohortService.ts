@@ -11,4 +11,5 @@ export interface EventCohortService {
 	create(eventKey: string, cohort: CohortNew): Promise<Result<string, NotFoundError | InvalidDataError | StatusRSDError | NativeRSDError>>;
 	update(eventKey: string, key: string, cohort: CohortPatch): Promise<Result<UpdateResult, NotFoundError | InvalidDataError | StaleDataError | StatusRSDError | NativeRSDError>>;
 	delete(eventKey: string, key: string, version?: number): Promise<Result<VoidType, NotFoundError | StaleDataError | StatusRSDError | NativeRSDError>>;
+	downloadCsv(eventKey: string): Promise<Result<File, NotFoundError | StatusRSDError | NativeRSDError>>;
 }

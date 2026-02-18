@@ -92,6 +92,17 @@ record UpdateResult {
     version: long
 }
 
+record CheckCsvResultParticipant {
+    key: string
+    firstname: string
+    lastname: string
+}
+
+record CheckCsvResult {
+    unkownParticipants: CheckCsvResultParticipant[]
+    noTimeParticipants: CheckCsvResultParticipant[]
+}
+
 error NotFound;
 error InvalidData;
 error StaleData;
@@ -139,6 +150,9 @@ service EventCohort {
         throws 
             NotFound 
             StaleData;
+    
+    operation downloadCsv(eventKey: string): file
+        throws NotFound;
 }
 
 service EventParticipant {
@@ -169,4 +183,14 @@ service EventParticipant {
     operation downloadCsv(eventKey: string): file
         throws
             NotFound;
+    
+    operation uploadCsv(eventKey: string, csv: file)
+        throws
+            NotFound
+            InvalidData;
+
+    operation checkCsv(eventKey: string, csv: file): CheckCsvResult
+        throws
+            NotFound
+            InvalidData;
 }

@@ -473,6 +473,79 @@
         }
       ],
       "doc": ""
+    },
+    {
+      "@type": "RecordType",
+      "name": "CheckCsvResultParticipant",
+      "patchable": false,
+      "mixins": [],
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "key",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "firstname",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "lastname",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "builtin",
+          "type": "string",
+          "doc": ""
+        }
+      ],
+      "doc": ""
+    },
+    {
+      "@type": "RecordType",
+      "name": "CheckCsvResult",
+      "patchable": false,
+      "mixins": [],
+      "properties": [
+        {
+          "@type": "Property",
+          "name": "unkownParticipants",
+          "array": true,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "record",
+          "type": "CheckCsvResultParticipant",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "noTimeParticipants",
+          "array": true,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "record",
+          "type": "CheckCsvResultParticipant",
+          "doc": ""
+        }
+      ],
+      "doc": ""
     }
   ],
   "services": [
@@ -1186,6 +1259,62 @@
               ]
             }
           }
+        },
+        {
+          "@type": "Operation",
+          "name": "downloadCsv",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "eventKey",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "eventKey",
+                  "source": "path"
+                }
+              }
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "stream",
+            "type": "file",
+            "doc": ""
+          },
+          "errors": [
+            "NotFound"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            }
+          ],
+          "meta": {
+            "rest": {
+              "method": "GET",
+              "path": "export/csv",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                }
+              ]
+            }
+          }
         }
       ],
       "meta": {
@@ -1675,6 +1804,153 @@
                 {
                   "statusCode": 404,
                   "error": "NotFound"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "uploadCsv",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "eventKey",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "eventKey",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "csv",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "stream",
+              "type": "file",
+              "doc": ""
+            }
+          ],
+          "errors": [
+            "NotFound",
+            "InvalidData"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            },
+            {
+              "@type": "OperationError",
+              "error": "InvalidData",
+              "doc": ""
+            }
+          ],
+          "meta": {
+            "rest": {
+              "method": "POST",
+              "path": "import/csv",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                },
+                {
+                  "statusCode": 422,
+                  "error": "InvalidData"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "@type": "Operation",
+          "name": "checkCsv",
+          "doc": "",
+          "parameters": [
+            {
+              "@type": "Parameter",
+              "name": "eventKey",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "builtin",
+              "type": "string",
+              "doc": "",
+              "meta": {
+                "rest": {
+                  "name": "eventKey",
+                  "source": "path"
+                }
+              }
+            },
+            {
+              "@type": "Parameter",
+              "name": "csv",
+              "array": false,
+              "nullable": false,
+              "optional": false,
+              "patch": false,
+              "variant": "stream",
+              "type": "file",
+              "doc": ""
+            }
+          ],
+          "resultType": {
+            "@type": "ReturnType",
+            "array": false,
+            "variant": "record",
+            "type": "CheckCsvResult",
+            "doc": ""
+          },
+          "errors": [
+            "NotFound",
+            "InvalidData"
+          ],
+          "operationErrors": [
+            {
+              "@type": "OperationError",
+              "error": "NotFound",
+              "doc": ""
+            },
+            {
+              "@type": "OperationError",
+              "error": "InvalidData",
+              "doc": ""
+            }
+          ],
+          "meta": {
+            "rest": {
+              "method": "POST",
+              "path": "check/csv",
+              "results": [
+                {
+                  "statusCode": 200
+                },
+                {
+                  "statusCode": 404,
+                  "error": "NotFound"
+                },
+                {
+                  "statusCode": 422,
+                  "error": "InvalidData"
                 }
               ]
             }

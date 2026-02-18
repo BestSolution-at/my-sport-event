@@ -47,12 +47,12 @@ export class ParticipantViewVM extends BaseViewVM {
 
 	private readonly participantServiceList = createRemoteFunction(
 		this.participantService.list,
-		this.handleParticipantListResult.bind(this)
+		this.handleParticipantListResult.bind(this),
 	);
 
 	private readonly cohortServiceList = createRemoteFunction(
 		this.cohortService.list,
-		this.handleCohortListResult.bind(this)
+		this.handleCohortListResult.bind(this),
 	);
 
 	public readonly eventId: ReadonlySignal<string>;
@@ -155,15 +155,13 @@ export class ParticipantViewVM extends BaseViewVM {
 		if (error) {
 			this.stateInfo.value = { type: 'error', message: this.l10n('ParticipantView_Download_Error') };
 		} else {
-			if (result) {
-				const url = window.URL.createObjectURL(new Blob([result], { type: 'text/csv;charset=utf-8;' }));
-				const link = document.createElement('a');
-				link.href = url;
-				link.setAttribute('download', result.name ?? 'participants.csv');
-				document.body.appendChild(link);
-				link.click();
-				document.body.removeChild(link);
-			}
+			const url = window.URL.createObjectURL(new Blob([result], { type: 'text/csv;charset=utf-8;' }));
+			const link = document.createElement('a');
+			link.href = url;
+			link.setAttribute('download', result.name ?? 'participants.csv');
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
 		}
 	}
 }
@@ -237,7 +235,7 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 		messages: ReadonlySignal<AllMessages>,
 		cohorts: readonly Cohort[],
 		parent: ParticipantViewVM,
-		dto?: Participant
+		dto?: Participant,
 	) {
 		super(messages);
 		this.parent = parent;
@@ -320,7 +318,7 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 				const [, err] = await this.parent.participantService.create(
 					this.parent.eventId.value,
 					participant,
-					this.cohortAutoAssign.value ? true : undefined
+					this.cohortAutoAssign.value ? true : undefined,
 				);
 				if (err) {
 					console.error(err);
@@ -348,7 +346,7 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 						this.parent.eventId.value,
 						patch.key,
 						this.cohortAutoAssign.value ? { ...patch, cohortKey: undefined } : patch,
-						this.cohortAutoAssign.value && (patch.birthday !== undefined || patch.gender !== undefined)
+						this.cohortAutoAssign.value && (patch.birthday !== undefined || patch.gender !== undefined),
 					);
 
 					if (err) {
@@ -409,7 +407,7 @@ function createParticipantPatch(cur: Participant, updated: Participant): Partici
 function patchValueOrNull<P extends keyof Participant>(
 	cur: Participant,
 	updated: Participant,
-	prop: P
+	prop: P,
 ): Participant[P] | undefined | null {
 	if (cur[prop] === updated[prop]) {
 		return undefined;

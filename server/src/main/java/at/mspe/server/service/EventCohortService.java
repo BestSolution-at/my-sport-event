@@ -6,6 +6,7 @@ import java.util.OptionalLong;
 
 import at.mspe.server.service.model.Cohort;
 import at.mspe.server.service.model.CohortNew;
+import at.mspe.server.service.model.RSDFile;
 import at.mspe.server.service.model.UpdateResult;
 
 public interface EventCohortService {
@@ -27,5 +28,8 @@ public interface EventCohortService {
 	public void delete(BuilderFactory _factory, String eventKey, String key, OptionalLong version)
 			throws NotFoundException,
 			StaleDataException;
+
+	public RSDFile downloadCsv(BuilderFactory _factory, String eventKey)
+			throws NotFoundException;
 
 }

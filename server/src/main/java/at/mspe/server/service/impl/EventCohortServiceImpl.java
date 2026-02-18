@@ -11,6 +11,7 @@ import at.mspe.server.service.EventCohortService;
 import at.mspe.server.service.InvalidDataException;
 import at.mspe.server.service.model.Cohort;
 import at.mspe.server.service.model.CohortNew;
+import at.mspe.server.service.model.RSDFile;
 import at.mspe.server.service.model.UpdateResult;
 import at.mspe.server.service.NotFoundException;
 import at.mspe.server.service.StaleDataException;
@@ -22,13 +23,15 @@ public class EventCohortServiceImpl implements EventCohortService {
 	private final CreateHandler createHandler;
 	private final UpdateHandler updateHandler;
 	private final DeleteHandler deleteHandler;
+	private final DownloadCsvHandler downloadCsvHandler;
 
-	public EventCohortServiceImpl(GetHandler getHandler, ListHandler listHandler, CreateHandler createHandler, UpdateHandler updateHandler, DeleteHandler deleteHandler) {
+	public EventCohortServiceImpl(GetHandler getHandler, ListHandler listHandler, CreateHandler createHandler, UpdateHandler updateHandler, DeleteHandler deleteHandler, DownloadCsvHandler downloadCsvHandler) {
 		this.getHandler = getHandler;
 		this.listHandler = listHandler;
 		this.createHandler = createHandler;
 		this.updateHandler = updateHandler;
 		this.deleteHandler = deleteHandler;
+		this.downloadCsvHandler = downloadCsvHandler;
 	}
 
 	@Override
@@ -65,6 +68,12 @@ public class EventCohortServiceImpl implements EventCohortService {
 		deleteHandler.delete(_factory, eventKey, key, version);
 	}
 
+	@Override
+	public RSDFile downloadCsv(BuilderFactory _factory, String eventKey)
+			throws NotFoundException {
+		return downloadCsvHandler.downloadCsv(_factory, eventKey);
+	}
+
 	public interface GetHandler {
 		public Cohort.Data get(BuilderFactory _factory, String eventKey, String key)
 				throws NotFoundException;
@@ -92,6 +101,11 @@ public class EventCohortServiceImpl implements EventCohortService {
 		public void delete(BuilderFactory _factory, String eventKey, String key, OptionalLong version)
 				throws NotFoundException,
 				StaleDataException;
+	}
+
+	public interface DownloadCsvHandler {
+		public RSDFile downloadCsv(BuilderFactory _factory, String eventKey)
+				throws NotFoundException;
 	}
 
 }

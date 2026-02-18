@@ -52,6 +52,11 @@ resource EventCohort at '/api/sportevent/${eventKey}/cohorts' {
         422: InvalidData
         412: StaleData
     }
+
+    GET downloadCsv at 'export/csv' => {
+        200
+        404: NotFound
+    }
 }
 
 resource EventParticipant at '/api/sportevent/${eventKey}/participants' {
@@ -81,5 +86,15 @@ resource EventParticipant at '/api/sportevent/${eventKey}/participants' {
     GET downloadCsv at 'export/csv' => {
         200
         404: NotFound
+    }
+    POST uploadCsv at 'import/csv' => {
+        200
+        404: NotFound
+        422: InvalidData
+    }
+    POST checkCsv at 'check/csv' => {
+        200
+        404: NotFound
+        422: InvalidData
     }
 }

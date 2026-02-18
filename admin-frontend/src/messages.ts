@@ -74,6 +74,8 @@ const en = {
 	CohortView_Delete_Confirm_Message: 'Are you sure you want to delete this cohort? This action cannot be undone.',
 	CohortView_Type_Generic: 'Generic',
 	CohortView_Type_Birthyear: 'Birthyears',
+	CohortView_Download_Error: 'Error downloading cohort data.',
+	CohortView_Download: 'Download cohorts',
 
 	CohortViewDialog_NewTitle: 'New cohort',
 	CohortViewDialog_UpdateTitle: 'Update cohort',
@@ -202,6 +204,8 @@ const de = {
 		'Sind Sie sicher, dass Sie diese Klasse löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.',
 	CohortView_Type_Generic: 'Generisch',
 	CohortView_Type_Birthyear: 'Jahrgänge',
+	CohortView_Download_Error: 'Fehler beim Herunterladen der Klassenzuordnung.',
+	CohortView_Download: 'Klassen herunterladen',
 
 	CohortViewDialog_NewTitle: 'Neue Klasse',
 	CohortViewDialog_UpdateTitle: 'Klasse bearbeiten',

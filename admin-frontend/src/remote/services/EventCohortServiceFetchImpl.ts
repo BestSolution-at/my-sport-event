@@ -9,6 +9,7 @@ export function createEventCohortService(props: ServiceProps<api.service.ErrorTy
 		create: fnCreate(props),
 		update: fnUpdate(props),
 		delete: fnDelete(props),
+		downloadCsv: fnDownloadCsv(props),
 	};
 }
 function fnGet(props: ServiceProps<api.service.ErrorType>): api.service.EventCohortService['get'] {
@@ -216,6 +217,49 @@ function fnDelete(props: ServiceProps<api.service.ErrorType>): api.service.Event
 			return api.result.ERR(err);
 		} finally {
 			final?.('delete');
+		}
+	};
+}
+
+function fnDownloadCsv(props: ServiceProps<api.service.ErrorType>): api.service.EventCohortService['downloadCsv'] {
+	const { baseUrl, fetchAPI = fetch, lifecycleHandlers = {} } = props;
+	const { preFetch, onSuccess, onError, onCatch, final } = lifecycleHandlers;
+	return async (eventKey: string) => {
+		try {
+			const $init = (await preFetch?.('downloadCsv')) ?? {};
+			const $headers = new Headers($init.headers ?? {});
+			$headers.append('Content-Type', 'application/json');
+			$init.headers = $headers;
+
+			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(eventKey)}/cohorts/export/csv`;
+			const $response = await fetchAPI($path, { ...$init, method: 'GET' });
+
+			if ($response.status === 200) {
+				const $data = await $response.blob();
+				let fileName = 'unknown';
+				const dispoHeader = $response.headers.get('Content-Disposition');
+				if (dispoHeader?.includes('filename=')) {
+					const fileNameWithQuotes = dispoHeader.substring(dispoHeader.indexOf('filename=') + 'filename='.length);
+					fileName = fileNameWithQuotes.substring(1, fileNameWithQuotes.length - 1);
+				}
+				const $result = new File([$data], fileName, { type: $data.type });
+				return safeExecute(api.result.OK($result), () => onSuccess?.('downloadCsv', $result));
+			} else if ($response.status === 404) {
+				const err = {
+					_type: 'NotFound',
+					message: await $response.text(),
+				} as const;
+				return safeExecute(api.result.ERR(err), () => onError?.('downloadCsv', err));
+			}
+			const err = { _type: '_Status', message: await $response.text(), status: $response.status } as const;
+			return api.result.ERR(err);
+		} catch (e) {
+			onCatch?.('downloadCsv', e);
+			const ee = e instanceof Error ? e : new Error('', { cause: e });
+			const err = { _type: '_Native', message: ee.message, error: ee } as const;
+			return api.result.ERR(err);
+		} finally {
+			final?.('downloadCsv');
 		}
 	};
 }

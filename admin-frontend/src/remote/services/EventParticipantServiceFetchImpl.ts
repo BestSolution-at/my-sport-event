@@ -10,6 +10,8 @@ export function createEventParticipantService(props: ServiceProps<api.service.Er
 		update: fnUpdate(props),
 		delete: fnDelete(props),
 		downloadCsv: fnDownloadCsv(props),
+		uploadCsv: fnUploadCsv(props),
+		checkCsv: fnCheckCsv(props),
 	};
 }
 function fnGet(props: ServiceProps<api.service.ErrorType>): api.service.EventParticipantService['get'] {
@@ -254,6 +256,90 @@ function fnDownloadCsv(props: ServiceProps<api.service.ErrorType>): api.service.
 			return api.result.ERR(err);
 		} finally {
 			final?.('downloadCsv');
+		}
+	};
+}
+
+function fnUploadCsv(props: ServiceProps<api.service.ErrorType>): api.service.EventParticipantService['uploadCsv'] {
+	const { baseUrl, fetchAPI = fetch, lifecycleHandlers = {} } = props;
+	const { preFetch, onSuccess, onError, onCatch, final } = lifecycleHandlers;
+	return async (eventKey: string, csv: File) => {
+		try {
+			const $init = (await preFetch?.('uploadCsv')) ?? {};
+			const $headers = new Headers($init.headers ?? {});
+			$init.headers = $headers;
+
+			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(eventKey)}/participants/import/csv`;
+			const $body = new FormData();
+			$body.append('csv', csv);
+			const $response = await fetchAPI($path, { ...$init, method: 'POST', body: $body });
+			if ($response.status === 200) {
+				return safeExecute(api.result.OK(api.result.Void), () => onSuccess?.('uploadCsv', api.result.Void));
+			} else if ($response.status === 404) {
+				const err = {
+					_type: 'NotFound',
+					message: await $response.text(),
+				} as const;
+				return safeExecute(api.result.ERR(err), () => onError?.('uploadCsv', err));
+			} else if ($response.status === 422) {
+				const err = {
+					_type: 'InvalidData',
+					message: await $response.text(),
+				} as const;
+				return safeExecute(api.result.ERR(err), () => onError?.('uploadCsv', err));
+			}
+			const err = { _type: '_Status', message: await $response.text(), status: $response.status } as const;
+			return api.result.ERR(err);
+		} catch (e) {
+			onCatch?.('uploadCsv', e);
+			const ee = e instanceof Error ? e : new Error('', { cause: e });
+			const err = { _type: '_Native', message: ee.message, error: ee } as const;
+			return api.result.ERR(err);
+		} finally {
+			final?.('uploadCsv');
+		}
+	};
+}
+
+function fnCheckCsv(props: ServiceProps<api.service.ErrorType>): api.service.EventParticipantService['checkCsv'] {
+	const { baseUrl, fetchAPI = fetch, lifecycleHandlers = {} } = props;
+	const { preFetch, onSuccess, onError, onCatch, final } = lifecycleHandlers;
+	return async (eventKey: string, csv: File) => {
+		try {
+			const $init = (await preFetch?.('checkCsv')) ?? {};
+			const $headers = new Headers($init.headers ?? {});
+			$init.headers = $headers;
+
+			const $path = `${baseUrl}/api/sportevent/${encodeURIComponent(eventKey)}/participants/check/csv`;
+			const $body = new FormData();
+			$body.append('csv', csv);
+			const $response = await fetchAPI($path, { ...$init, method: 'POST', body: $body });
+			if ($response.status === 200) {
+				const $data = await decodeResponse($response, api.utils.isRecord);
+				const $result = api.model.CheckCsvResultFromJSON($data);
+				return safeExecute(api.result.OK($result), () => onSuccess?.('checkCsv', $result));
+			} else if ($response.status === 404) {
+				const err = {
+					_type: 'NotFound',
+					message: await $response.text(),
+				} as const;
+				return safeExecute(api.result.ERR(err), () => onError?.('checkCsv', err));
+			} else if ($response.status === 422) {
+				const err = {
+					_type: 'InvalidData',
+					message: await $response.text(),
+				} as const;
+				return safeExecute(api.result.ERR(err), () => onError?.('checkCsv', err));
+			}
+			const err = { _type: '_Status', message: await $response.text(), status: $response.status } as const;
+			return api.result.ERR(err);
+		} catch (e) {
+			onCatch?.('checkCsv', e);
+			const ee = e instanceof Error ? e : new Error('', { cause: e });
+			const err = { _type: '_Native', message: ee.message, error: ee } as const;
+			return api.result.ERR(err);
+		} finally {
+			final?.('checkCsv');
 		}
 	};
 }

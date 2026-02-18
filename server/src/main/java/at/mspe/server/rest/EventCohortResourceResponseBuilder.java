@@ -11,6 +11,7 @@ import jakarta.ws.rs.core.Response.ResponseBuilder;
 import at.mspe.server.rest.model._JsonUtils;
 import at.mspe.server.service.model.Cohort;
 import at.mspe.server.service.model.CohortNew;
+import at.mspe.server.service.model.RSDFile;
 import at.mspe.server.service.model.UpdateResult;
 
 @Singleton
@@ -33,6 +34,10 @@ public class EventCohortResourceResponseBuilder {
 
 	public ResponseBuilder delete(String eventKey, String key, OptionalLong version) {
 		return Response.status(200);
+	}
+
+	public ResponseBuilder downloadCsv(RSDFile $result, String eventKey) {
+		return _RestUtils.toStreamResponse(200, $result);
 	}
 
 }

@@ -4,6 +4,7 @@ import type { Participant, ParticipantPatch } from './model/Participant.ts';
 import type { InvalidDataError, NativeRSDError, NotFoundError, StaleDataError, StatusRSDError } from './Errors.ts';
 import type { ParticipantNew } from './model/ParticipantNew.ts';
 import type { UpdateResult } from './model/UpdateResult.ts';
+import type { CheckCsvResult } from './model/CheckCsvResult.ts';
 
 export interface EventParticipantService {
 	get(eventKey: string, key: string): Promise<Result<Participant, NotFoundError | StatusRSDError | NativeRSDError>>;
@@ -12,4 +13,6 @@ export interface EventParticipantService {
 	update(eventKey: string, key: string, participant: ParticipantPatch, autoAssignCohort?: boolean): Promise<Result<UpdateResult, NotFoundError | InvalidDataError | StaleDataError | StatusRSDError | NativeRSDError>>;
 	delete(eventKey: string, key: string, version?: number): Promise<Result<VoidType, NotFoundError | StaleDataError | StatusRSDError | NativeRSDError>>;
 	downloadCsv(eventKey: string): Promise<Result<File, NotFoundError | StatusRSDError | NativeRSDError>>;
+	uploadCsv(eventKey: string, csv: File): Promise<Result<VoidType, NotFoundError | InvalidDataError | StatusRSDError | NativeRSDError>>;
+	checkCsv(eventKey: string, csv: File): Promise<Result<CheckCsvResult, NotFoundError | InvalidDataError | StatusRSDError | NativeRSDError>>;
 }

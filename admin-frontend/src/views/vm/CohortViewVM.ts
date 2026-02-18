@@ -139,6 +139,20 @@ export class CohortViewVM extends BaseViewVM {
 	public clearStateInfo() {
 		this.stateInfo.value = undefined;
 	}
+
+	public async downloadCSV() {
+		const [data, error] = await this.cohortService.downloadCsv(this.eventId.value);
+		if (error) {
+			this.stateInfo.value = { type: 'error', message: this.l10n('CohortView_Download_Error') };
+		} else {
+			const url = URL.createObjectURL(new Blob([data], { type: 'text/csv' }));
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = `cohorts_${this.eventId.value}.csv`;
+			a.click();
+			URL.revokeObjectURL(url);
+		}
+	}
 }
 
 export class CohortViewDialogVM extends BaseViewVM {
@@ -213,15 +227,15 @@ export class CohortViewDialogVM extends BaseViewVM {
 		this.dto = dto;
 
 		this.title = computed(() =>
-			dto ? this.messages.value('CohortViewDialog_UpdateTitle') : this.messages.value('CohortViewDialog_NewTitle')
+			dto ? this.messages.value('CohortViewDialog_UpdateTitle') : this.messages.value('CohortViewDialog_NewTitle'),
 		);
 		this.description = computed(() =>
 			dto
 				? this.messages.value('CohortViewDialog_UpdateDescription')
-				: this.messages.value('CohortViewDialog_NewDescription')
+				: this.messages.value('CohortViewDialog_NewDescription'),
 		);
 		this.persistButtonLabel = computed(() =>
-			dto ? this.messages.value('Generic_Save') : this.messages.value('Generic_Create')
+			dto ? this.messages.value('Generic_Save') : this.messages.value('Generic_Create'),
 		);
 
 		if (dto) {
@@ -297,7 +311,7 @@ export class CohortViewDialogVM extends BaseViewVM {
 							max: parseFormattedInteger(max),
 							gender,
 							autoAssign,
-					  })
+						})
 					: createGenericPatch(this.dto, { ...this.dto, name, gender, autoAssign });
 				if (patch) {
 					const [result, err] = await this.parent.cohortService.update(this.parent.eventId.value, patch.key, patch);
@@ -338,7 +352,7 @@ export class CohortViewDialogVM extends BaseViewVM {
 								max: parseFormattedInteger(max),
 								gender,
 								autoAssign,
-						  }
+							}
 						: { '@type': 'generic', name, gender, autoAssign };
 				const [result, err] = await this.parent.cohortService.create(this.parent.eventId.value, dto);
 				if (result) {

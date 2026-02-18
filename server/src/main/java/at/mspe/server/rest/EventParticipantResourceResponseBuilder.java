@@ -10,6 +10,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.ResponseBuilder;
 
 import at.mspe.server.rest.model._JsonUtils;
+import at.mspe.server.service.model.CheckCsvResult;
 import at.mspe.server.service.model.Participant;
 import at.mspe.server.service.model.ParticipantNew;
 import at.mspe.server.service.model.RSDFile;
@@ -39,6 +40,14 @@ public class EventParticipantResourceResponseBuilder {
 
 	public ResponseBuilder downloadCsv(RSDFile $result, String eventKey) {
 		return _RestUtils.toStreamResponse(200, $result);
+	}
+
+	public ResponseBuilder uploadCsv(String eventKey, RSDFile csv) {
+		return Response.status(200);
+	}
+
+	public ResponseBuilder checkCsv(CheckCsvResult.Data $result, String eventKey, RSDFile csv) {
+		return Response.status(200).entity(_JsonUtils.toJsonString($result, false));
 	}
 
 }

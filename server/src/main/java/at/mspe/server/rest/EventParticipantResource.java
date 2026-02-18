@@ -3,6 +3,7 @@ package at.mspe.server.rest;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.DELETE;
@@ -21,6 +22,8 @@ import at.mspe.server.service.model.Participant;
 import at.mspe.server.service.model.ParticipantNew;
 import at.mspe.server.service.NotFoundException;
 import at.mspe.server.service.StaleDataException;
+import org.jboss.resteasy.reactive.multipart.FileUpload;
+import org.jboss.resteasy.reactive.RestForm;
 
 @ApplicationScoped
 @Path("/api/sportevent/{eventKey}/participants")
@@ -129,4 +132,34 @@ public class EventParticipantResource {
 		}
 	}
 
+	@POST
+	@Path("import/csv")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response uploadCsv(@PathParam("eventKey") String _eventKey, @RestForm("csv") FileUpload _csv) {
+		var eventKey = _RestUtils.parseString(_eventKey);
+		var csv = builderFactory.createFile(_csv.filePath(), _csv.contentType(), _csv.fileName());
+		try {
+			service.uploadCsv(builderFactory, eventKey, csv);
+			return responseBuilder.uploadCsv(eventKey, csv).build();
+		} catch (NotFoundException e) {
+			return _RestUtils.toResponse(404, e);
+		} catch (InvalidDataException e) {
+			return _RestUtils.toResponse(422, e);
+		}
+	}
+	@POST
+	@Path("check/csv")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	public Response checkCsv(@PathParam("eventKey") String _eventKey, @RestForm("csv") FileUpload _csv) {
+		var eventKey = _RestUtils.parseString(_eventKey);
+		var csv = builderFactory.createFile(_csv.filePath(), _csv.contentType(), _csv.fileName());
+		try {
+			var result = service.checkCsv(builderFactory, eventKey, csv);
+			return responseBuilder.checkCsv(result, eventKey, csv).build();
+		} catch (NotFoundException e) {
+			return _RestUtils.toResponse(404, e);
+		} catch (InvalidDataException e) {
+			return _RestUtils.toResponse(422, e);
+		}
+	}
 }

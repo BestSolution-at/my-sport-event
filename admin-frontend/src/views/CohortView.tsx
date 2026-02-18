@@ -1,7 +1,7 @@
 import { useParams } from 'react-router';
 import { ViewHeader } from './utils/ViewHeader';
 import { messages } from '../messages';
-import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from '../components/dropdown';
+import { Dropdown, DropdownButton, DropdownDivider, DropdownItem, DropdownMenu } from '../components/dropdown';
 import { EllipsisHorizontalIcon } from '@heroicons/react/16/solid';
 import { Button } from '../components/button';
 import { Dialog, DialogActions, DialogBody, DialogDescription, DialogTitle } from '../components/dialog';
@@ -17,6 +17,7 @@ import { ErrorDialog } from './utils/ErrorDialog';
 import { SuccessInfo } from './utils/SuccessInfo';
 import { ErrorInfo } from './utils/ErrorInfo';
 import { CheckBoxFormField } from './utils/CheckBoxFormField';
+import { ArrowDownTrayIcon, ChevronDownIcon, PlusIcon } from '@heroicons/react/20/solid';
 
 export function CohortView() {
 	const m = useMessageFormatSignal(messages);
@@ -77,7 +78,23 @@ function CohortHeader(props: { vm: CohortViewVM }) {
 
 	return (
 		<ViewHeader title={title}>
-			<Button onClick={props.vm.onOpenNewCohortDialog.bind(props.vm)}>{m('CohortView_New')}</Button>
+			<Dropdown>
+				<DropdownButton plain aria-label={m('Generic_MoreOptions')}>
+					{m('Generic_Actions')}
+					<ChevronDownIcon />
+				</DropdownButton>
+				<DropdownMenu anchor="bottom end">
+					<DropdownItem onClick={() => props.vm.onOpenNewCohortDialog()}>
+						<PlusIcon data-slot="icon" />
+						{m('CohortView_New')}
+					</DropdownItem>
+					<DropdownDivider />
+					<DropdownItem onClick={() => props.vm.downloadCSV()}>
+						<ArrowDownTrayIcon data-slot="icon" />
+						{m('CohortView_Download')}
+					</DropdownItem>
+				</DropdownMenu>
+			</Dropdown>
 		</ViewHeader>
 	);
 }
