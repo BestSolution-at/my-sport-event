@@ -10,6 +10,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.EventParticipantService;
 import at.mspe.server.service.InvalidDataException;
+import at.mspe.server.service.model.CheckCsvResult;
 import at.mspe.server.service.model.Participant;
 import at.mspe.server.service.model.ParticipantNew;
 import at.mspe.server.service.model.RSDFile;
@@ -25,14 +26,18 @@ public class EventParticipantServiceImpl implements EventParticipantService {
 	private final UpdateHandler updateHandler;
 	private final DeleteHandler deleteHandler;
 	private final DownloadCsvHandler downloadCsvHandler;
+	private final UploadCsvHandler uploadCsvHandler;
+	private final CheckCsvHandler checkCsvHandler;
 
-	public EventParticipantServiceImpl(GetHandler getHandler, ListHandler listHandler, CreateHandler createHandler, UpdateHandler updateHandler, DeleteHandler deleteHandler, DownloadCsvHandler downloadCsvHandler) {
+	public EventParticipantServiceImpl(GetHandler getHandler, ListHandler listHandler, CreateHandler createHandler, UpdateHandler updateHandler, DeleteHandler deleteHandler, DownloadCsvHandler downloadCsvHandler, UploadCsvHandler uploadCsvHandler, CheckCsvHandler checkCsvHandler) {
 		this.getHandler = getHandler;
 		this.listHandler = listHandler;
 		this.createHandler = createHandler;
 		this.updateHandler = updateHandler;
 		this.deleteHandler = deleteHandler;
 		this.downloadCsvHandler = downloadCsvHandler;
+		this.uploadCsvHandler = uploadCsvHandler;
+		this.checkCsvHandler = checkCsvHandler;
 	}
 
 	@Override
@@ -75,6 +80,20 @@ public class EventParticipantServiceImpl implements EventParticipantService {
 		return downloadCsvHandler.downloadCsv(_factory, eventKey);
 	}
 
+	@Override
+	public void uploadCsv(BuilderFactory _factory, String eventKey, RSDFile csv)
+			throws NotFoundException,
+			InvalidDataException {
+		uploadCsvHandler.uploadCsv(_factory, eventKey, csv);
+	}
+
+	@Override
+	public CheckCsvResult.Data checkCsv(BuilderFactory _factory, String eventKey, RSDFile csv)
+			throws NotFoundException,
+			InvalidDataException {
+		return checkCsvHandler.checkCsv(_factory, eventKey, csv);
+	}
+
 	public interface GetHandler {
 		public Participant.Data get(BuilderFactory _factory, String eventKey, String key)
 				throws NotFoundException;
@@ -107,6 +126,18 @@ public class EventParticipantServiceImpl implements EventParticipantService {
 	public interface DownloadCsvHandler {
 		public RSDFile downloadCsv(BuilderFactory _factory, String eventKey)
 				throws NotFoundException;
+	}
+
+	public interface UploadCsvHandler {
+		public void uploadCsv(BuilderFactory _factory, String eventKey, RSDFile csv)
+				throws NotFoundException,
+				InvalidDataException;
+	}
+
+	public interface CheckCsvHandler {
+		public CheckCsvResult.Data checkCsv(BuilderFactory _factory, String eventKey, RSDFile csv)
+				throws NotFoundException,
+				InvalidDataException;
 	}
 
 }

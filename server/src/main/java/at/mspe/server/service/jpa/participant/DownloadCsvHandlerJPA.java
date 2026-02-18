@@ -47,35 +47,37 @@ public class DownloadCsvHandlerJPA extends BaseReadonlyHandler
                 ORDER BY p.key""", ParticipantEntity.class)
                 .setParameter("eventKey", eventKey);
 
+        var contentLines = q.getResultList().stream().map(e -> {
+            var sb = new StringBuilder();
+            sb.append(e.gender == Gender.FEMALE ? "W" : "M").append("\t");
+            sb.append(e.lastname).append("\t");
+            sb.append(e.firstname).append("\t");
+            sb.append(Objects.toString(e.association, "")).append("\t");
+            sb.append(e.birthday.getYear()).append("\t");
+            sb.append(e.cohort != null ? e.cohort.name : "").append("\t");
+            sb.append(Objects.toString(e.team, "").trim()).append("\t");
+            sb.append(e.key);
+            return sb;
+        });
+
+        var header = new StringBuilder();
+        header.append("Geschlecht").append("\t");
+        header.append("Nachname").append("\t");
+        header.append("Vorname").append("\t");
+        header.append("Verein").append("\t");
+        header.append("Jahrgang").append("\t");
+        header.append("Klasse").append("\t");
+        header.append("Mannschaft").append("\t");
+        header.append("Key");
+
         try {
-            var contentLines = q.getResultList().stream().map(e -> {
-                var sb = new StringBuilder();
-                sb.append(e.gender == Gender.FEMALE ? "W" : "M").append("\t");
-                sb.append(e.lastname).append("\t");
-                sb.append(e.firstname).append("\t");
-                sb.append(Objects.toString(e.association, "")).append("\t");
-                sb.append(e.birthday.getYear()).append("\t");
-                sb.append(e.cohort != null ? e.cohort.name : "").append("\t");
-                sb.append(Objects.toString(e.team, "").trim()).append("\t");
-                sb.append(e.key);
-                return sb;
-            });
-            var header = new StringBuilder();
-            header.append("Geschlecht").append("\t");
-            header.append("Nachname").append("\t");
-            header.append("Vorname").append("\t");
-            header.append("Verein").append("\t");
-            header.append("Jahrgang").append("\t");
-            header.append("Klasse").append("\t");
-            header.append("Mannschaft").append("\t");
-            header.append("Key");
             var csvContent = Stream.concat(Stream.of(header), contentLines).toList();
             var file = Files.createTempFile("mspe", ".csv");
             Files.write(file, csvContent);
             var filename = "%s_participants.csv".formatted(event.name);
             return _factory.createFile(file, "text/csv;charset=utf-8;", filename);
         } catch (IOException e) {
-            throw new IllegalStateException(e);
+            throw new IllegalStateException("Error while creating CSV file", e);
         }
     }
 }

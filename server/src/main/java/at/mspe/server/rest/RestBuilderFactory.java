@@ -14,6 +14,8 @@ import at.mspe.server.rest.model._JsonUtils;
 import at.mspe.server.rest.model.BirthyearCohortDataImpl;
 import at.mspe.server.rest.model.BirthyearCohortNewDataImpl;
 import at.mspe.server.rest.model.BirthyearCohortPatchImpl;
+import at.mspe.server.rest.model.CheckCsvResultDataImpl;
+import at.mspe.server.rest.model.CheckCsvResultParticipantDataImpl;
 import at.mspe.server.rest.model.CohortDataImpl;
 import at.mspe.server.rest.model.CohortNewDataImpl;
 import at.mspe.server.rest.model.CohortPatchImpl;
@@ -31,6 +33,8 @@ import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.model._Base;
 import at.mspe.server.service.model.BirthyearCohort;
 import at.mspe.server.service.model.BirthyearCohortNew;
+import at.mspe.server.service.model.CheckCsvResult;
+import at.mspe.server.service.model.CheckCsvResultParticipant;
 import at.mspe.server.service.model.Cohort;
 import at.mspe.server.service.model.CohortNew;
 import at.mspe.server.service.model.GenericCohort;
@@ -86,6 +90,12 @@ public class RestBuilderFactory implements BuilderFactory {
 		if (type == UpdateResult.DataBuilder.class) {
 			return type.cast(UpdateResultDataImpl.builder());
 		}
+		if (type == CheckCsvResultParticipant.DataBuilder.class) {
+			return type.cast(CheckCsvResultParticipantDataImpl.builder());
+		}
+		if (type == CheckCsvResult.DataBuilder.class) {
+			return type.cast(CheckCsvResultDataImpl.builder());
+		}
 		throw new IllegalArgumentException("Unsupported Builder '%s'".formatted(type));
 	}
 
@@ -128,6 +138,12 @@ public class RestBuilderFactory implements BuilderFactory {
 		}
 		if (type == UpdateResult.Data.class) {
 			return type.cast(UpdateResultDataImpl.of(data));
+		}
+		if (type == CheckCsvResultParticipant.Data.class) {
+			return type.cast(CheckCsvResultParticipantDataImpl.of(data));
+		}
+		if (type == CheckCsvResult.Data.class) {
+			return type.cast(CheckCsvResultDataImpl.of(data));
 		}
 		if (type == CohortNew.Data.class) {
 			return type.cast(CohortNewDataImpl.of(data));
@@ -182,6 +198,12 @@ public class RestBuilderFactory implements BuilderFactory {
 		}
 		if (type == UpdateResult.Data.class) {
 			return (List<T>) _JsonUtils.mapObjects(data,  UpdateResultDataImpl::of);
+		}
+		if (type == CheckCsvResultParticipant.Data.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  CheckCsvResultParticipantDataImpl::of);
+		}
+		if (type == CheckCsvResult.Data.class) {
+			return (List<T>) _JsonUtils.mapObjects(data,  CheckCsvResultDataImpl::of);
 		}
 		if (type == CohortNew.Data.class) {
 			return (List<T>) _JsonUtils.mapObjects(data,  CohortNewDataImpl::of);

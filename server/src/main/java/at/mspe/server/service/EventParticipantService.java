@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.OptionalLong;
 
+import at.mspe.server.service.model.CheckCsvResult;
 import at.mspe.server.service.model.Participant;
 import at.mspe.server.service.model.ParticipantNew;
 import at.mspe.server.service.model.RSDFile;
@@ -32,5 +33,13 @@ public interface EventParticipantService {
 
 	public RSDFile downloadCsv(BuilderFactory _factory, String eventKey)
 			throws NotFoundException;
+
+	public void uploadCsv(BuilderFactory _factory, String eventKey, RSDFile csv)
+			throws NotFoundException,
+			InvalidDataException;
+
+	public CheckCsvResult.Data checkCsv(BuilderFactory _factory, String eventKey, RSDFile csv)
+			throws NotFoundException,
+			InvalidDataException;
 
 }
