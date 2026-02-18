@@ -44,7 +44,7 @@ public class DownloadCsvHandlerJPA extends BaseReadonlyHandler
                     Participant p
                 WHERE
                     p.sportEvent.key = :eventKey
-                ORDER BY p.id""", ParticipantEntity.class)
+                ORDER BY p.key""", ParticipantEntity.class)
                 .setParameter("eventKey", eventKey);
 
         try {
@@ -56,7 +56,8 @@ public class DownloadCsvHandlerJPA extends BaseReadonlyHandler
                 sb.append(Objects.toString(e.association, "")).append("\t");
                 sb.append(e.birthday.getYear()).append("\t");
                 sb.append(e.cohort != null ? e.cohort.name : "").append("\t");
-                sb.append(Objects.toString(e.time, "").trim()).append("\t");
+                sb.append(Objects.toString(e.team, "").trim()).append("\t");
+                sb.append(e.key);
                 return sb;
             });
             var header = new StringBuilder();
@@ -66,7 +67,8 @@ public class DownloadCsvHandlerJPA extends BaseReadonlyHandler
             header.append("Verein").append("\t");
             header.append("Jahrgang").append("\t");
             header.append("Klasse").append("\t");
-            header.append("Mannschaft");
+            header.append("Mannschaft").append("\t");
+            header.append("Key");
             var csvContent = Stream.concat(Stream.of(header), contentLines).toList();
             var file = Files.createTempFile("mspe", ".csv");
             Files.write(file, csvContent);
