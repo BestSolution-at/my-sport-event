@@ -29,7 +29,7 @@ maven-verify:
       user: "1000:0" # ensure fixed user to allow setting the same for the server native build
   variables:
     PARENT_POM_LOCATION: server
-    ADDITIONAL_MAVEN_OPTS: -Dnative -Dquarkus.native.sources-only=true -Dquarkus.native.container-build=true -Dquarkus.native.march=x86-64-v2
+    ADDITIONAL_MAVEN_OPTS: -Dnative -Dquarkus.native.sources-only=true -Dquarkus.native.container-build=true
   artifacts:
     reports:
       junit:
