@@ -9,6 +9,7 @@ import java.time.ZonedDateTime;
 import org.junit.jupiter.api.Test;
 
 import at.mspe.server.service.InvalidDataException;
+import at.mspe.server.service.model.Status;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.inject.Inject;
 
@@ -29,6 +30,7 @@ public class CreateHandlerJPATest extends SportEventHandlerTest<CreateHandlerJPA
                 .date(date)
                 .name(name)
                 .registrationUrl(registrationUrl)
+                .status(Status.PLANNING)
                 .build();
         var key = handler.create(builderFactory, dto);
         assertNotNull(key);

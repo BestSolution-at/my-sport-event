@@ -8,6 +8,7 @@ import org.hibernate.StatelessSession;
 import org.junit.jupiter.api.BeforeEach;
 
 import at.mspe.server.service.jpa.model.CohortEntity;
+import at.mspe.server.service.jpa.model.EventStatus;
 import at.mspe.server.service.jpa.model.Gender;
 import at.mspe.server.service.jpa.model.ParticipantEntity;
 import at.mspe.server.service.jpa.model.SportEventEntity;
@@ -49,6 +50,7 @@ public class BaseTest {
                 .key(UUID.randomUUID())
                 .date(ZonedDateTime.parse("2000-01-01T10:00:00Z"))
                 .name("Simple Event")
+                .status(EventStatus.PLANNING)
                 .build();
         em.persist(event);
         this.SimpleEmptyEventKey = event.key.toString();
@@ -59,6 +61,7 @@ public class BaseTest {
                 .key(UUID.randomUUID())
                 .date(ZonedDateTime.parse("2000-01-02T10:00:00Z"))
                 .name("Simple Full Event")
+                .status(EventStatus.PLANNING)
                 .build();
         em.persist(event);
         em.flush();
