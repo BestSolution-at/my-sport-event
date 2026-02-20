@@ -18,3 +18,7 @@ if [ "$dbversion" -lt 2 ]; then
   echo "running DB upgrades for version 0.0.4..."
   psql -v ON_ERROR_STOP=1 --single-transaction -f ${DATA_DIR}/migrations/upgrade-0.0.4.sql
 fi
+if [ "$dbversion" -lt 3 ]; then
+  echo "running DB upgrades for version 0.0.8..."
+  psql -v ON_ERROR_STOP=1 --single-transaction -f ${DATA_DIR}/migrations/upgrade-0.0.8.sql
+fi

@@ -4,4 +4,4 @@ CREATE TABLE meta_dbversion (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO meta_dbversion (version) VALUES (2);
+INSERT INTO meta_dbversion (version) VALUES (3);
