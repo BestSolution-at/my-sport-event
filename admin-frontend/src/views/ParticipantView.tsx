@@ -529,7 +529,7 @@ function CohortSection(props: { vm: ParticipantViewVM; cohort: Cohort | undefine
 							</td>
 							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{p.firstname}</td>
 							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{p.birthyear}</td>
-							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">0:00.00</td>
+							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{p.time}</td>
 							<td className="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
 								<Dropdown>
 									<DropdownButton plain aria-label={m('Generic_MoreOptions')}>
@@ -650,7 +650,7 @@ function GenderSection(props: { vm: ParticipantViewVM; label: string; items: rea
 							</td>
 							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{p.firstname}</td>
 							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{p.birthyear}</td>
-							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">0:00.00</td>
+							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{p.time}</td>
 							<td className="py-4 pr-4 pl-3 text-right text-sm font-medium whitespace-nowrap sm:pr-6">
 								<Dropdown>
 									<DropdownButton plain aria-label={m('Generic_MoreOptions')}>
