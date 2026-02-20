@@ -2,6 +2,7 @@
 package at.mspe.server.rest.model;
 
 import java.nio.file.Path;
+import java.util.function.Consumer;
 import java.util.Objects;
 
 import at.mspe.server.service.model.RSDFile;
@@ -9,17 +10,24 @@ import at.mspe.server.service.model.RSDFile;
 public class _FileImpl extends _BlobImpl implements RSDFile {
 	private final String filename;
 
-	_FileImpl(Path file, String mimeType, String filename) {
-		super(file, mimeType);
+	_FileImpl(Path file, String mimeType, String filename, Consumer<Path> disposer) {
+		super(file, mimeType, disposer);
 		this.filename = Objects.requireNonNull(filename);
 	}
 
 	@Override
 	public String filename() {
+		if (disposed) {
+			throw new IllegalStateException("File has been disposed");
+		}
 		return filename;
 	}
 
 	public static final RSDFile of(Path file, String mimeType, String filename) {
-		return new _FileImpl(file, mimeType, filename);
+		return new _FileImpl(file, mimeType, filename, null);
+	}
+
+	public static final RSDFile of(Path file, String mimeType, String filename, Consumer<Path> disposer) {
+		return new _FileImpl(file, mimeType, filename, disposer);
 	}
 }

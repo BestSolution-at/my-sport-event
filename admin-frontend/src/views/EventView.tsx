@@ -19,6 +19,7 @@ import { Dialog, DialogActions, DialogBody, DialogDescription, DialogTitle } fro
 
 import QRCode from 'react-qr-code';
 import { Listbox, ListboxLabel, ListboxOption } from '../components/listbox';
+import { SelectFormField } from './utils/SelectFormField';
 
 export function EventView(props: { appVM: AppVM }) {
 	const m = useMessageFormatSignal(messages);
@@ -92,7 +93,11 @@ export function EventView(props: { appVM: AppVM }) {
 				<Legend>{msg('EventView_Title')}</Legend>
 				<Text>{msg('EventView_Description')}</Text>
 				<FieldGroup>
-					<TextFormField vm={vm.name} />
+					<div className="flex gap-4">
+						<TextFormField vm={vm.name} className="flex-grow" />
+						<SelectFormField vm={vm.status} className="basis-3xs" />
+					</div>
+
 					<div className="flex gap-4">
 						<TextFormField vm={vm.date} type="date" className="flex-grow" />
 						<TextFormField vm={vm.time} type="time" className="flex-grow" />

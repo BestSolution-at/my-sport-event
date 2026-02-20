@@ -17,6 +17,9 @@ public interface SportEventNew {
 		@Override
 		public String registrationUrl();
 
+		@Override
+		public Status status();
+
 	}
 
 	public interface DataBuilder extends _Base.BaseDataBuilder<SportEventNew.Data> {
@@ -25,6 +28,8 @@ public interface SportEventNew {
 		public DataBuilder date(ZonedDateTime date);
 
 		public DataBuilder registrationUrl(String registrationUrl);
+
+		public DataBuilder status(Status status);
 
 	}
 }

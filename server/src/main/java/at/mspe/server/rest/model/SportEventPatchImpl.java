@@ -10,6 +10,7 @@ import jakarta.json.JsonObjectBuilder;
 
 import at.mspe.server.service.model._Base;
 import at.mspe.server.service.model.SportEvent;
+import at.mspe.server.service.model.Status;
 
 public class SportEventPatchImpl extends _BaseDataImpl implements SportEvent.Patch {
 	SportEventPatchImpl(JsonObject data) {
@@ -36,6 +37,10 @@ public class SportEventPatchImpl extends _BaseDataImpl implements SportEvent.Pat
 
 	public _Base.Nillable<String> registrationUrl() {
 		return _JsonUtils.mapNilString(data, "registrationUrl");
+	}
+
+	public Optional<Status> status() {
+		return _JsonUtils.mapOptLiteral(data, "status", Status::valueOf);
 	}
 
 	public static class PatchBuilderImpl implements SportEvent.PatchBuilder {
@@ -70,6 +75,12 @@ public class SportEventPatchImpl extends _BaseDataImpl implements SportEvent.Pat
 				return this;
 			}
 			$builder.add("registrationUrl", registrationUrl);
+			return this;
+		}
+
+		@Override
+		public SportEvent.PatchBuilder status(Status status) {
+			$builder.add("status", status.toString());
 			return this;
 		}
 

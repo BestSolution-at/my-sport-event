@@ -8,6 +8,7 @@ import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 
 import at.mspe.server.service.model.SportEventNew;
+import at.mspe.server.service.model.Status;
 
 public class SportEventNewDataImpl extends _BaseDataImpl implements SportEventNew.Data {
 	SportEventNewDataImpl(JsonObject data) {
@@ -27,6 +28,11 @@ public class SportEventNewDataImpl extends _BaseDataImpl implements SportEventNe
 	@Override
 	public String registrationUrl() {
 		return _JsonUtils.mapString(data, "registrationUrl", null);
+	}
+
+	@Override
+	public Status status() {
+		return _JsonUtils.mapLiteral(data, "status", Status::valueOf);
 	}
 
 	public static SportEventNew.Data of(JsonObject obj) {
@@ -64,6 +70,15 @@ public class SportEventNewDataImpl extends _BaseDataImpl implements SportEventNe
 				return this;
 			}
 			$builder.add("registrationUrl", registrationUrl);
+			return this;
+		}
+
+		@Override
+		public SportEventNew.DataBuilder status(Status status) {
+			if (status == null) {
+				return this;
+			}
+			$builder.add("status", status.toString());
 			return this;
 		}
 

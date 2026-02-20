@@ -4,10 +4,70 @@ package at.mspe.server.service.model;
 import java.io.InputStream;
 import java.util.Optional;
 
+/**
+ * <p>
+ * Represents a binary large object (BLOB) with a MIME type and an input stream.
+ * </p>
+ * <p>
+ * The {@code RSDBlob} interface provides methods to access the content of the
+ * blob as an {@link InputStream} and to retrieve the MIME type of the blob. It
+ * also includes a {@code dispose()} method to release any resources associated
+ * with the blob when it is no longer needed.
+ * </p>
+ * <p>
+ * User code should not only return the instance and not keep a reference to it,
+ * as the blob may be disposed for example after the response is sent.
+ * </p>
+ */
 public interface RSDBlob {
+	/**
+	 * <p>
+	 * Returns an {@link InputStream} to read the content of the blob.
+	 * </p>
+	 * 
+	 * <p>
+	 * The caller is responsible for consuming the stream and closing it when done.
+	 * </p>
+	 * 
+	 * <p>
+	 * The stream can only be consumed once, and subsequent calls to this method
+	 * will throw an {@link IllegalStateException}. If the blob has been disposed,
+	 * this method will also throw an {@link IllegalStateException}.
+	 * </p>
+	 * 
+	 * @return the stream to read the blob content
+	 * @throws IllegalStateException if the stream has already been consumed or if
+	 *                               the blob has been disposed
+	 */
 	public InputStream stream();
 
+	/**
+	 * <p>
+	 * Returns the MIME type of the blob, if available.
+	 * </p>
+	 * 
+	 * <p>
+	 * If the blob has been disposed, this method will throw an
+	 * {@link IllegalStateException}.
+	 * </p>
+	 * 
+	 * @return an {@link Optional} containing the MIME type, or an empty
+	 *         {@link Optional} if the MIME type is not available
+	 * @throws IllegalStateException if the blob has been disposed
+	 */	
 	public Optional<String> mimeType();
 
-	// public void dispose();
+	/**
+	 * <p>
+	 * Disposes of the blob, releasing any resources associated with it. After this
+	 * method is called, the blob is considered disposed and should not be used
+	 * anymore.
+	 * </p>
+	 * 
+	 * <p>
+	 * If the blob has already been disposed, calling this method again will have no
+	 * effect.
+	 * </p>
+	 */
+	public void dispose();
 }

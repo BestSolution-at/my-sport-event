@@ -8,6 +8,7 @@ import at.mspe.server.service.jpa.model.SportEventEntity;
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.NotFoundException;
 import at.mspe.server.service.model.SportEvent;
+import at.mspe.server.service.model.Status;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 
@@ -40,6 +41,7 @@ public class SportEventHelper {
                 .date(entity.date)
                 .participantCount(participantCount.applyAsInt(entity.id))
                 .registrationUrl(entity.registrationUrl)
+                .status(Status.valueOf(entity.status.name()))
                 .build();
     }
 }

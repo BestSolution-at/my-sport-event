@@ -35,6 +35,8 @@ public class _NillableImpl<T> implements _Base.Nillable<T> {
 	public <X> _Base.Nillable<X> map(Function<T, X> mapper) {
 		if (this == UNDEFINED) {
 			return (_Base.Nillable<X>) UNDEFINED;
+		} else if (this == NULL) {
+			return (_Base.Nillable<X>) NULL;
 		}
 		return of(mapper.apply(value));
 	}

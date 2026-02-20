@@ -40,6 +40,9 @@ public class SportEventEntity {
     @Column(name = "see_registration_url", nullable = true)
     public String registrationUrl;
 
+    @Column(name = "see_status", nullable = false)
+    public EventStatus status = EventStatus.PLANNING;
+
     public UUID key() {
         return key;
     }
@@ -68,6 +71,14 @@ public class SportEventEntity {
         this.registrationUrl = registrationUrl;
     }
 
+    public EventStatus status() {
+        return status;
+    }
+
+    public void status(EventStatus status) {
+        this.status = status;
+    }
+
     public static SportEventEntityBuilder builder() {
         return new SportEventEntityBuilder();
     }
@@ -77,6 +88,7 @@ public class SportEventEntity {
         private String name;
         private ZonedDateTime date;
         private String registrationUrl;
+        private EventStatus status;
 
         public SportEventEntityBuilder key(UUID key) {
             this.key = key;
@@ -98,12 +110,18 @@ public class SportEventEntity {
             return this;
         }
 
+        public SportEventEntityBuilder status(EventStatus status) {
+            this.status = status;
+            return this;
+        }
+
         public SportEventEntity build() {
             var entity = new SportEventEntity();
             entity.key = this.key;
             entity.name = this.name;
             entity.date = this.date;
             entity.registrationUrl = this.registrationUrl;
+            entity.status = this.status;
             validate(entity);
             return entity;
         }

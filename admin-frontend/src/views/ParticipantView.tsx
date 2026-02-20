@@ -209,6 +209,7 @@ function ParticipantDialog(props: { vm: ParticipantViewDialogVM }) {
 						<TextFormField className="basis-64 flex-grow" vm={props.vm.team} />
 						<TextFormField className="basis-64 flex-grow" vm={props.vm.association} />
 					</div>
+					<TextFormField className="basis-64 flex-grow" vm={props.vm.time} />
 				</FieldGroup>
 			</DialogBody>
 			<DialogActions>
@@ -229,7 +230,7 @@ function NameView(props: { vm: ParticipantViewVM }) {
 
 	const sortedList = useMemo(
 		() => sortParticipants(list, sortDirection, sortColumn),
-		[list, sortColumn, sortDirection]
+		[list, sortColumn, sortDirection],
 	);
 
 	const onClick = (evt: MouseEvent, type: keyof ParticipantItem) => {
@@ -342,7 +343,7 @@ function NameView(props: { vm: ParticipantViewVM }) {
 							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{p.birthyear}</td>
 							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{p.gender}</td>
 							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{p.cohortname}</td>
-							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">0:00.00</td>
+							<td className="px-3 py-4 text-sm whitespace-nowrap text-gray-500">{p.time}</td>
 							<td className="py-4 pr-4 pl-3 text-right text-sm whitespace-nowrap sm:pr-0">
 								<Dropdown>
 									<DropdownButton plain aria-label={m('Generic_MoreOptions')}>
@@ -390,7 +391,7 @@ function CohortSection(props: { vm: ParticipantViewVM; cohort: Cohort | undefine
 
 	const sortedList = useMemo(
 		() => sortParticipants(items, sortDirection, sortColumn),
-		[items, sortColumn, sortDirection]
+		[items, sortColumn, sortDirection],
 	);
 
 	const onClick = (evt: MouseEvent, type: keyof ParticipantItem) => {
@@ -519,7 +520,7 @@ function GenderSection(props: { vm: ParticipantViewVM; label: string; items: rea
 
 	const sortedList = useMemo(
 		() => sortParticipants(props.items, sortDirection, sortColumn),
-		[props.items, sortColumn, sortDirection]
+		[props.items, sortColumn, sortDirection],
 	);
 
 	const onClick = (evt: MouseEvent, type: keyof ParticipantItem) => {
@@ -621,7 +622,7 @@ function GenderSection(props: { vm: ParticipantViewVM; label: string; items: rea
 function sortParticipants(
 	items: readonly ParticipantItem[],
 	sortDirection: 'asc' | 'desc',
-	sortColumn: keyof ParticipantItem
+	sortColumn: keyof ParticipantItem,
 ) {
 	const reverse = sortDirection == 'desc' ? -1 : 1;
 	return [...items].sort((a, b) => {

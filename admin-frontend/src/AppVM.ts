@@ -89,6 +89,7 @@ export class NewEventDialogVM extends BaseViewVM {
 			const [eventId, err] = await this.parent.eventService.create({
 				name,
 				date: new Date(`${date}T${time}:00`).toISOString(),
+				status: 'PLANNING',
 			});
 			if (eventId) {
 				this.parent.navigateToEvent?.(eventId);

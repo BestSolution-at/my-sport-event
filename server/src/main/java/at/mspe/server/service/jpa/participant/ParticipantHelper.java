@@ -3,8 +3,10 @@ package at.mspe.server.service.jpa.participant;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -82,7 +84,7 @@ public class ParticipantHelper {
 
     public static Participant.Data toData(BuilderFactory builderFactory, ParticipantEntity entity,
             Function<ParticipantEntity, List<String>> teamMatesLookup) {
-        return builderFactory.builder(Participant.DataBuilder.class)
+        var b = builderFactory.builder(Participant.DataBuilder.class)
                 .key(entity.key.toString())
                 .version(entity.version)
                 .association(entity.association)
@@ -93,8 +95,11 @@ public class ParticipantHelper {
                 .lastname(entity.lastname)
                 .team(entity.team)
                 .teamMates(entity.team == null || entity.team.isBlank() ? List.of() : teamMatesLookup.apply(entity))
-                .publishName(entity.publishName)
-                .build();
+                .publishName(entity.publishName);
+        if (entity.time != null) {
+            b.time(entity.time);
+        }
+        return b.build();
     }
 
     public static String toString(ParticipantEntity p) {

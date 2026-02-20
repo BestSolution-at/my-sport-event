@@ -21,6 +21,29 @@
       "doc": ""
     },
     {
+      "@type": "EnumType",
+      "name": "Status",
+      "entries": [
+        {
+          "@type": "EnumEntry",
+          "name": "PLANNING"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "REGISTRATION"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "ACTIVE"
+        },
+        {
+          "@type": "EnumEntry",
+          "name": "FINISHED"
+        }
+      ],
+      "doc": ""
+    },
+    {
       "@type": "MixinType",
       "name": "CohortBase",
       "properties": [
@@ -244,6 +267,17 @@
           "nullable": false,
           "variant": "builtin",
           "type": "string",
+          "doc": ""
+        },
+        {
+          "@type": "Property",
+          "name": "status",
+          "array": false,
+          "readonly": false,
+          "optional": false,
+          "nullable": false,
+          "variant": "enum",
+          "type": "Status",
           "doc": ""
         }
       ],

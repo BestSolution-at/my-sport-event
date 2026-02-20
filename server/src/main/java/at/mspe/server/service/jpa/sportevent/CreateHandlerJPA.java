@@ -8,6 +8,7 @@ import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.impl.SportEventServiceImpl;
 import at.mspe.server.service.model.SportEventNew;
 import at.mspe.server.service.jpa.BaseHandler;
+import at.mspe.server.service.jpa.model.EventStatus;
 import at.mspe.server.service.jpa.model.SportEventEntity;
 
 @ApplicationScoped
@@ -29,6 +30,7 @@ public class CreateHandlerJPA extends BaseHandler implements SportEventServiceIm
                 .name(event.name())
                 .date(event.date())
                 .registrationUrl(event.registrationUrl())
+                .status(EventStatus.valueOf(event.status().name()))
                 .build();
         SportEventEntity.validate(entity);
         em.persist(entity);

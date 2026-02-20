@@ -3,6 +3,7 @@ package at.mspe.server.service.jpa.sportevent;
 import java.util.Objects;
 
 import at.mspe.server.service.jpa.BaseHandler;
+import at.mspe.server.service.jpa.model.EventStatus;
 import at.mspe.server.service.jpa.model.SportEventEntity;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -42,6 +43,7 @@ public class UpdateHandlerJPA extends BaseHandler implements SportEventServiceIm
         event.name().ifPresent(entity::name);
         event.date().ifPresent(entity::date);
         event.registrationUrl().accept(entity::registrationUrl);
+        event.status().map(s -> EventStatus.valueOf(s.name())).ifPresent(entity::status);
         SportEventEntity.validate(entity);
 
         em.persist(entity);

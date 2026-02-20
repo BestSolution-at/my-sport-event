@@ -64,6 +64,12 @@ const en = {
 	EventView_QRCodeDialog_Description: 'Generate a QR code for the registration URL',
 	EventView_QRCodeDialog_Download_Svg: 'As SVG',
 	EventView_QRCodeDialog_Download_Png: 'As PNG',
+	EventView_Status: 'Status',
+
+	SportEventStatus_PLANNING: 'Planning',
+	SportEventStatus_REGISTRATION: 'Registration open',
+	SportEventStatus_ACTIVE: 'Active',
+	SportEventStatus_FINISHED: 'Finished',
 
 	CohortView_Title: 'Cohorts',
 	CohortView_New: 'New cohort',
@@ -120,6 +126,7 @@ const en = {
 	ParticipantDialog_Team: 'Team',
 	ParticipantDialog_Association: 'Association',
 	ParticipantDialog_PublishName: 'Publish name',
+	ParticipantDialog_Time: 'Time',
 
 	ParticipantDialog_NewTitle: 'New participant',
 	ParticipantDialog_UpdateTitle: 'Update participant',
@@ -178,6 +185,12 @@ const de = {
 	EventView_QRCodeDialog_Description: 'Erzeuge einen QR Code für die Registrierungs-URL',
 	EventView_QRCodeDialog_Download_Svg: 'Als SVG',
 	EventView_QRCodeDialog_Download_Png: 'Als PNG',
+	EventView_Status: 'Status',
+
+	SportEventStatus_PLANNING: 'Planung',
+	SportEventStatus_REGISTRATION: 'Anmeldung offen',
+	SportEventStatus_ACTIVE: 'Laufend',
+	SportEventStatus_FINISHED: 'Abgeschlossen',
 
 	NewEventDialog_Title: 'Neues Sport-Event',
 	NewEventDialog_Description: 'Lege ein neues Sport-Event an',
@@ -250,6 +263,7 @@ const de = {
 	ParticipantDialog_Team: 'Team',
 	ParticipantDialog_Association: 'Verein',
 	ParticipantDialog_PublishName: 'Namen veröffentlichen',
+	ParticipantDialog_Time: 'Zeit',
 
 	ParticipantDialog_NewTitle: 'Neuer Teilnehmer',
 	ParticipantDialog_UpdateTitle: 'Teilnehmer bearbeiten',

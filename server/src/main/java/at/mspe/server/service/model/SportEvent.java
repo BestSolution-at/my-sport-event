@@ -25,6 +25,9 @@ public interface SportEvent {
 		@Override
 		public String registrationUrl();
 
+		@Override
+		public Status status();
+
 	}
 
 	public interface DataBuilder extends Builder, _Base.BaseDataBuilder<SportEvent.Data> {
@@ -40,6 +43,8 @@ public interface SportEvent {
 
 		public DataBuilder registrationUrl(String registrationUrl);
 
+		public DataBuilder status(Status status);
+
 	}
 
 	public interface Patch extends _Base.BaseData, SportEvent {
@@ -53,6 +58,8 @@ public interface SportEvent {
 
 		public _Base.Nillable<String> registrationUrl();
 
+		public Optional<Status> status();
+
 	}
 
 	public interface PatchBuilder extends Builder, _Base.BaseDataBuilder<SportEvent.Patch> {
@@ -65,6 +72,8 @@ public interface SportEvent {
 		public PatchBuilder date(ZonedDateTime date);
 
 		public PatchBuilder registrationUrl(String registrationUrl);
+
+		public PatchBuilder status(Status status);
 
 	}
 }

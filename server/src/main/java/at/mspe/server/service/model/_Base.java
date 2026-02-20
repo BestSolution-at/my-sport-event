@@ -6,36 +6,199 @@ import java.util.function.Function;
 import java.util.List;
 
 public interface _Base {
+	/**
+	 * Represents a value that can be in one of three states (inherited from the
+	 * concept of "undefined" and "null" in JavaScript):
+	 * <ul>
+	 * <li>defined with a value</li>
+	 * <li>explicitly null</li>
+	 * <li>undefined (not provided)</li>
+	 * </ul>
+	 * 
+	 * This is useful for handling optional parameters in APIs where the absence of
+	 * a value (undefined) is semantically different from an explicit null value.
+	 * 
+	 * @param <T> the type of the contained value
+	 */
 	public interface Nillable<T> {
+		/**
+		 * Transforms the contained value using the provided function if it is defined,
+		 * or returns the default value if it is undefined. If the value is explicitly
+		 * null, the function will be applied to null, allowing for handling of the null
+		 * case as well.
+		 * 
+		 * @param <R>          the type of the result produced by the function
+		 * @param function     the function to apply to the contained value if it is
+		 *                     defined
+		 * @param defaultValue the value to return if this Nillable is undefined
+		 * @return the result of applying the function to the contained value, or the
+		 *         default value if undefined
+		 */
 		public <R> R apply(Function<T, R> function, R defaultValue);
 
+		/**
+		 * Performs the given action on the contained value if it is defined. If the
+		 * value is explicitly null, the action will be performed with null, allowing
+		 * for handling of the null case as well. If the value is undefined, the action
+		 * will not be performed at all.
+		 * 
+		 * @param block the action to perform on the contained value
+		 */
 		public void accept(Consumer<T> block);
 
+		/**
+		 * Transforms the contained value using the provided mapping function if it is
+		 * defined, returning a new Nillable containing the result. If this Nillable is
+		 * undefined, the result will also be undefined. If this Nillable is explicitly
+		 * null, the result will also be null. This allows for chaining transformations
+		 * on Nillable values while preserving the distinction between undefined and
+		 * null states.
+		 * 
+		 * @param <R>    the type of the result produced by the mapping function
+		 * @param mapper the function to apply to the contained value if it is defined
+		 * @return a new Nillable containing the result of applying the mapping
+		 *         function, or undefined/null if the original Nillable was
+		 *         undefined/null
+		 */
 		public <R> Nillable<R> map(Function<T, R> mapper);
 
+		/**
+		 * Checks if this Nillable is in the undefined state, meaning that no value was
+		 * provided. This is different from being explicitly null, which indicates
+		 * that a value was intentionally set to null.
+		 * 
+		 * @return true if this Nillable is undefined, false otherwise
+		 */
 		public boolean isUndefined();
 
+		/**
+		 * Checks if this Nillable is in the null state, meaning that a value was
+		 * provided but it is explicitly null. This is different from being undefined,
+		 * which indicates that no value was provided at all.
+		 * 
+		 * @return true if this Nillable is null, false otherwise
+		 */
 		public boolean isNull();
 	}
 
+	/**
+	 * Marker interface for base data types used in the service. This can be
+	 * extended to define specific data structures for requests and responses in the
+	 * API.
+	 */
 	public interface BaseData {
 	}
 
+	/**
+	 * Marker interface for builders of base data types. This can be extended to
+	 * define specific builders for requests and responses in the API.
+	 */
 	public interface BaseDataBuilder<T> {
 		public T build();
 	}
 
+	/**
+	 * <p>
+	 * Represents a list of elements that can be replaced entirely.
+	 * </p>
+	 * <p>
+	 * This is useful for handling updates to collections in APIs where clients may
+	 * want to replace the entire list.
+	 * </p>
+	 *
+	 * @param <T> the type of the elements in the list
+	 */
 	public interface ListReplace<T> {
+		/**
+		 * <p>
+		 * Returns the list of elements to replace the existing list with.
+		 * </p>
+		 * <p>
+		 * This represents a complete replacement of the existing list, meaning that all
+		 * existing elements will be removed and replaced with the provided list.
+		 * </p>
+		 * <p>
+		 * This is useful for scenarios where clients want to update a collection by
+		 * providing a new list of elements, rather than specifying individual additions
+		 * or removals.
+		 * </p>
+		 * 
+		 * @return the list of elements to replace the existing list with
+		 */
 		public List<T> elements();
 	}
 
+	/**
+	 * <p>
+	 * Represents a list of elements that can be added to or removed from an
+	 * existing list.
+	 * </p>
+	 * <p>
+	 * This is useful for handling updates to collections in APIs where clients may
+	 * want to specify individual additions and removals rather than replacing the
+	 * entire list.
+	 * </p>
+	 *
+	 * @param <A> the type of the elements to be added
+	 * @param <R> the type of the elements to be removed
+	 */
 	public interface ListMergeAddRemove<A, R> {
+		/**
+		 * Returns the list of elements to be added to the existing list. This allows
+		 * clients to specify individual additions without replacing the entire list.
+		 *
+		 * @return the list of elements to be added
+		 */
 		public List<A> additions();
 
+		/**
+		 * Returns the list of elements to be removed from the existing list. This
+		 * allows clients to specify individual removals without replacing the entire
+		 * list.
+		 *
+		 * @return the list of elements to be removed
+		 */
 		public List<R> removals();
 	}
 
+	/**
+	 * <p>
+	 * Represents a list of elements that can be added, removed, or updated in an
+	 * existing list. This is useful for handling updates to collections in APIs
+	 * where clients may want to specify individual additions, removals, and updates
+	 * rather than replacing the entire list.
+	 * </p>
+	 * <p>
+	 * The updates() method allows clients to specify elements that should be
+	 * updated in the existing list. This can be used to indicate that certain
+	 * elements should be modified rather than added or removed.
+	 * </p>
+	 * <p>
+	 * The provided values in the updates-list are patch objects that will be
+	 * applied to the existing elements. The exact semantics of how the patch
+	 * objects are applied will depend on the implementation, but it generally
+	 * allows for partial updates to existing elements without requiring clients to
+	 * provide the full updated state of the element. This is useful for scenarios
+	 * where only specific fields of an element need to be updated.
+	 * </p>
+	 *
+	 * @param <A> the type of the elements to be added
+	 * @param <U> the type of the elements to be updated
+	 * @param <R> the type of the elements to be removed
+	 */
 	public interface ListMergeAddRemoveUpdate<A, U, R> extends ListMergeAddRemove<A, R> {
+		/**
+		 * <p>
+		 * Returns the list of elements to be updated in the existing list. This allows
+		 * clients to specify individual updates of elements in the list.
+		 * </p>
+		 * <p>
+		 * Note elements are not identified by their position in the list but by their
+		 * content.
+		 * </p>
+		 *
+		 * @return the list of elements to be updated
+		 */
 		public List<U> updates();
 	}
 }

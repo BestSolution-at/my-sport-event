@@ -1,7 +1,7 @@
 import { batch, computed, effect, signal, type ReadonlySignal } from '@preact/signals';
-import type { SportEvent, SportEventPatch } from '../../remote/model';
+import type { SportEvent, SportEventPatch, Status } from '../../remote/model';
 import { createSportEventService } from '../../remote';
-import { createRemoteFunction, createTextField, validateRequired } from '../utils/utils';
+import { createRemoteFunction, createSelectFormField, createTextField, validateRequired } from '../utils/utils';
 import { type AllMessages } from '../../messages';
 import { BaseViewVM } from './BaseViewVM';
 import type { SportEventService } from '../../remote/SportEventService';
@@ -45,6 +45,29 @@ export class EventViewVM extends BaseViewVM {
 		initialValue: '',
 		validation: () => '',
 	});
+	public readonly status = createSelectFormField<Status>({
+		label: computed(() => this.l10n('EventView_Status')),
+		initialValue: 'PLANNING',
+		items: [
+			{
+				value: 'PLANNING',
+				label: this.messages.value('SportEventStatus_PLANNING'),
+			},
+			{
+				value: 'REGISTRATION',
+				label: this.messages.value('SportEventStatus_REGISTRATION'),
+			},
+			{
+				value: 'ACTIVE',
+				label: this.messages.value('SportEventStatus_ACTIVE'),
+			},
+			{
+				value: 'FINISHED',
+				label: this.messages.value('SportEventStatus_FINISHED'),
+			},
+		],
+		validation: () => '',
+	});
 
 	constructor(messages: ReadonlySignal<AllMessages>) {
 		super(messages);
@@ -59,6 +82,7 @@ export class EventViewVM extends BaseViewVM {
 				this.date.value = isoDate;
 				this.time.value = isoTime;
 				this.registrationUrl.value = this.dto.value.registrationUrl || '';
+				this.status.value = this.dto.value.status;
 			}
 		});
 	}
@@ -101,6 +125,7 @@ export class EventViewVM extends BaseViewVM {
 				name,
 				date: new Date(`${date}T${time}:00`).toISOString(),
 				registrationUrl: this.registrationUrl.value || undefined,
+				status: this.status.value,
 			});
 			if (patch) {
 				const [result, err] = await this.eventService.update(this.eventId.value, patch);
@@ -130,8 +155,14 @@ function createSportEventPatch(cur: SportEvent, updated: SportEvent): SportEvent
 		date: cur.date !== updated.date ? updated.date : undefined,
 		name: cur.name !== updated.name ? updated.name : undefined,
 		registrationUrl: cur.registrationUrl !== updated.registrationUrl ? updated.registrationUrl : undefined,
+		status: cur.status !== updated.status ? updated.status : undefined,
 	};
-	if (patch.date !== undefined || patch.name !== undefined || patch.registrationUrl !== undefined) {
+	if (
+		patch.date !== undefined ||
+		patch.name !== undefined ||
+		patch.registrationUrl !== undefined ||
+		patch.status !== undefined
+	) {
 		return patch;
 	}
 	return undefined;

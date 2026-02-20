@@ -1,4 +1,5 @@
 enum Gender = MALE | FEMALE | ALL;
+enum Status = PLANNING | REGISTRATION | ACTIVE | FINISHED;
 
 mixin CohortBase {
     name: string
@@ -48,6 +49,7 @@ mixin SportEventBase {
     name: string
     date: zoned-date-time
     registrationUrl?: string
+    status: Status
 }
 
 record SportEventNew {

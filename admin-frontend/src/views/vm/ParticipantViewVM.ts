@@ -32,8 +32,70 @@ export type ParticipantItem = Readonly<{
 	birthyear: string;
 	cohortname?: string;
 	gender: string;
+	time: string;
 	dto: Participant;
 }>;
+
+function timeMillisToString(time: number): string {
+	const hours = Math.floor(time / 3600000);
+	const minutes = Math.floor((time % 3600000) / 60000);
+	const seconds = Math.floor((time % 60000) / 1000);
+	const millis = time % 1000;
+
+	if (millis % 10 === 0) {
+		return `${hours > 0 ? String(hours).padStart(2, '0') + ':' : ''}${String(minutes).padStart(2, '0')}:${String(
+			seconds,
+		).padStart(2, '0')},${String(Math.floor(millis / 10)).padStart(2, '0')}`;
+	}
+
+	return `${hours > 0 ? String(hours).padStart(2, '0') + ':' : ''}${String(minutes).padStart(2, '0')}:${String(
+		seconds,
+	).padStart(2, '0')},${String(millis).padStart(3, '0')}`;
+}
+
+function stringToTimeMillis(time: string): number | null {
+	if (time.trim() === '') {
+		return null;
+	}
+
+	const timeParts = time.split(':');
+	if (timeParts.length === 3) {
+		const hours = parseInt(timeParts[0]);
+		const minutes = parseInt(timeParts[1]);
+		const secondsParts = timeParts[2].split(',');
+		if (secondsParts.length === 2) {
+			const seconds = parseInt(secondsParts[0]);
+			const millis = parseInt(secondsParts[1].padEnd(3, '0'));
+			return hours * 3600000 + minutes * 60000 + seconds * 1000 + millis;
+		} else {
+			const seconds = parseInt(timeParts[2]);
+			return hours * 3600000 + minutes * 60000 + seconds * 1000;
+		}
+	} else if (timeParts.length === 2) {
+		const minutes = parseInt(timeParts[0]);
+		const secondsParts = timeParts[1].split(',');
+		if (secondsParts.length === 2) {
+			const seconds = parseInt(secondsParts[0]);
+			const millis = parseInt(secondsParts[1].padEnd(3, '0'));
+			return minutes * 60000 + seconds * 1000 + millis;
+		} else {
+			const seconds = parseInt(timeParts[1]);
+			return minutes * 60000 + seconds * 1000;
+		}
+	} else if (timeParts.length === 1) {
+		const secondsParts = timeParts[0].split(',');
+		if (secondsParts.length === 2) {
+			const seconds = parseInt(secondsParts[0]);
+			const millis = parseInt(secondsParts[1].padEnd(3, '0'));
+			return seconds * 1000 + millis;
+		} else {
+			const seconds = parseInt(timeParts[0]);
+			return seconds * 1000;
+		}
+	} else {
+		return parseInt(time.padEnd(3, '0'));
+	}
+}
 
 export class ParticipantViewVM extends BaseViewVM {
 	public readonly participantDialog = signal<ParticipantViewDialogVM | undefined>();
@@ -83,6 +145,7 @@ export class ParticipantViewVM extends BaseViewVM {
 						birthday: p.birthday ? dateFormatter.value.format(new Date(p.birthday)) : '',
 						birthyear: p.birthday ? p.birthday.split('-')[0] : '',
 						cohortname: p.cohortKey ? cohortsMap.get(p.cohortKey)?.name : undefined,
+						time: p.time ? timeMillisToString(p.time) : '',
 						dto: p,
 					};
 				});
@@ -222,6 +285,11 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 		label: this.l10n('ParticipantDialog_PublishName'),
 		validation: () => '',
 	});
+	public readonly time = createTextField({
+		label: this.l10n('ParticipantDialog_Time'),
+		initialValue: '',
+		validation: () => '',
+	});
 
 	public readonly title: string;
 	public readonly description: string;
@@ -283,6 +351,7 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 			this.team.value = dto.team ?? '';
 			this.association.value = dto.association ?? '';
 			this.publishName.value = dto.publishName;
+			this.time.value = dto.time ? timeMillisToString(dto.time) : '';
 		}
 	}
 
@@ -339,6 +408,7 @@ export class ParticipantViewDialogVM extends BaseViewVM {
 					team: emptyAsUndefined(this.team.value),
 					teamMates: [],
 					publishName: this.publishName.value,
+					time: stringToTimeMillis(this.time.value) ?? undefined,
 				};
 				const patch = createParticipantPatch(this.dto, updated);
 				if (patch) {
@@ -393,6 +463,7 @@ function createParticipantPatch(cur: Participant, updated: Participant): Partici
 		lastname: cur.lastname !== updated.lastname ? updated.lastname : undefined,
 		team: patchValueOrNull(cur, updated, 'team'),
 		publishName: cur.publishName !== updated.publishName ? updated.publishName : undefined,
+		time: patchValueOrNull(cur, updated, 'time'),
 	};
 	if (
 		Object.entries(patch)

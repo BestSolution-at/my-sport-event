@@ -3,11 +3,15 @@ package at.mspe.server.service.model.mixins;
 
 import java.time.ZonedDateTime;
 
+import at.mspe.server.service.model.Status;
+
 public interface SportEventBaseMixin {
 	public String name();
 
 	public ZonedDateTime date();
 
 	public String registrationUrl();
+
+	public Status status();
 
 }
