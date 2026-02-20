@@ -11,9 +11,9 @@ import { messages } from '../messages';
 import type { AppVM } from '../AppVM';
 import { SuccessInfo } from './utils/SuccessInfo';
 import { ErrorInfo } from './utils/ErrorInfo';
-import { Dropdown, DropdownButton, DropdownDivider, DropdownItem, DropdownMenu } from '../components/dropdown';
+import { Dropdown, DropdownButton, DropdownItem, DropdownMenu } from '../components/dropdown';
 import { ChevronDownIcon } from '@heroicons/react/16/solid';
-import { ArrowDownTrayIcon, LockClosedIcon, QrCodeIcon } from '@heroicons/react/20/solid';
+import { ArrowDownTrayIcon, QrCodeIcon } from '@heroicons/react/20/solid';
 import { useEffect, useRef, useState } from 'react';
 import { Dialog, DialogActions, DialogBody, DialogDescription, DialogTitle } from '../components/dialog';
 
