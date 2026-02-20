@@ -1,8 +1,8 @@
 package at.mspe.server.service.jpa.participant;
 
 import java.time.Duration;
-import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 import at.mspe.server.service.BuilderFactory;
 import at.mspe.server.service.InvalidDataException;
@@ -17,6 +17,8 @@ import jakarta.transaction.Transactional;
 
 @ApplicationScoped
 public class UploadCsvHandlerJPA extends BaseHandler implements EventParticipantServiceImpl.UploadCsvHandler {
+    private static Pattern NO_TIME_REGEX = Pattern.compile("^\\D");
+
     @Inject
     public UploadCsvHandlerJPA(EntityManager em) {
         super(em);
@@ -57,7 +59,10 @@ public class UploadCsvHandlerJPA extends BaseHandler implements EventParticipant
     }
 
     public static long parseTime(String time) {
-        System.err.println("Parsing time: " + time);
+        if (NO_TIME_REGEX.asPredicate().test(time)) {
+            return 0;
+        }
+
         var parts = time.split(":");
 
         Duration d;

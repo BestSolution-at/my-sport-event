@@ -180,8 +180,8 @@ function CSVUploadParticipantDialog(props: { vm: ParticipantViewCSVDialogVM }) {
 
 	return (
 		<Dialog open={open} onClose={() => {}} size="2xl">
-			<DialogTitle>XXXX</DialogTitle>
-			<DialogDescription>XXXX</DialogDescription>
+			<DialogTitle>{m('ParticipantView_CSVUpload_Title')}</DialogTitle>
+			<DialogDescription>{m('ParticipantView_CSVUpload_Description')}</DialogDescription>
 			<DialogBody>
 				{stateInfo?.type === 'error' && (
 					<div className="mt-6">
@@ -202,7 +202,7 @@ function CSVUploadParticipantDialog(props: { vm: ParticipantViewCSVDialogVM }) {
 				<Button plain onClick={close}>
 					{m('Generic_Cancel')}
 				</Button>
-				<Button onClick={() => props.vm.upload()}>XXXX</Button>
+				<Button onClick={() => props.vm.upload()}>{m('ParticipantView_CSVUpload_Upload')}</Button>
 			</DialogActions>
 		</Dialog>
 	);

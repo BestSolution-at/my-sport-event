@@ -117,6 +117,9 @@ const en = {
 	ParticipantView_UploadResult: 'Upload results',
 
 	ParticipantView_CSVUpload_Error: 'Error uploading CSV file. Please check the file format and try again.',
+	ParticipantView_CSVUpload_Title: 'Upload participant results',
+	ParticipantView_CSVUpload_Description: 'Upload a CSV file with the results of the participants',
+	ParticipantView_CSVUpload_Upload: 'Upload',
 
 	ParticipantDialog_Firstname: 'Firstname',
 	ParticipantDialog_Lastname: 'Lastname',
@@ -256,6 +259,9 @@ const de = {
 
 	ParticipantView_CSVUpload_Error:
 		'Fehler beim Hochladen der CSV-Datei. Bitte überprüfen Sie das Format der Datei und versuchen Sie es erneut.',
+	ParticipantView_CSVUpload_Title: 'Ergebnisse hochladen',
+	ParticipantView_CSVUpload_Description: 'Laden Sie eine CSV-Datei mit den Ergebnissen der Teilnehmer hoch',
+	ParticipantView_CSVUpload_Upload: 'Hochladen',
 
 	ParticipantDialog_Firstname: 'Vorname',
 	ParticipantDialog_Lastname: 'Nachname',
