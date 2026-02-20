@@ -46,6 +46,7 @@ public class CreateHandlerJPATest extends SportEventHandlerTest<CreateHandlerJPA
         var dto = newBuilder()
                 .date(ZonedDateTime.parse("2020-01-01T10:00:00Z"))
                 .name("")
+                .status(Status.PLANNING)
                 .build();
         assertThrows(InvalidDataException.class, () -> handler.create(builderFactory, dto));
     }
