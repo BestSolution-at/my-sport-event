@@ -58,7 +58,6 @@ const en = {
 
 	EventView_Title: 'Event Details',
 	EventView_Description: 'Edit the details of the event',
-	EventView_Lock: 'Lock Registration',
 	EventView_QRCode_Generate: 'Generate QR Code',
 	EventView_QRCodeDialog_Title: 'QR Code',
 	EventView_QRCodeDialog_Description: 'Generate a QR code for the registration URL',
@@ -179,7 +178,6 @@ const de = {
 
 	EventView_Title: 'Event-Details',
 	EventView_Description: 'Bearbeite die Details des Event',
-	EventView_Lock: 'Anmeldung sperren',
 	EventView_QRCode_Generate: 'QR Code erzeugen',
 	EventView_QRCodeDialog_Title: 'QR Code',
 	EventView_QRCodeDialog_Description: 'Erzeuge einen QR Code für die Registrierungs-URL',

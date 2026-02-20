@@ -53,11 +53,6 @@ export function EventView(props: { appVM: AppVM }) {
 						<ChevronDownIcon />
 					</DropdownButton>
 					<DropdownMenu anchor="bottom end">
-						<DropdownItem disabled={true} onClick={() => {}}>
-							<LockClosedIcon data-slot="icon" />
-							{msg('EventView_Lock')}
-						</DropdownItem>
-						<DropdownDivider />
 						<DropdownItem
 							onClick={() => vm.onOpenQRCodeDialog()}
 							disabled={!registrationUrl.match(/^https?:\/\/.+\.\w{2,}/)}
