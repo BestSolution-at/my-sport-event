@@ -1,4 +1,4 @@
-import { computed, effect, signal, type ReadonlySignal } from '@preact/signals';
+import { computed, effect, Signal, signal, type ReadonlySignal } from '@preact/signals';
 import { BaseViewVM } from './BaseViewVM';
 import type { AllMessages } from '../../messages';
 import {
@@ -97,8 +97,51 @@ function stringToTimeMillis(time: string): number | null {
 	}
 }
 
+export class ParticipantViewCSVDialogVM {
+	private readonly parent: ParticipantViewVM;
+
+	public readonly file: Signal<File | null> = signal(null);
+	public readonly stateInfo = signal<StateInfo>();
+
+	constructor(parent: ParticipantViewVM) {
+		this.parent = parent;
+	}
+
+	public close() {
+		this.parent.closeDialogs();
+	}
+
+	public async upload() {
+		const file = this.file.value;
+		if (file) {
+			const [result, error] = await this.parent.participantService.checkCsv(this.parent.eventId.value, file);
+			if (error) {
+				this.stateInfo.value = { type: 'error', message: this.parent.l10n('ParticipantView_CSVUpload_Error') };
+			} else {
+				if (result.noTimeParticipants.length > 0 || result.noTimeParticipants.length > 0) {
+					this.stateInfo.value = { type: 'error', message: this.parent.l10n('ParticipantView_CSVUpload_Error') };
+					console.error('CSV upload check failed', result);
+				} else {
+					const [, uploadError] = await this.parent.participantService.uploadCsv(this.parent.eventId.value, file);
+					if (uploadError) {
+						this.stateInfo.value = { type: 'error', message: this.parent.l10n('ParticipantView_CSVUpload_Error') };
+					} else {
+						this.parent.refreshParticipants();
+						this.parent.closeDialogs();
+					}
+				}
+			}
+		}
+	}
+
+	public clearStateInfo() {
+		this.stateInfo.value = undefined;
+	}
+}
+
 export class ParticipantViewVM extends BaseViewVM {
 	public readonly participantDialog = signal<ParticipantViewDialogVM | undefined>();
+	public readonly participantCSVDialog = signal<ParticipantViewCSVDialogVM | undefined>();
 
 	public readonly participants = signal<readonly Participant[]>();
 	public readonly cohorts = signal<readonly Cohort[]>();
@@ -182,6 +225,7 @@ export class ParticipantViewVM extends BaseViewVM {
 
 	public closeDialogs() {
 		this.participantDialog.value = undefined;
+		this.participantCSVDialog.value = undefined;
 	}
 
 	public refreshParticipants() {
@@ -226,6 +270,10 @@ export class ParticipantViewVM extends BaseViewVM {
 			link.click();
 			document.body.removeChild(link);
 		}
+	}
+
+	public uploadCSV() {
+		this.participantCSVDialog.value = new ParticipantViewCSVDialogVM(this);
 	}
 }
 

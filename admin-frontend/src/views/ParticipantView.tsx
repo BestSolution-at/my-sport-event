@@ -10,7 +10,7 @@ import {
 import { Button } from '../components/button';
 import { Dialog, DialogActions, DialogBody, DialogDescription, DialogTitle } from '../components/dialog';
 import { Dropdown, DropdownButton, DropdownDivider, DropdownItem, DropdownMenu } from '../components/dropdown';
-import { FieldGroup } from '../components/fieldset';
+import { Field, FieldGroup } from '../components/fieldset';
 import { messages } from '../messages';
 import { useLocaleSignal, useMessageFormat, useMessageFormatSignal } from '../useMessageFormat';
 import { CheckBoxFormField } from './utils/CheckBoxFormField';
@@ -18,7 +18,12 @@ import { SelectFormField } from './utils/SelectFormField';
 import { TextFormField } from './utils/TextFormField';
 import { isString, useParamSignal, useSignalValue, useValue, useVM } from './utils/utils';
 import { ViewHeader } from './utils/ViewHeader';
-import { ParticipantViewDialogVM, ParticipantViewVM, type ParticipantItem } from './vm/ParticipantViewVM';
+import {
+	ParticipantViewCSVDialogVM,
+	ParticipantViewDialogVM,
+	ParticipantViewVM,
+	type ParticipantItem,
+} from './vm/ParticipantViewVM';
 import { Listbox, ListboxLabel, ListboxOption } from '../components/listbox';
 import { isBirthyearCohort, type Cohort } from '../remote/model';
 import { Card } from './utils/Card';
@@ -46,6 +51,7 @@ export function ParticipantView() {
 	return (
 		<div className="mx-auto mx-w6xl">
 			<ParticipantDialogContainer vm={vm} />
+			<CSVUploadParticipantDialogContainer vm={vm} />
 			<ParticipantHeader vm={vm} />
 			<Grouping />
 			<ErrorDialog
@@ -110,7 +116,7 @@ function ParticipantHeader(props: { vm: ParticipantViewVM }) {
 						<ArrowDownTrayIcon data-slot="icon" />
 						{m('ParticipantView_Download')}
 					</DropdownItem>
-					<DropdownItem onClick={() => {}} disabled={true}>
+					<DropdownItem onClick={() => props.vm.uploadCSV()}>
 						<ArrowUpTrayIcon data-slot="icon" />
 						{m('ParticipantView_UploadResult')}
 					</DropdownItem>
@@ -150,6 +156,55 @@ function Grouping() {
 				</ListboxOption>
 			</Listbox>
 		</div>
+	);
+}
+
+function CSVUploadParticipantDialogContainer(props: { vm: ParticipantViewVM }) {
+	const dialog = useValue(props.vm.participantCSVDialog);
+	return <>{dialog && <CSVUploadParticipantDialog vm={dialog} />}</>;
+}
+
+function CSVUploadParticipantDialog(props: { vm: ParticipantViewCSVDialogVM }) {
+	const m = useMessageFormat(messages);
+	const [open, setOpen] = useState(false);
+	const stateInfo = useValue(props.vm.stateInfo);
+
+	useEffect(() => {
+		const timeout = setTimeout(() => setOpen(true));
+		return () => {
+			clearTimeout(timeout);
+		};
+	}, []);
+
+	const close = props.vm.close.bind(props.vm);
+
+	return (
+		<Dialog open={open} onClose={() => {}} size="2xl">
+			<DialogTitle>XXXX</DialogTitle>
+			<DialogDescription>XXXX</DialogDescription>
+			<DialogBody>
+				{stateInfo?.type === 'error' && (
+					<div className="mt-6">
+						<ErrorInfo
+							title={m('Generic_Error')}
+							message={stateInfo.message}
+							buttons={[]}
+							onDismiss={() => props.vm.clearStateInfo()}
+						/>
+					</div>
+				)}
+
+				<Field>
+					<input type="file" onChange={e => (props.vm.file.value = e.target.files?.[0] ?? null)} />
+				</Field>
+			</DialogBody>
+			<DialogActions>
+				<Button plain onClick={close}>
+					{m('Generic_Cancel')}
+				</Button>
+				<Button onClick={() => props.vm.upload()}>XXXX</Button>
+			</DialogActions>
+		</Dialog>
 	);
 }
 

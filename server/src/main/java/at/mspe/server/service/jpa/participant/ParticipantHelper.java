@@ -68,15 +68,19 @@ public class ParticipantHelper {
     public static Map<String, CsvEntry> parseParticipantsCsv(EntityManager em, String _eventKey, RSDFile csv) {
         var reader = new BufferedReader(new InputStreamReader(csv.stream(), StandardCharsets.UTF_8));
         return reader.lines()
+                .skip(1) // skip header
                 .map(line -> line.split("\t"))
-                .filter(cells -> cells.length >= 6)
+                .filter(cells -> cells.length >= 9)
                 .map(cells -> {
                     var gender = cells[0].trim();
                     var lastname = cells[1].trim();
                     var firstname = cells[2].trim();
-                    var birthyear = cells[3].trim();
-                    var key = cells[4].trim();
-                    var time = cells[5].trim();
+                    var verein = cells[3].trim();
+                    var birthyear = cells[4].trim();
+                    var klasse = cells[5].trim();
+                    var mannschaft = cells[6].trim();
+                    var key = cells[7].trim();
+                    var time = cells[8].trim();
                     return new CsvEntry(gender, lastname, firstname, birthyear, key, time);
                 })
                 .collect(Collectors.toMap(e -> e.key, Function.identity()));

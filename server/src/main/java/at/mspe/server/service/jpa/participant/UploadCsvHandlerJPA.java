@@ -49,9 +49,47 @@ public class UploadCsvHandlerJPA extends BaseHandler implements EventParticipant
         }
     }
 
-    public static long parseTime(String time) {
+    private static String padEnd(String s, int length) {
+        if (s.length() >= length) {
+            return s;
+        }
+        return s + "0".repeat(length - s.length());
+    }
 
-        var d = Duration.parse(time);
-        return 0;
+    public static long parseTime(String time) {
+        System.err.println("Parsing time: " + time);
+        var parts = time.split(":");
+
+        Duration d;
+        if (parts.length == 3) {
+            if (parts[2].contains(".")) {
+                d = Duration.ofHours(Long.parseLong(parts[0]))
+                        .plusMinutes(Long.parseLong(parts[1]))
+                        .plusSeconds(Long.parseLong(parts[2].split("\\,")[0]))
+                        .plusMillis(Long.parseLong(padEnd(parts[2].split("\\,")[1], 3)));
+            } else {
+                d = Duration.ofHours(Long.parseLong(parts[0]))
+                        .plusMinutes(Long.parseLong(parts[1]))
+                        .plusSeconds(Long.parseLong(parts[2]));
+            }
+        } else if (parts.length == 2) {
+            if (parts[1].contains(",")) {
+                d = Duration.ofMinutes(Long.parseLong(parts[0]))
+                        .plusSeconds(Long.parseLong(parts[1].split("\\,")[0]))
+                        .plusMillis(Long.parseLong(padEnd(parts[1].split("\\,")[1], 3)));
+            } else {
+                d = Duration.ofMinutes(Long.parseLong(parts[0]))
+                        .plusSeconds(Long.parseLong(parts[1]));
+            }
+        } else {
+            if (parts[0].contains(",")) {
+                d = Duration.ofSeconds(Long.parseLong(parts[0].split("\\,")[0]))
+                        .plusMillis(Long.parseLong(padEnd(parts[0].split("\\,")[1], 3)));
+            } else {
+                d = Duration.ofSeconds(Long.parseLong(padEnd(parts[0], 2)));
+            }
+        }
+
+        return d.toMillis();
     }
 }

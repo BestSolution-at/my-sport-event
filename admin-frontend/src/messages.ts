@@ -116,6 +116,8 @@ const en = {
 	ParticipantView_Download: 'Download starters',
 	ParticipantView_UploadResult: 'Upload results',
 
+	ParticipantView_CSVUpload_Error: 'Error uploading CSV file. Please check the file format and try again.',
+
 	ParticipantDialog_Firstname: 'Firstname',
 	ParticipantDialog_Lastname: 'Lastname',
 	ParticipantDialog_Gender: 'Gender',
@@ -250,7 +252,10 @@ const de = {
 	ParticipantView_Download_Error: 'Fehler beim Herunterladen der Teilnehmerliste.',
 	ParticipantView_NewParticipant: 'Neuer Teilnehmer',
 	ParticipantView_Download: 'Download Startliste',
-	ParticipantView_UploadResult: 'Upload Ergebnissliste',
+	ParticipantView_UploadResult: 'Upload Ergebnisliste',
+
+	ParticipantView_CSVUpload_Error:
+		'Fehler beim Hochladen der CSV-Datei. Bitte überprüfen Sie das Format der Datei und versuchen Sie es erneut.',
 
 	ParticipantDialog_Firstname: 'Vorname',
 	ParticipantDialog_Lastname: 'Nachname',
